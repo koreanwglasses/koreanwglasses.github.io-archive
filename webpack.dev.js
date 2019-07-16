@@ -2,10 +2,13 @@ module.exports = [{
     /////////////////////
     //// Development ////
     /////////////////////
-    entry: "./src/index.dev.ts",
+    entry: {
+        dev: './src/index.dev.tsx'
+    },
+
     output: {
-        filename: "scripts.dev.js",
-        path: __dirname + "/js",
+        filename: "scripts.js",
+        path: __dirname + "/dev/js",
     },
     
     mode: "development",
