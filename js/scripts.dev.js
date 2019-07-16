@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.dev.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
+/***/ "./src/index.dev.ts":
+/*!**************************!*\
+  !*** ./src/index.dev.ts ***!
+  \**************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -98,4 +98,4 @@
 /***/ })
 
 /******/ });
-//# sourceMappingURL=scripts.js.map
+//# sourceMappingURL=scripts.dev.js.map
