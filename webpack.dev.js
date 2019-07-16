@@ -4,9 +4,8 @@ module.exports = [{
     /////////////////////
     entry: "./src/index.ts",
     output: {
-        filename: "koreanwglasses.js",
-        path: __dirname + "/dist",
-        library: "KoreanwGlasses"
+        filename: "scripts.js",
+        path: __dirname + "/js",
     },
     
     mode: "development",
@@ -14,7 +13,7 @@ module.exports = [{
     // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
     devServer: {
-        contentBase: './dist'
+        contentBase: './'
     }, 
     
     resolve: {

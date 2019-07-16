@@ -1,4 +1,3 @@
-var KoreanwGlasses =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -94,10 +93,9 @@ var KoreanwGlasses =
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-console.log('hello world!');
 
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=koreanwglasses.js.map
+//# sourceMappingURL=scripts.js.map
