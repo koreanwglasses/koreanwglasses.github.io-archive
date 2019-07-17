@@ -9,7 +9,10 @@ const appendToBuffer = (
   value: React.ReactNode
 ) => {
   const top = buffer[buffer.length - 1];
+  
   if (typeof top === 'string' && typeof value === 'string') {
+    // TODO: Automatically replace multi spaces with nbsps
+    // TODO: Handle \b
     return [...buffer.slice(0, -1), top + value];
   }
 

@@ -11,6 +11,8 @@ export class Shell {
 
   private handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     let value = e.currentTarget.value;
+    // TODO: Convert <CR> to <br/>
+    // TODO: Convert <BS> to \b
     this.terminal.write(value);
   } 
 }
