@@ -3,8 +3,9 @@ import * as React from 'react';
 const noop = () => {};
 
 interface ConsoleProps {
-  buffer: React.ReactNode;
-  onInput: (e: React.FormEvent<HTMLInputElement>) => void;
+  contents: React.ReactNode;
+  onInput: React.FormEventHandler<HTMLInputElement>;
+  onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
 /**
@@ -12,7 +13,8 @@ interface ConsoleProps {
  */
 export class Console extends React.Component<ConsoleProps> {
   static defaultProps = {
-    onInput: noop
+    onInput: noop,
+    onKeyDown: noop
   };
 
   private input = React.createRef<HTMLInputElement>();
@@ -28,12 +30,12 @@ export class Console extends React.Component<ConsoleProps> {
         <input
           type="text"
           className="console-input"
-
           ref={this.input}
-          onInput={e => this.props.onInput(e)}
+          onInput={this.props.onInput}
+          onKeyDown={this.props.onKeyDown}
         />
         <div className="console" onClick={this.focus}>
-          {this.props.buffer}
+          {this.props.contents}
         </div>
       </>
     );

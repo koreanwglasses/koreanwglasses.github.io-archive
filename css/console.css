@@ -15,3 +15,37 @@
 	position: absolute;
 	opacity: 0;
 }
+
+.cursor-wrapper {
+    color:rgb(235, 235, 235);
+    background-color: black;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(235, 235, 235);
+}
+
+.cursor-wrapper.active {
+    border-style: none;
+}
+
+.cursor-wrapper.blink {
+    animation: cursor-animation 1s step-start 0s infinite;
+    -webkit-animation: cursor-animation 1s step-start 0s infinite;
+}
+
+@keyframes cursor-animation {
+  50% {
+    color: black;
+    background-color: rgb(235, 235, 235);
+  }
+}
+@-webkit-keyframes cursor-animation {
+  50% {
+    color: black;
+    background-color: rgb(235, 235, 235);
+  }
+}
