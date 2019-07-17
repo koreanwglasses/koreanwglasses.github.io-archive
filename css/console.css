@@ -1,0 +1,17 @@
+.console {
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+
+	padding: 10px;
+	box-sizing: border-box;
+
+	font-family: Consolas, monospace;
+	color: white;
+	background-color: black;
+}
+
+.console-input {
+	position: absolute;
+	opacity: 0;
+}

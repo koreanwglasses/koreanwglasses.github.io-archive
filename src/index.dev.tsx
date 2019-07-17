@@ -1,5 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Terminal } from './components/terminal';
+import { Console } from './components/console';
+import { Shell } from './scripts/shell';
+import { Terminal } from './core/terminal'
 
-ReactDOM.render( <Terminal buffer="hello world" />, document.getElementById('root') );
+const terminal = new Terminal({container: document.getElementById('root')});
+new Shell({terminal});
