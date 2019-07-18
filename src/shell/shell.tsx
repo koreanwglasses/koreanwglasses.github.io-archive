@@ -56,10 +56,13 @@ export class Shell {
 
   private showPrompt() {
     this.terminal.buffer.push(<Prompt cwd="~" />);
+    this.lineBufferEditor.show();
     this.terminal.render();
   }
 
   private async processLine(line: string) {
+    this.lineBufferEditor.hide();
+
     const args = line.split(/\s+/g);
     const command = args[0];
 
@@ -76,7 +79,7 @@ export class Shell {
 
     this.showPrompt();
     if (this.processingQueue.queue.length > 1) {
-      this.terminal.buffer.push(this.processingQueue.queue[1], <br/>);
+      this.terminal.buffer.push(this.processingQueue.queue[1], <br />);
       this.terminal.render();
     }
   }

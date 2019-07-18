@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Terminal, TerminalBeforeRenderEvent } from '../core/terminal';
+import { Terminal } from '../core/terminal';
 
 export interface LineBufferEditorFlushEvent {
   target: LineBufferEditor;
@@ -23,15 +23,17 @@ export class LineBufferEditor {
    */
   cursorPos: number = 0;
 
+  private hidden = true;
+
   constructor({ terminal }: { terminal: Terminal }) {
     this.terminal = terminal;
-    this.terminal.onBeforeRender(this.handleTerminalBeforeRender);
     this.terminal.onInput(this.handleInput);
     this.terminal.onKeyDown(this.handleKeyDown);
   }
 
   private handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     let value = e.currentTarget.value;
+    // TODO: Handle multi line input
 
     // Update local buffer
     this.buffer =
@@ -40,8 +42,10 @@ export class LineBufferEditor {
       this.buffer.slice(this.cursorPos);
     this.cursorPos += value.length;
 
-    // TODO: Handle multi line input
-    this.terminal.render({ caller: this });
+    if (!this.hidden) {
+      this.render();
+      return true;
+    }
   };
 
   private flush = () => {
@@ -87,24 +91,36 @@ export class LineBufferEditor {
         return; // Return without re-rendering
     }
 
-    this.terminal.render({ caller: this });
+    if (!this.hidden) {
+      this.render();
+    }
   };
 
   reset() {
-    this.maxBufLen = 0;
     this.buffer = '';
     this.cursorPos = 0;
     this.startPos = this.terminal.buffer.length;
   }
 
-  private handleTerminalBeforeRender = (e: TerminalBeforeRenderEvent) => {
-    if (e.caller != this) {
-      this.startPos = this.terminal.buffer.length;
-    }
-    this.maxBufLen = Math.max(this.maxBufLen, this.buffer.length);
-    this.terminal.buffer.splice(this.startPos, this.maxBufLen, this.buffer);
+  hide() {
+    this.hidden = true;
+  }
+
+  show() {
+    this.startPos = this.terminal.buffer.length;
+    this.hidden = false;
+    this.render();
+  }
+
+  private render() {
+    this.terminal.buffer.splice(
+      this.startPos,
+      this.terminal.buffer.length - this.startPos,
+      this.buffer
+    );
     this.terminal.cursor.position = this.startPos + this.cursorPos;
-  };
+    this.terminal.render();
+  }
 
   onFlush(callback: LineBufferEditorFlushEventHandler) {
     this.lineBufferEditorFlushEventHandlers.push(callback);

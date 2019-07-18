@@ -4,12 +4,17 @@ import { Console } from '../components/console';
 import { TerminalCursor, CursorWrapper } from './terminal-cursor';
 import { TerminalReadonlyBuffer, TerminalBuffer } from './terminal-buffer';
 
-export class TerminalBeforeRenderEvent {
-  target: Terminal;
-  caller: any = null;
-}
+type TerminalInputHandler = (
+  event: React.FormEvent<HTMLInputElement>
+) => boolean | void;
 
-type TerminalBeforeRenderHandler = (event: TerminalBeforeRenderEvent) => void;
+type RenderOptions = {
+  moveCursor?: boolean;
+};
+
+const defaultRenderOptions = {
+  moveCursor: true
+};
 
 const injectCursor = (buffer: TerminalBuffer, cursorPosition: number) => {
   if (cursorPosition >= buffer.length) {
@@ -50,9 +55,7 @@ export class Terminal {
   // TODO: Consistency with private variables
   public buffer: TerminalBuffer = new TerminalBuffer();
 
-  private beforeRenderCallbacks: TerminalBeforeRenderHandler[] = [];
-
-  private inputCallbacks: React.FormEventHandler<HTMLInputElement>[] = [];
+  private inputCallbacks: TerminalInputHandler[] = [];
   private keyDownCallbacks: React.KeyboardEventHandler<HTMLInputElement>[] = [];
 
   public cursor: TerminalCursor = new TerminalCursor();
@@ -62,7 +65,16 @@ export class Terminal {
   }
 
   private handleInput = (e: React.FormEvent<HTMLInputElement>) => {
-    this.inputCallbacks.forEach(callback => callback(e));
+    let wasConsumed = false;
+    for (const callback of this.inputCallbacks) {
+      if (callback(e)) wasConsumed = true;
+    }
+
+    if (!wasConsumed) {
+      this.buffer.push(e.currentTarget.value);
+      this.render();
+    }
+
     e.currentTarget.value = '';
   };
 
@@ -74,11 +86,12 @@ export class Terminal {
     return replaceSpaces(injectCursor(this.buffer, this.cursor.position));
   }
 
-  render(args?: { caller: any }) {
-    const event = new TerminalBeforeRenderEvent();
-    event.target = this;
-    if (args && args.caller) event.caller = args.caller;
-    this.beforeRenderCallbacks.forEach(callback => callback(event));
+  render(opts: RenderOptions = {}) {
+    if (
+      'moveCursor' in opts ? opts.moveCursor : defaultRenderOptions.moveCursor
+    ) {
+      this.cursor.position = this.buffer.length;
+    }
 
     ReactDOM.render(
       <Console
@@ -90,11 +103,7 @@ export class Terminal {
     );
   }
 
-  onBeforeRender(callback: TerminalBeforeRenderHandler) {
-    this.beforeRenderCallbacks.push(callback);
-  }
-
-  onInput(callback: React.FormEventHandler<HTMLInputElement>) {
+  onInput(callback: TerminalInputHandler) {
     this.inputCallbacks.push(callback);
   }
 
