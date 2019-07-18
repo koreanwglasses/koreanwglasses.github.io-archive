@@ -1,22 +1,3 @@
-const appendToContents = (
-  contents: React.ReactNodeArray,
-  value: React.ReactNode
-) => {
-  const top = contents[contents.length - 1];
-
-  if (typeof top === 'string' && typeof value === 'string') {
-    // TODO: Automatically replace multi spaces with nbsps
-
-    return [...contents.slice(0, -1), top + value];
-  }
-
-  if (Array.isArray(value)) {
-    return [...contents, ...value];
-  }
-
-  return [...contents, value];
-};
-
 export class TerminalBuffer {
   // TODO: Consistency with private variables
   private contents_: React.ReactNodeArray;
@@ -32,15 +13,36 @@ export class TerminalBuffer {
     this.contents_ = [];
   }
 
-  append(value: React.ReactNode) {
-    this.contents_ = appendToContents(this.contents, value);
+  push(value: React.ReactNode) {
+    this.contents_.push(value);
+  }
+
+  insert(position: number, value: React.ReactNode) {
+    const nodeIndex =
+      position === this.length
+        ? this.contents.length
+        : this.nodeIndexAtPos(position);
+
+    const node = this.contents_[nodeIndex];
+    if (typeof node === 'string') {
+      const charIndex = position - this.nodeStartPos(nodeIndex);
+      this.contents_.splice(
+        nodeIndex,
+        1,
+        node.slice(0, charIndex),
+        value,
+        node.slice(charIndex)
+      );
+    } else {
+      this.contents_.splice(nodeIndex, 0, value);
+    }
   }
 
   clear() {
     this.contents_ = [];
   }
 
-  pop(position: number = this.length) {
+  pop(position: number = this.length - 1) {
     const nodeIndex = this.nodeIndexAtPos(position);
     const node = this.contents_[nodeIndex];
     if (typeof node === 'string') {
@@ -74,6 +76,16 @@ export class TerminalBuffer {
       }
     }
     return -1;
+  }
+
+  splice(index: number, deleteCount: number, ...items: React.ReactNode[]) {
+    // TODO: This is currently the most naive implementation possible. Find a better way to do this
+    for (let i = 0; i < deleteCount && index < this.length; i++) {
+      this.pop(index);
+    }
+    for (const item of items) {
+      this.insert(index, item);
+    }
   }
 }
 
