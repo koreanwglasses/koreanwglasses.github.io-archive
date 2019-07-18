@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Terminal } from '../core/terminal';
+import { Terminal, TerminalBeforeRenderEvent } from '../core/terminal';
 
 export interface LineBufferEditorFlushEvent {
   target: LineBufferEditor;
@@ -16,10 +16,7 @@ export class LineBufferEditor {
 
   buffer: string = '';
 
-  /**
-   * The starting position of the editable region
-   */
-  startPos: number = 0;
+  private startPos: number = 0;
 
   /**
    * The position of the cursor within the buffer
@@ -28,6 +25,7 @@ export class LineBufferEditor {
 
   constructor({ terminal }: { terminal: Terminal }) {
     this.terminal = terminal;
+    this.terminal.onBeforeRender(this.handleTerminalBeforeRender);
     this.terminal.onInput(this.handleInput);
     this.terminal.onKeyDown(this.handleKeyDown);
   }
@@ -43,21 +41,16 @@ export class LineBufferEditor {
     this.cursorPos += value.length;
 
     // TODO: Handle multi line input
-    this.render();
+    this.terminal.render({ caller: this });
   };
 
   private flush = () => {
     this.maxBufLen = Math.max(this.maxBufLen, this.buffer.length);
-    this.terminal.buffer.splice(this.startPos, this.maxBufLen);
 
     const event = { target: this };
     this.lineBufferEditorFlushEventHandlers.forEach(callback =>
       callback(event)
     );
-
-    this.maxBufLen = 0;
-    this.buffer = '';
-    this.cursorPos = 0;
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -94,15 +87,29 @@ export class LineBufferEditor {
         return; // Return without re-rendering
     }
 
-    this.render();
+    this.terminal.render({ caller: this });
   };
 
-  render() {
+  reset() {
+    this.maxBufLen = Math.max(this.maxBufLen, this.buffer.length);
+    this.terminal.buffer.splice(this.startPos, this.maxBufLen);
+    this.terminal.cursor.position = this.startPos;
+
+    this.maxBufLen = 0;
+    this.buffer = '';
+    this.cursorPos = 0;
+
+    this.terminal.render({ caller: this });
+  }
+
+  private handleTerminalBeforeRender = (e: TerminalBeforeRenderEvent) => {
+    if (e.caller != this) {
+      this.startPos = this.terminal.buffer.length;
+    }
     this.maxBufLen = Math.max(this.maxBufLen, this.buffer.length);
     this.terminal.buffer.splice(this.startPos, this.maxBufLen, this.buffer);
     this.terminal.cursor.position = this.startPos + this.cursorPos;
-    this.terminal.render();
-  }
+  };
 
   onFlush(callback: LineBufferEditorFlushEventHandler) {
     this.lineBufferEditorFlushEventHandlers.push(callback);

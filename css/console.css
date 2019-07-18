@@ -49,3 +49,27 @@
     background-color: rgb(235, 235, 235);
   }
 }
+
+.color-primary {
+  color: #218fca;
+}
+
+.color-primary-light-1 {
+  color: #61a8ce;
+}
+
+.color-primary-light-2 {
+  color: #dce3e6;
+}
+
+.color-primary-dark-1 {
+  color: #046aa1;
+}
+
+.color-primary-dark-2 {
+  color: #01476c;
+}
+
+.color-complementary {
+  color: #ff981d;
+}
