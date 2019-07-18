@@ -27,8 +27,6 @@ export class Shell {
   private processQueue: Promise<void> = Promise.resolve();
   private runningScript: ShellScript = null;
 
-  // TODO: Create prompter
-
   constructor({ terminal }: { terminal: Terminal }) {
     this.terminal = terminal;
 
