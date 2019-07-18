@@ -47,15 +47,17 @@ export class LineBufferEditor {
   };
 
   private flush = () => {
+    this.maxBufLen = Math.max(this.maxBufLen, this.buffer.length);
+    this.terminal.buffer.splice(this.startPos, this.maxBufLen);
+
     const event = { target: this };
-    
     this.lineBufferEditorFlushEventHandlers.forEach(callback =>
       callback(event)
     );
 
+    this.maxBufLen = 0;
     this.buffer = ''; 
     this.cursorPos = 0;
-    this.render();
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

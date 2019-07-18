@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Terminal } from '../core/terminal';
 import {
   LineBufferEditor,
@@ -16,6 +17,7 @@ export class Shell {
   }
 
   private handleFlush = (e: LineBufferEditorFlushEvent) => {
-    this.terminal.buffer.push(e.target.buffer);
+    this.terminal.buffer.push(e.target.buffer, <br/>);
+    e.target.startPos += e.target.buffer.length + 1;
   };
 }

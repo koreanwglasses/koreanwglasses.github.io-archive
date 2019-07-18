@@ -13,8 +13,8 @@ export class TerminalBuffer {
     this.contents_ = [];
   }
 
-  push(value: React.ReactNode) {
-    this.contents_.push(value);
+  push(...items: React.ReactNode[]) {
+    this.contents_.push(...items);
   }
 
   insert(position: number, value: React.ReactNode) {
