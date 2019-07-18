@@ -56,7 +56,7 @@ export class LineBufferEditor {
     );
 
     this.maxBufLen = 0;
-    this.buffer = ''; 
+    this.buffer = '';
     this.cursorPos = 0;
   };
 

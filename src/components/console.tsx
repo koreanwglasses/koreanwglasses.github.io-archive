@@ -19,7 +19,11 @@ export class Console extends React.Component<ConsoleProps> {
 
   private input = React.createRef<HTMLInputElement>();
 
-  private focus = () => {
+  componentDidMount() {
+    this.focus();
+  }
+
+  focus = () => {
     this.input.current.focus();
   };
 

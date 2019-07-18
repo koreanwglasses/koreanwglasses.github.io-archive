@@ -17,7 +17,7 @@ export class Shell {
   }
 
   private handleFlush = (e: LineBufferEditorFlushEvent) => {
-    this.terminal.buffer.push(e.target.buffer, <br/>);
+    this.terminal.buffer.push(e.target.buffer, <br />);
     e.target.startPos += e.target.buffer.length + 1;
   };
 }
