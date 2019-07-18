@@ -91,15 +91,10 @@ export class LineBufferEditor {
   };
 
   reset() {
-    this.maxBufLen = Math.max(this.maxBufLen, this.buffer.length);
-    this.terminal.buffer.splice(this.startPos, this.maxBufLen);
-    this.terminal.cursor.position = this.startPos;
-
     this.maxBufLen = 0;
     this.buffer = '';
     this.cursorPos = 0;
-
-    this.terminal.render({ caller: this });
+    this.startPos = this.terminal.buffer.length;
   }
 
   private handleTerminalBeforeRender = (e: TerminalBeforeRenderEvent) => {

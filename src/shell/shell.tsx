@@ -6,6 +6,7 @@ import {
 } from './line-buffer-editor';
 import { Welcome } from './welcome';
 import { ShellScriptArgs, ShellScript, IOShellScript } from './shell-script';
+import { ProcessingQueue } from '../utils/async';
 
 const Prompt = ({ cwd }: { cwd: string }) => (
   <>
@@ -24,7 +25,9 @@ export class Shell {
   readonly terminal: Terminal;
   private lineBufferEditor: LineBufferEditor;
 
-  private processQueue: Promise<void> = Promise.resolve();
+  private processingQueue: ProcessingQueue<string> = new ProcessingQueue({
+    callback: data => this.processLine(data)
+  });
   private runningScript: ShellScript = null;
 
   constructor({ terminal }: { terminal: Terminal }) {
@@ -36,19 +39,18 @@ export class Shell {
 
   private handleFlush = (e: LineBufferEditorFlushEvent) => {
     this.terminal.buffer.push(<br />);
-    this.terminal.render();
 
     const buffer = e.target.buffer;
     this.lineBufferEditor.reset();
+
+    this.terminal.render();
 
     if (
       !this.runningScript ||
       !(this.runningScript instanceof IOShellScript) ||
       !this.runningScript.handleInput(buffer)
     ) {
-      this.processQueue = this.processQueue.then(() =>
-        this.processLine(buffer)
-      );
+      this.processingQueue.push(buffer);
     }
   };
 
@@ -73,6 +75,10 @@ export class Shell {
     }
 
     this.showPrompt();
+    if (this.processingQueue.queue.length > 1) {
+      this.terminal.buffer.push(this.processingQueue.queue[1], <br/>);
+      this.terminal.render();
+    }
   }
 
   start() {
