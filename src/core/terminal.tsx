@@ -9,11 +9,11 @@ type TerminalInputHandler = (
 ) => boolean | void;
 
 type RenderOptions = {
-  moveCursor?: boolean;
+  autoMoveCursor?: boolean;
 };
 
 const defaultRenderOptions = {
-  moveCursor: true
+  autoMoveCursor: true
 };
 
 const injectCursor = (buffer: TerminalBuffer, cursorPosition: number) => {
@@ -87,9 +87,8 @@ export class Terminal {
   }
 
   render(opts: RenderOptions = {}) {
-    if (
-      'moveCursor' in opts ? opts.moveCursor : defaultRenderOptions.moveCursor
-    ) {
+    const {autoMoveCursor} = {...defaultRenderOptions, ...opts};
+    if (autoMoveCursor) {
       this.cursor.position = this.buffer.length;
     }
 

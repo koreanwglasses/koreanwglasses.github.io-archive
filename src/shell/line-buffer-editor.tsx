@@ -119,7 +119,7 @@ export class LineBufferEditor {
       this.buffer
     );
     this.terminal.cursor.position = this.startPos + this.cursorPos;
-    this.terminal.render();
+    this.terminal.render({autoMoveCursor: false});
   }
 
   onFlush(callback: LineBufferEditorFlushEventHandler) {
