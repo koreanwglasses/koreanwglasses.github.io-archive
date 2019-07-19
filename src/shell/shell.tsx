@@ -84,7 +84,11 @@ export class Shell {
     }
   }
 
-  start() {
-    this.showPrompt();
+  start(command?: string) {
+    if (command) {
+      this.processLine(command);
+    } else {
+      this.showPrompt();
+    }
   }
 }
