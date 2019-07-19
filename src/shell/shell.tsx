@@ -147,9 +147,9 @@ export class Shell {
     this.lineBufferEditor.show();
   }
 
-  run(command?: string) {
+  async run(command?: string) {
     if (command) {
-      this.processLine(command);
+      await this.processLine(command);
     } else {
       this.showPrompt();
     }
