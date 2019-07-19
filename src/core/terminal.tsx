@@ -49,6 +49,21 @@ const replaceSpaces = (contents: React.ReactNodeArray) =>
       : node
   );
 
+const insertLineBreaks = (contents: React.ReactNodeArray) => {
+  const result: React.ReactNodeArray = [];
+  for (const node of contents) {
+    if (typeof node === 'string') {
+      const newNodes = node
+        .split(/(\n)/g)
+        .map(value => (value === '\n' ? <br /> : value));
+      result.push(...newNodes);
+    } else {
+      result.push(node);
+    }
+  }
+  return result;
+};
+
 export class Terminal {
   private container: Element;
 
@@ -83,11 +98,13 @@ export class Terminal {
   };
 
   private prepareContents() {
-    return replaceSpaces(injectCursor(this.buffer, this.cursor.position));
+    return insertLineBreaks(
+      replaceSpaces(injectCursor(this.buffer, this.cursor.position))
+    );
   }
 
   render(opts: RenderOptions = {}) {
-    const {autoMoveCursor} = {...defaultRenderOptions, ...opts};
+    const { autoMoveCursor } = { ...defaultRenderOptions, ...opts };
     if (autoMoveCursor) {
       this.cursor.position = this.buffer.length;
     }
