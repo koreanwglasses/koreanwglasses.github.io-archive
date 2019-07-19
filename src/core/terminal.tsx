@@ -4,9 +4,11 @@ import { Console } from '../components/console';
 import { TerminalCursor, CursorWrapper } from './terminal-cursor';
 import { TerminalReadonlyBuffer, TerminalBuffer } from './terminal-buffer';
 
-type TerminalInputHandler = (
-  event: React.FormEvent<HTMLInputElement>
-) => boolean | void;
+export interface TerminalInputEvent extends React.FormEvent<HTMLInputElement> {
+  readonly wasConsumed: boolean;
+}
+
+type TerminalInputHandler = (event: TerminalInputEvent) => boolean | void;
 
 type RenderOptions = {
   autoMoveCursor?: boolean;
@@ -66,11 +68,15 @@ const insertLineBreaks = (contents: React.ReactNodeArray) => {
 
 export class Terminal {
   private container: Element;
+  private console = React.createRef<Console>();
 
   // TODO: Consistency with private variables
   public buffer: TerminalBuffer = new TerminalBuffer();
 
-  private inputCallbacks: TerminalInputHandler[] = [];
+  private inputCallbacks: {
+    callback: TerminalInputHandler;
+    priority: number;
+  }[] = [];
   private keyDownCallbacks: React.KeyboardEventHandler<HTMLInputElement>[] = [];
 
   public cursor: TerminalCursor = new TerminalCursor();
@@ -81,8 +87,10 @@ export class Terminal {
 
   private handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     let wasConsumed = false;
-    for (const callback of this.inputCallbacks) {
-      if (callback(e)) wasConsumed = true;
+
+    for (const { callback } of this.inputCallbacks) {
+      const event = { ...e, wasConsumed };
+      if (callback(event)) wasConsumed = true;
     }
 
     if (!wasConsumed) {
@@ -111,6 +119,7 @@ export class Terminal {
 
     ReactDOM.render(
       <Console
+        ref={this.console}
         contents={this.prepareContents()}
         onInput={this.handleInput}
         onKeyDown={this.handleKeyDown}
@@ -119,11 +128,26 @@ export class Terminal {
     );
   }
 
-  onInput(callback: TerminalInputHandler) {
-    this.inputCallbacks.push(callback);
+  onInput(callback: TerminalInputHandler, priority: number = 0) {
+    this.inputCallbacks.push({ callback, priority });
+    this.inputCallbacks.sort((a, b) => a.priority - b.priority);
   }
 
   onKeyDown(callback: React.KeyboardEventHandler<HTMLInputElement>) {
     this.keyDownCallbacks.push(callback);
+  }
+
+  unregisterInputHandler(handler: TerminalInputHandler) {
+    const index = this.inputCallbacks.findIndex(
+      ({ callback }) => callback === handler
+    );
+    this.inputCallbacks.splice(index, 1);
+  }
+
+  unregisterKeyDownEventHandler(
+    handler: React.KeyboardEventHandler<HTMLInputElement>
+  ) {
+    const index = this.keyDownCallbacks.indexOf(handler);
+    this.keyDownCallbacks.splice(index, 1);
   }
 }

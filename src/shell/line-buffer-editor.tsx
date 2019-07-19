@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Terminal } from '../core/terminal';
+import { Terminal, TerminalInputEvent } from '../core/terminal';
 
 export interface LineBufferEditorFlushEvent {
   target: LineBufferEditor;
@@ -27,11 +27,14 @@ export class LineBufferEditor {
 
   constructor({ terminal }: { terminal: Terminal }) {
     this.terminal = terminal;
-    this.terminal.onInput(this.handleInput);
+    this.terminal.onInput(this.handleInput, 1);
     this.terminal.onKeyDown(this.handleKeyDown);
   }
 
-  private handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+  private handleInput = (e: TerminalInputEvent) => {
+    // Something else already consumed the input
+    if (e.wasConsumed) return;
+
     let value = e.currentTarget.value;
     // TODO: Handle multi line input
 

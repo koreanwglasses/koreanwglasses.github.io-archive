@@ -40,7 +40,7 @@ const Command = ({
 }) => <a onClick={() => injectCommand(shell, command)}>{label}</a>;
 
 const Links = ({ shell }: { shell: Shell }) => (
-  <Command label="About" command="cat about" shell={shell} />
+  <Command label="About" command="cat about.md" shell={shell} />
 );
 
 export class Welcome extends ShellScript {
@@ -50,6 +50,11 @@ export class Welcome extends ShellScript {
     super(args);
     args.shell.terminal.onKeyDown(this.handleSkip);
     args.shell.terminal.onInput(this.handleSkip);
+  }
+
+  destroy() {
+    this.shell.terminal.unregisterInputHandler(this.handleSkip);
+    this.shell.terminal.unregisterKeyDownEventHandler(this.handleSkip);
   }
 
   private handleSkip = () => {

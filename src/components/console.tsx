@@ -18,6 +18,7 @@ export class Console extends React.Component<ConsoleProps> {
   };
 
   private input = React.createRef<HTMLInputElement>();
+  private div = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.focus();
@@ -26,6 +27,10 @@ export class Console extends React.Component<ConsoleProps> {
   focus = () => {
     this.input.current.focus();
   };
+
+  componentDidUpdate() {
+    this.div.current.scrollTop = this.div.current.scrollHeight;
+  }
 
   render() {
     // TODO: Allow copying
@@ -38,7 +43,7 @@ export class Console extends React.Component<ConsoleProps> {
           onInput={this.props.onInput}
           onKeyDown={this.props.onKeyDown}
         />
-        <div className="console" onClick={this.focus}>
+        <div className="console" onClick={this.focus} ref={this.div}>
           {this.props.contents}
         </div>
       </>

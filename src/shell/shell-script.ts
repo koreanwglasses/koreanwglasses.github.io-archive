@@ -8,6 +8,8 @@ export abstract class ShellScript {
     this.shell = shell;
   }
 
+  abstract destroy(): void | Promise<void>;
+
   abstract main(args: string[]): void | Promise<void>;
 }
 

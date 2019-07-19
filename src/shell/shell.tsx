@@ -7,6 +7,7 @@ import {
 import { Welcome } from './welcome';
 import { ShellScriptArgs, ShellScript, IOShellScript } from './shell-script';
 import { ProcessingQueue, sleep } from '../utils/async';
+import { Cat } from './cat';
 
 const Prompt = ({ cwd }: { cwd: string }) => (
   <>
@@ -18,7 +19,8 @@ const Prompt = ({ cwd }: { cwd: string }) => (
 );
 
 const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
-  welcome: (args: ShellScriptArgs) => new Welcome(args)
+  welcome: (args: ShellScriptArgs) => new Welcome(args),
+  cat: (args: ShellScriptArgs) => new Cat(args)
 };
 
 export class Shell {
@@ -60,6 +62,9 @@ export class Shell {
     this.terminal.render();
   }
 
+  // TODO: keep track of history
+  // TODO: update url to last command run
+
   private async processLine(line: string) {
     this.lineBufferEditor.hide();
 
@@ -72,6 +77,12 @@ export class Shell {
       if (result instanceof Promise) {
         await result;
       }
+
+      const destroy = this.runningScript.destroy();
+      if (destroy instanceof Promise) {
+        await destroy;
+      }
+
       this.runningScript = null;
     } else if (command !== '') {
       await sleep(100);

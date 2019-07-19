@@ -30,3 +30,23 @@ export class ProcessingQueue<D> {
     this.dataQueue.splice(0, 1);
   }
 }
+
+export const readAll = async (stream: ReadableStream) => {
+  const reader = stream.getReader();
+
+  let contents = new Uint8Array();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      break;
+    }
+
+    const offset = contents.length;
+    contents = new Uint8Array(contents.length + value.length);
+    contents.set(contents);
+    contents.set(value, offset);
+  }
+
+  return contents;
+};
