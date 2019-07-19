@@ -115,6 +115,10 @@ export class LineBufferEditor {
     this.render();
   }
 
+  update() {
+    if (!this.hidden) this.render();
+  }
+
   private render() {
     this.terminal.buffer.splice(
       this.startPos,

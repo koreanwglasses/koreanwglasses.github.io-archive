@@ -32,14 +32,21 @@ export class Shell {
   });
   private runningScript: ShellScript = null;
 
+  private history: string[] = [];
+  private historyLine = 0;
+  private presentBuffer: string = '';
+
   constructor({ terminal }: { terminal: Terminal }) {
     this.terminal = terminal;
+    this.terminal.onKeyDown(this.handleKeydown);
 
     this.lineBufferEditor = new LineBufferEditor({ terminal });
     this.lineBufferEditor.onFlush(this.handleFlush);
   }
 
   private handleFlush = (e: LineBufferEditorFlushEvent) => {
+    this.historyLine = 0;
+
     this.terminal.buffer.push(<br />);
 
     const buffer = e.target.buffer;
@@ -62,7 +69,6 @@ export class Shell {
     this.terminal.render();
   }
 
-  // TODO: keep track of history
   // TODO: update url to last command run
 
   private async processLine(line: string) {
@@ -72,6 +78,8 @@ export class Shell {
     const command = args[0];
 
     if (command in scripts) {
+      this.history.push(line);
+
       this.runningScript = scripts[command]({ shell: this });
       const result = this.runningScript.main(args);
       if (result instanceof Promise) {
@@ -93,6 +101,41 @@ export class Shell {
     if (this.processingQueue.queue.length > 1) {
       this.terminal.buffer.push(this.processingQueue.queue[1], <br />);
       this.terminal.render();
+    }
+  }
+
+  private handleKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    switch (e.key) {
+      case 'ArrowUp':
+        this.historyBack();
+        break;
+      case 'ArrowDown':
+        this.historyForward();
+        break;
+    }
+  };
+
+  private historyBack() {
+    if (this.history.length + this.historyLine > 0) {
+      if (this.historyLine === 0)
+        this.presentBuffer = this.lineBufferEditor.buffer;
+      this.historyLine--;
+      const index = this.history.length + this.historyLine;
+      this.lineBufferEditor.buffer = this.history[index];
+      this.lineBufferEditor.update();
+    }
+  }
+
+  private historyForward() {
+    if (this.historyLine < 0) {
+      this.historyLine++;
+      if (this.historyLine === 0) {
+        this.lineBufferEditor.buffer = this.presentBuffer;
+      } else {
+        const index = this.history.length + this.historyLine;
+        this.lineBufferEditor.buffer = this.history[index];
+      }
+      this.lineBufferEditor.update();
     }
   }
 
