@@ -73,3 +73,12 @@
 .color-complementary {
   color: #ff981d;
 }
+
+.console em {
+  color: #606060;
+}
+
+.console a {
+  text-decoration: underline;
+  font-weight: bold;
+}

@@ -28,7 +28,7 @@ export class Console extends React.Component<ConsoleProps> {
   };
 
   render() {
-    // TODO: Scroll bottom up
+    // TODO: Allow copying
     return (
       <>
         <input

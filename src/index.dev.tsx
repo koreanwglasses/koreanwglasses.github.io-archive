@@ -7,4 +7,4 @@ import { Terminal } from './core/terminal';
 const terminal = new Terminal({ container: document.getElementById('root') });
 const shell = new Shell({ terminal });
 terminal.render();
-shell.start('welcome');
+shell.run('welcome');

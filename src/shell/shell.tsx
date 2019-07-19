@@ -6,14 +6,14 @@ import {
 } from './line-buffer-editor';
 import { Welcome } from './welcome';
 import { ShellScriptArgs, ShellScript, IOShellScript } from './shell-script';
-import { ProcessingQueue } from '../utils/async';
+import { ProcessingQueue, sleep } from '../utils/async';
 
 const Prompt = ({ cwd }: { cwd: string }) => (
   <>
     <span className="color-primary">user</span>
     <span className="color-primary">@</span>
-    <span className="color-primary">fred-choi.com:</span>
-    <span className="color-primary">{cwd}$</span>{' '}
+    <span className="color-primary-light-1">fred-choi.com:</span>
+    <span className="color-primary-light-2">{cwd}$</span>{' '}
   </>
 );
 
@@ -74,6 +74,7 @@ export class Shell {
       }
       this.runningScript = null;
     } else if (command !== '') {
+      await sleep(100);
       this.terminal.buffer.push(`${command}: command not found\n`, <br />);
     }
 
@@ -84,7 +85,15 @@ export class Shell {
     }
   }
 
-  start(command?: string) {
+  hideEditor() {
+    this.lineBufferEditor.hide();
+  }
+
+  showEditor() {
+    this.lineBufferEditor.show();
+  }
+
+  run(command?: string) {
     if (command) {
       this.processLine(command);
     } else {
