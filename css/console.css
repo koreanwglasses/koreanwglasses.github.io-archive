@@ -1,6 +1,7 @@
 .console {
 	width: 100%;
-	max-width: 100%;
+  max-width: 100%;
+  min-width: 480px;
   height: 100%;
   
   overflow-y: scroll;
