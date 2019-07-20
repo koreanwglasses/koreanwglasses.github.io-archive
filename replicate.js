@@ -34,7 +34,7 @@ const stripExt = filename => filename.slice(0, filename.lastIndexOf('.'));
  * @param {string} serveRoot 
  */
 const replicateRecursive = async(indexFile, contentRoot, serveRoot) => {
-  console.log(`Replicating ${contentRoot} into ${serveRoot}`)
+  console.log(`Replicating [${contentRoot}] into [${serveRoot}]`)
   const contentNodeNames = await fs.readdir(contentRoot);
   await Promise.all(
     contentNodeNames.map(contentNodeName => 
@@ -48,7 +48,7 @@ const replicateRecursive = async(indexFile, contentRoot, serveRoot) => {
           await replicateRecursive(indexFile, contentNodePath, serveNodePath);
         } else if (contentNodeStats.isFile()) {
           const serveNodePath = `${serveRoot}/${stripExt(contentNodeName)}.html`;
-          console.log(`Replicating ${contentNodePath} into ${serveNodePath}`)
+          console.log(`Replicating [${contentNodePath}] into [${serveNodePath}]`)
           await fs.copyFile(indexFile, serveNodePath);
         }
       })()
