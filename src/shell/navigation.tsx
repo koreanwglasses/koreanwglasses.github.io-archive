@@ -3,7 +3,6 @@ import { Shell } from './shell';
 
 const injectCommand = (shell: Shell, command: string, permalink?: string) => {
   shell.hideEditor();
-  shell.terminal.buffer.push(command, <br />);
   shell.run(command);
 
   if (permalink) {

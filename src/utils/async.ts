@@ -17,8 +17,8 @@ export class ProcessingQueue<D> {
     this.callback = callback;
   }
 
-  push(data: D) {
-    this.dataQueue.push(data);
+  push(...data: D[]) {
+    this.dataQueue.push(...data);
     this.processQueue = this.processQueue.then(() => this.processNext());
   }
 

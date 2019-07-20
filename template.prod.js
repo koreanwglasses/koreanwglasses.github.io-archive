@@ -1,4 +1,5 @@
-<head>
+module.exports = ({command}) =>
+`<head>
     <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/console.css">
 
@@ -10,7 +11,7 @@
     <script src="/js/scripts.js"></script>
     <script>
         window.onload = function() {
-            TerminalApp.start();
+            TerminalApp.start(${command ? "'" + command + "'" : ""});
         }
     </script>
-</body>
+</body>`

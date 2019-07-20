@@ -9,6 +9,7 @@ module.exports = [{
     output: {
         filename: "scripts.js",
         path: __dirname + "/dev/js",
+        library: "TerminalApp"
     },
     
     mode: "development",

@@ -77,6 +77,12 @@ export class Shell {
 
   private async processLine(line: string) {
     this.lineBufferEditor.hide();
+    
+    // Multiple commands
+    if(line.indexOf(';') !== -1) {
+      this.processingQueue.push(...line.split(';'));
+      return;
+    }
 
     const args = line.split(/\s+/g);
     const command = args[0];
@@ -151,9 +157,13 @@ export class Shell {
     this.lineBufferEditor.show();
   }
 
-  async run(command?: string) {
-    if (command) {
-      await this.processLine(command);
+  async run(...commands: string[]) {
+    if (commands.length > 0) {
+      for(const command of commands) {
+        this.hideEditor();
+        this.terminal.buffer.push(command, <br />);
+        await this.processLine(command);
+      }
     } else {
       this.showPrompt();
     }

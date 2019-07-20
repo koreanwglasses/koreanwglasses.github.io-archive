@@ -1,7 +1,7 @@
 module.exports = [{
-    /////////////////////
-    //// Development ////
-    /////////////////////
+    ////////////////////
+    //// Production ////
+    ////////////////////
     entry: {
         dev: './src/index.tsx'
     },
@@ -9,6 +9,7 @@ module.exports = [{
     output: {
         filename: "scripts.js",
         path: __dirname + "/js",
+        library: "TerminalApp"
     },
     
     mode: "production",
