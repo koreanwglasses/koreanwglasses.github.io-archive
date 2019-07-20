@@ -38,7 +38,7 @@ export class Shell {
 
   readonly dev: boolean;
 
-  constructor({ terminal, dev }: { terminal: Terminal, dev?: boolean }) {
+  constructor({ terminal, dev }: { terminal: Terminal; dev?: boolean }) {
     this.terminal = terminal;
     this.terminal.onKeyDown(this.handleKeydown);
 

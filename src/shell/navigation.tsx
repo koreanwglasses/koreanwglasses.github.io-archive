@@ -6,8 +6,12 @@ const injectCommand = (shell: Shell, command: string, permalink?: string) => {
   shell.terminal.buffer.push(command, <br />);
   shell.run(command);
 
-  if(permalink) {
-    window.history.pushState(permalink, command, shell.dev ? '/dev' + permalink : permalink);
+  if (permalink) {
+    window.history.pushState(
+      permalink,
+      command,
+      shell.dev ? '/dev' + permalink : permalink
+    );
   }
 };
 
@@ -24,7 +28,12 @@ const CommandLink = ({
 }) => <a onClick={() => injectCommand(shell, command, permalink)}>{label}</a>;
 
 const Links = ({ shell }: { shell: Shell }) => (
-  <CommandLink label="About" command="cat about.md" shell={shell} permalink="/about" />
+  <CommandLink
+    label="About"
+    command="cat about.md"
+    shell={shell}
+    permalink="/about"
+  />
 );
 
 export const Navigation = ({ shell }: { shell: Shell }) => (
