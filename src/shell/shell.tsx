@@ -77,9 +77,9 @@ export class Shell {
 
   private async processLine(line: string) {
     this.lineBufferEditor.hide();
-    
+
     // Multiple commands
-    if(line.indexOf(';') !== -1) {
+    if (line.indexOf(';') !== -1) {
       this.processingQueue.push(...line.split(';'));
       return;
     }
@@ -159,7 +159,7 @@ export class Shell {
 
   async run(...commands: string[]) {
     if (commands.length > 0) {
-      for(const command of commands) {
+      for (const command of commands) {
         this.hideEditor();
         this.terminal.buffer.push(command, <br />);
         await this.processLine(command);
