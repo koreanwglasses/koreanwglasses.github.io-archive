@@ -10,6 +10,9 @@ export const start = async (command?: string) => {
   if (!command) {
     shell.run('welcome');
   } else {
-    shell.run('welcome --skip-intro', ...command.split(';'));
+    shell.run(
+      'welcome --skip-intro',
+      ...command.split(';').map(str => str.trim())
+    );
   }
 };
