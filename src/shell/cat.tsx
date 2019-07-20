@@ -36,7 +36,10 @@ export class Cat extends ShellScript {
     const raw = await readAll(response.body);
     const text = String.fromCharCode(...raw);
 
-    this.shell.terminal.buffer.push(<ReactMarkdown source={text} />);
+    // filter out front-matter
+    const markdown = text.replace(/---[^]*---/, '');
+
+    this.shell.terminal.buffer.push(<ReactMarkdown source={markdown} />);
     this.shell.terminal.render();
   }
 }
