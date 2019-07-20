@@ -1,24 +1,30 @@
 import * as React from 'react';
 import { Shell } from './shell';
 
-const injectCommand = (shell: Shell, command: string) => {
+const injectCommand = (shell: Shell, command: string, permalink?: string) => {
   shell.hideEditor();
   shell.terminal.buffer.push(command, <br />);
   shell.run(command);
+
+  if(permalink) {
+    window.history.pushState(permalink, command, shell.dev ? '/dev' + permalink : permalink);
+  }
 };
 
-const Command = ({
+const CommandLink = ({
   label,
   command,
-  shell
+  shell,
+  permalink
 }: {
   label: string;
   command: string;
   shell: Shell;
-}) => <a onClick={() => injectCommand(shell, command)}>{label}</a>;
+  permalink?: string;
+}) => <a onClick={() => injectCommand(shell, command, permalink)}>{label}</a>;
 
 const Links = ({ shell }: { shell: Shell }) => (
-  <Command label="About" command="cat about.md" shell={shell} />
+  <CommandLink label="About" command="cat about.md" shell={shell} permalink="/about" />
 );
 
 export const Navigation = ({ shell }: { shell: Shell }) => (

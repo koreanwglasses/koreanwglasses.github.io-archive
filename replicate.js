@@ -9,8 +9,9 @@
  * folders.
  * 
  * TODO: Use a library or make one
- * TODO: Use templates
  * TODO: Check for existing files/folders
+ * TODO: Use templates
+ * TODO: Insert a static rendering of the page as a fallback incase javascript is disabled
  */
 
 const fs = require('fs').promises;

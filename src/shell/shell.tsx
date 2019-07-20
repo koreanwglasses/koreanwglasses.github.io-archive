@@ -36,9 +36,13 @@ export class Shell {
   private historyLine = 0;
   private presentBuffer: string = '';
 
-  constructor({ terminal }: { terminal: Terminal }) {
+  readonly dev: boolean;
+
+  constructor({ terminal, dev }: { terminal: Terminal, dev?: boolean }) {
     this.terminal = terminal;
     this.terminal.onKeyDown(this.handleKeydown);
+
+    this.dev = dev || false;
 
     this.lineBufferEditor = new LineBufferEditor({ terminal });
     this.lineBufferEditor.onFlush(this.handleFlush);
