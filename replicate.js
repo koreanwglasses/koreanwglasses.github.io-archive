@@ -16,7 +16,7 @@
 const fs = require('fs').promises;
 const argv = require('minimist')(process.argv);
 
-const serveRoot = argv.dev ? './dev' : './';
+const serveRoot = argv.dev ? './dev' : '.';
 const contentRoot = './resources/content';
 
 /**
