@@ -5,7 +5,8 @@
     "build": "webpack --config ./webpack.dev.js",
     "serve": "node node_modules/serve/bin/serve.js",
     "prettier:base": "prettier --parser typescript --single-quote",
-    "format": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\""
+    "format": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
+    "deploy": "webpack --config ./webpack.prod.js"
   },
   "repository": {
     "type": "git",

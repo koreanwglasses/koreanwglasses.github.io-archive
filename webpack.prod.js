@@ -8,16 +8,10 @@ module.exports = [{
 
     output: {
         filename: "scripts.js",
-        path: __dirname + "/dev/js",
+        path: __dirname + "/docs/js",
     },
     
-    mode: "development",
-    
-    // Enable sourcemaps for debugging webpack's output.
-    devtool: "source-map",
-    devServer: {
-        contentBase: './'
-    }, 
+    mode: "production",
     
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
