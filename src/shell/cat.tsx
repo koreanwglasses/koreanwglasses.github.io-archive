@@ -23,7 +23,7 @@ export class Cat extends ShellScript {
     }
 
     const fileName = args[1];
-    const response = await fetch(`/content/${fileName}`);
+    const response = await fetch(`/resources/content/${fileName}`);
     if (response.status === 404) {
       this.handleError(`${fileName}: No such file or directory\n`);
       return;

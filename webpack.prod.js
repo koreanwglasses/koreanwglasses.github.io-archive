@@ -8,7 +8,7 @@ module.exports = [{
 
     output: {
         filename: "scripts.js",
-        path: __dirname + "/docs/js",
+        path: __dirname + "/js",
     },
     
     mode: "production",
