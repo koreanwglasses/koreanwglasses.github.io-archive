@@ -7,10 +7,14 @@ import { Terminal } from './core/terminal';
 
 (async () => {
   let pathName = window.location.pathname.slice(1);
-  if(pathName.startsWith('dev')) pathName = pathName.slice(3);
+  let dev = false;
+  if(pathName.startsWith('dev')) {
+    pathName = pathName.slice(3);
+    dev = true;
+  }
 
   const terminal = new Terminal({ container: document.getElementById('root') });
-  const shell = new Shell({ terminal, dev: true });
+  const shell = new Shell({ terminal, dev });
   terminal.render();
 
   if(pathName) {
