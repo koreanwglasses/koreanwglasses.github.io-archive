@@ -57,7 +57,7 @@ If we were to keep going, the numbers would just keep getting larger. We say tha
 
 We can visualize the Mandelbrot set by plotting the points that are in the set. By associating every point on the screen with a complex number, we can put a color at that point depending on whether or not it is the set. But how do we tell? and where do the colors come from?
 
-In this application, I implemented what is called an escape time algorithm. Basically, I just do what I did above, repeating the formula for thousands of iterations. If at any point $ \vert z_n \vert > 2 $, then any further iterations will just get larger, and the sequence will diverge. So when at some iteration $ n $, $ \vert z_n \vert > 2 $, we say that the point "escaped" at iteration $$ n $$.  By assigning a different color to each $ n $ when it escapes, we can get the array of colors shown in the application. 
+In this application, I implemented what is called an escape time algorithm. Basically, I just do what I did above, repeating the formula for thousands of iterations. If at any point $ \vert z_n \vert > 2 $, then any further iterations will just get larger, and the sequence will diverge. So when at some iteration $ n $, $ \vert z_n \vert > 2 $, we say that the point "escaped" at iteration $ n $.  By assigning a different color to each $ n $ when it escapes, we can get the array of colors shown in the application. 
 
 However, not all numbers will escape. After all, the Mandelbrot set is not empty! So we put a limit on the iterations. If after, say 15000 iterations the point does not escape, then we'll tentatively say that it is in the set, and color it black. This is what you see in the application above
 
