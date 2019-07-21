@@ -11,9 +11,18 @@ export const start = async (command?: string) => {
   if (!command) {
     shell.run('welcome');
   } else {
-    shell.run(
+    await shell.run(
       'welcome --skip-intro',
       ...command.split(';').map(str => str.trim())
     );
+    terminal.console.current.scrollToTop();
   }
+
+  // @ts-ignore
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      processEscapes: true
+    }
+  });
 };

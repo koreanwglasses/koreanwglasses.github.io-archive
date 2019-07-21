@@ -42,7 +42,7 @@ export class Cat extends ShellScript {
     switch (fileExt(fileName)) {
       case 'md':
         // filter out front-matter
-        const markdown = text.replace(/---[^]*---/, '');
+        const markdown = text.replace(/---[^]*?---/, '');
         this.shell.terminal.buffer.push(<ReactMarkdown source={markdown} />);
         break;
       default:
@@ -50,5 +50,10 @@ export class Cat extends ShellScript {
         break;
     }
     this.shell.terminal.render();
+
+    // @ts-ignore
+    MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+    // @ts-ignore
+    Prism.highlightAll();
   }
 }

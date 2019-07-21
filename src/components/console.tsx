@@ -32,6 +32,10 @@ export class Console extends React.Component<ConsoleProps> {
     this.div.current.scrollTop = this.div.current.scrollHeight;
   }
 
+  scrollToTop() {
+    this.div.current.scrollTop = 0;
+  }
+
   render() {
     // TODO: Allow copying
     return (

@@ -68,7 +68,7 @@ const insertLineBreaks = (contents: React.ReactNodeArray) => {
 
 export class Terminal {
   private container: Element;
-  private console = React.createRef<Console>();
+  readonly console = React.createRef<Console>();
 
   // TODO: Consistency with private variables
   public buffer: TerminalBuffer = new TerminalBuffer();

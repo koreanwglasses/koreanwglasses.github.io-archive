@@ -102,15 +102,18 @@
   font-size: 16px;
   text-decoration: underline;
   font-weight: bold;
+  color: #61a8ce;
 }
 
 .console h2 {
   font-size: 16px;
   font-weight: bold;
+  color: #61a8ce;
 }
 
 .console h3 {
   font-size: 16px;
   font-style: italic;
   font-weight: normal;
+  color: #61a8ce;
 }

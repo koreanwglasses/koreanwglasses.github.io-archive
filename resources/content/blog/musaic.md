@@ -1,7 +1,10 @@
 ---
 replicate: true
 command: 'cat blog/musaic.md'
+date: 'Before 2016'
 ---
+
+_Before 2016_
 
 Musaic is an application that turns music into art. It works by taking several samples of sound a second, mapping each sample to a color based on its
 frequency and intensity, and placing a blob of that color near other blobs of a similar color. The end result is a colorful, abstract rendition of music as 

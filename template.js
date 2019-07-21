@@ -2,6 +2,11 @@ module.exports = ({command, externals}) =>
 `<head>
     <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/console.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/prism.css">
+
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
     ${externals}
 </head>
 <body>
@@ -14,4 +19,5 @@ module.exports = ({command, externals}) =>
             TerminalApp.start(${command ? "'" + command + "'" : ""});
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/prism.min.js"></script>
 </body>`

@@ -1,0 +1,327 @@
+<head>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+        #statusbar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            padding: 5px;
+            color: white;
+            background-color: rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="statusbar">Iterations: <span id="iter"></span> | Scale: 1px = <span id="scale"></span> | Cursor Location: <span id="cursorlocation"></span> | Scroll to zoom, click to center at that point </div>
+    <script src="./lib/three.min.js"></script>
+    <script>
+        (function() {
+            var statusbar = document.getElementById('statusbar');
+            statusbar.iter = document.getElementById('iter');
+            statusbar.cursorlocation = document.getElementById('cursorlocation');
+            statusbar.scale = document.getElementById('scale');
+            
+            // var maxScale = 7419999;
+            var maxScale = Number.POSITIVE_INFINITY;
+            var maxIter = 15000;
+            var scale = 5.165e7;
+            var center = {re: -0.1604242, im: 1.0376511}
+            
+            var left, right, tp, bottom;
+            var calculateBounds = function(s) {
+                s = s || scale;
+
+                left = -window.innerWidth / (2 * s) + center.re;
+                right = window.innerWidth / (2 * s) + center.re;
+                tp = window.innerHeight / (2 * s) + center.im;
+                bottom = -window.innerHeight / (2 * s) + center.im;
+            }
+            calculateBounds();
+            
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+            
+            const vsSource = `
+            varying vec2 texCoords;
+            
+            void main() {
+                gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+                texCoords = position.xy;
+            }
+            `;
+            
+            const fsSource = `
+            uniform vec2 center;
+            uniform vec2 offset;
+
+            uniform float scale;
+
+            varying vec2 texCoords;
+            
+            vec3 hsv2rgb(vec3 c)
+            {
+                vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+                vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+                return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+            }
+
+            void f32() {
+                float lastX = 0.0;
+                float lastY = 0.0;
+                
+                float x = 0.0;
+                float y = 0.0;
+                
+                float cx = texCoords.x / scale + center.x;
+                float cy = texCoords.y / scale + center.y;
+                
+                // Cardioid check
+                float q = (cx - 0.25) * (cx - 0.25) + cy * cy;
+                if(q * (q + cx - 0.25) < 0.25 * y * y) {
+                    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+                    return;
+                }
+                
+                bool escaped = false;
+                float escapeIter = 0.0;
+                
+                // Escape time algorithm
+                for(int i = 0; i <` + maxIter + `; i++) {
+                    x = lastX * lastX - lastY * lastY + cx;
+                    y = 2.0 * lastX * lastY + cy;
+                    
+                    // Fixed point check
+                    if(lastX == x && lastY == y) {
+                        break;
+                    }
+                    
+                    if(x * x + y * y > 4.0) {
+                        escaped = true;
+                        escapeIter = float(i);
+                        break;
+                    }
+                    
+                    lastX = x;
+                    lastY = y;
+                }
+                
+                if(escaped) {
+                    gl_FragColor = vec4(hsv2rgb(vec3(escapeIter / 500.0 + 0.5, 1, 1)), 1.0);
+                } else {
+                    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+                }
+            }
+
+            vec2 quick_two_sum(float a, float b) {
+                float s = (a + b);
+                if(s == 0.0) s = 0.0;
+                float e = b - (s - a);
+                if(e == 0.0) e = 0.0;
+                return vec2(s, e);
+            }
+
+            vec2 two_sum(float a, float b) {
+                float s = a + b;
+                if(s == 0.0) s = 0.0;
+                float v = s - a;
+                if(v == 0.0) v = 0.0;
+                float e = (a - (s - v)) + (b - v);
+                if(e == 0.0) e = 0.0;
+                return vec2(s, e);
+            }
+
+            vec2 d_add(vec2 a, vec2 b) {
+                vec2 s = two_sum(a.x, b.x);
+                vec2 t = two_sum(a.y, b.y);
+                s.y += t.x;
+                s = quick_two_sum(s.x, s.y);
+                s.y += t.y;
+                s = quick_two_sum(s.x, s.y);
+                return s;
+            }
+
+            vec2 split(float a) {
+                const float split = 4097.0;
+                float t = a * split;
+                float u = t - a;
+                if(u == 0.0) u = 0.0;
+                float a_hi = t - u;
+                float a_lo = a - a_hi;
+                return vec2(a_hi, a_lo);
+            }
+
+            vec2 two_prod(float a, float b) {
+                float p = a * b;
+                if(p == 0.0) p = 0.0;
+                vec2 aS = split(a);
+                vec2 bS = split(b);
+                float err = ((aS.x * bS.x - p) 
+                    + aS.x * bS.y + aS.y * bS.x)
+                    + aS.y * bS.y;
+                return vec2(p, err);
+            }
+            
+            vec2 d_mult(vec2 a, vec2 b) {
+                vec2 p = two_prod(a.x, b.x);
+                p.y += a.x * b.y;
+                p.y += a.y * b.x;
+                p = quick_two_sum(p.x, p.y);
+                return p;
+            }
+
+            void df64() {                
+                vec2 x, y;
+                
+                vec2 cx = two_sum(center.x, texCoords.x / scale + offset.x);
+                vec2 cy = two_sum(center.y, texCoords.y / scale + offset.y);
+                
+                bool escaped = false;
+                float escapeIter = 0.0;
+                
+                // Escape time algorithm
+                for(int i = 0; i <` + maxIter + `; i++) {
+                    vec2 tempX = d_add(d_add(d_mult(x, x), -d_mult(y, y)), cx);
+                    vec2 a = d_mult(x, y);
+                    y = d_add(2.0 * a, cy);
+                    x = tempX;
+                    
+                    if(x.x * x.x + y.x * y.x > 4.0) {
+                        escaped = true;
+                        escapeIter = float(i);
+                        break;
+                    }
+                }
+                
+                if(escaped) {
+                    gl_FragColor = vec4(hsv2rgb(vec3(escapeIter / 500.0 + 0.5, 1, 1)), 1.0);
+                } else {
+                    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+                }
+            }
+
+            void main() {
+                if(scale < 2.5e4) {
+                    f32();
+                } else {
+                    df64();
+                }
+            }
+            `;
+            
+            var material = new THREE.ShaderMaterial( {
+                uniforms: {
+                    center: {value: new THREE.Vector2(0, 0)},
+                    offset: {value: new THREE.Vector2(0, 0)},
+                    scale: {value: 1}
+                },
+                vertexShader: vsSource,
+                fragmentShader: fsSource
+            });
+            
+            statusbar.iter.innerHTML = maxIter; 
+            
+            var scene = new THREE.Scene()
+            scene.background = new THREE.Color( 0x00FFFF );
+            
+            var geometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1);
+            var plane = new THREE.Mesh( geometry, material );
+            scene.add( plane );
+            
+            var render = function() {                
+                var width = Math.min(1, window.innerWidth / window.innerHeight);
+                var height = Math.min(1, window.innerHeight / window.innerWidth);
+                var camera = new THREE.OrthographicCamera(-width, width, height, -height, 0, 1000 );
+
+                camera.position.z = 5;
+                camera.lookAt(0,0,0);
+
+                plane.onBeforeRender = function() {
+                    var splitter = (1 << 29) + 1;
+                    var split = function(a) {
+                        var t = a * splitter;
+                        var u = t - a;
+                        if(u == 0.0) u = 0.0; 
+                        var tHi = t - u;
+                        var tLo = a - tHi;
+                        return tLo;
+                    }
+
+                    material.uniforms.center.value.x = center.re;
+                    material.uniforms.center.value.y = center.im;
+
+                    material.uniforms.offset.value.x = split(center.re);
+                    material.uniforms.offset.value.y = split(center.im);
+
+                    material.uniforms.scale.value = 2 * scale / Math.max(window.innerWidth, window.innerHeight);
+                }
+                
+                renderer.render( scene, camera );
+                
+                statusbar.scale.innerHTML = (1 / scale).toPrecision(4);
+            }
+            
+            window.addEventListener('mousemove', function(event) {
+                var toString = function(re, im) {    
+                    if(re == 0 && im == 0) {
+                        return '0';
+                    } else if (re != 0 && im == 0) {
+                        return re.toFixed(7);
+                    } else if (re == 0 && im != 0) {
+                        return im.toFixed(7) + ' i';
+                    } else {
+                        var str = re.toFixed(7) + ' ';
+                        if(im < 0) str += '- ';
+                        else str += '+ ';
+                        str += Math.abs(im).toFixed(7) + ' i';
+                        return str;
+                    }
+                }
+                
+                calculateBounds();
+                var re = left + event.clientX / scale;
+                var im = tp - event.clientY / scale;
+                statusbar.cursorlocation.innerHTML = toString(re, im);
+            });
+            
+            window,addEventListener('click', function(event) {
+                if(event.button == 0) {
+                    event.preventDefault();
+                    
+                    calculateBounds();
+                    center.re = left + event.clientX / scale;
+                    center.im = tp - event.clientY / scale;
+                   
+                    render();
+                }
+            })
+            
+            window.addEventListener('wheel', function(event) {
+                event.preventDefault();
+                
+                calculateBounds();
+                var re = left + event.clientX / scale;
+                var im = tp - event.clientY / scale;
+                
+                scale = scale * Math.pow(2, -event.deltaY / 200);
+                if(scale > maxScale) scale = maxScale;
+                
+                center.re = re + window.innerWidth / (2 * scale) - event.clientX / scale;
+                center.im = im - window.innerHeight / (2 * scale) + event.clientY / scale;
+                render();
+            });
+            
+            window.addEventListener('resize', function(event) {
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                render();
+            });
+            
+            render();
+        })();
+    </script>
+</body>
