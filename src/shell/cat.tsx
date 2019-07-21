@@ -3,6 +3,8 @@ import * as ReactMarkdown from 'react-markdown';
 import { ShellScript } from './shell-script';
 import { readAll } from '../utils/async';
 
+const fileExt = (filename: string) => filename.slice(filename.lastIndexOf('.') + 1);
+
 export class Cat extends ShellScript {
   destroy() {}
 
@@ -36,10 +38,16 @@ export class Cat extends ShellScript {
     const raw = await readAll(response.body);
     const text = String.fromCharCode(...raw);
 
-    // filter out front-matter
-    const markdown = text.replace(/---[^]*---/, '');
-
-    this.shell.terminal.buffer.push(<ReactMarkdown source={markdown} />);
+    switch(fileExt(fileName)) {
+      case 'md':
+        // filter out front-matter
+        const markdown = text.replace(/---[^]*---/, '');
+        this.shell.terminal.buffer.push(<ReactMarkdown source={markdown} />);
+        break;
+      default:
+        this.shell.terminal.buffer.push(text);
+        break;
+    }
     this.shell.terminal.render();
   }
 }
