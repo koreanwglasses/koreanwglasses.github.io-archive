@@ -2,11 +2,11 @@
   "name": "new-portfolio",
   "version": "0.0.0",
   "scripts": {
-    "build": "webpack --config ./webpack.dev.js; node replicate.js --dev",
+    "build": "webpack --config ./webpack.dev.js; node build-static-pages.js --dev",
     "serve": "node node_modules/serve/bin/serve.js",
     "prettier:base": "prettier --parser typescript --single-quote",
     "format": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
-    "deploy": "webpack --config ./webpack.prod.js; node replicate.js"
+    "deploy": "webpack --config ./webpack.prod.js; node build-static-pages.js"
   },
   "repository": {
     "type": "git",

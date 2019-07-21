@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactMarkdown from 'react-markdown';
 import { ShellScript } from './shell-script';
-import { readAll } from '../utils/async';
+import { readAll, fetchText } from '../utils/async';
+import { Fs, NotADirectoryError, Directory, File } from '../core/fs';
 
 const fileExt = (filename: string) =>
   filename.slice(filename.lastIndexOf('.') + 1);
@@ -26,18 +27,26 @@ export class Cat extends ShellScript {
     }
 
     const fileName = args[1];
-    const response = await fetch(`/resources/content/${fileName}`);
-    if (response.status === 404) {
+    let node;
+    try {
+      node = (await Fs.getInstance()).get(fileName);
+    } catch (e) {
       this.handleError(`${fileName}: No such file or directory\n`);
       return;
     }
-    if (!response.ok) {
-      this.handleError(`cat: ${response.status}: ${response.statusText}\n`);
+    if (node instanceof Directory) {
+      this.handleError(`${fileName}: Is a directory\n`);
       return;
     }
+    node = node as File;
 
-    const raw = await readAll(response.body);
-    const text = String.fromCharCode(...raw);
+    let text: string;
+    try {
+      text = await node.readText();
+    } catch (response) {
+      this.handleError(`${response.status}: ${response.statusText}\n`);
+      return;
+    }
 
     switch (fileExt(fileName)) {
       case 'md':

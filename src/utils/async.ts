@@ -50,3 +50,21 @@ export const readAll = async (stream: ReadableStream) => {
 
   return contents;
 };
+
+export const fetchText = async (uri: string) => {
+  const response = await fetch(uri);
+  if (!response.ok) {
+    throw response;
+  }
+  const raw = await readAll(response.body);
+  return String.fromCharCode(...raw);
+};
+
+export const fetchJSON = async (uri: string) => {
+  try {
+    const text = await fetchText(uri);
+    return JSON.parse(text);
+  } catch (e) {
+    throw e;
+  }
+};

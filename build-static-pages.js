@@ -44,8 +44,8 @@ const getExt = filename => filename.slice(filename.lastIndexOf('.') + 1);
  * 
  * @returns {any} A summary of the structure traversed 
  */
-const replicateRecursive = async(template, contentRoot, serveRoot) => {
-  console.log(`Replicating [${contentRoot}] into [${serveRoot}]`)
+const buildRecursive = async(template, contentRoot, serveRoot) => {
+  console.log(`Building [${contentRoot}] into [${serveRoot}]`)
   const contentNodeNames = await fs.readdir(contentRoot);
   const result = await Promise.all(
     contentNodeNames.map(contentNodeName => 
@@ -57,8 +57,8 @@ const replicateRecursive = async(template, contentRoot, serveRoot) => {
           // Recurse on directory
           const serveNodePath = serveRoot + '/' + contentNodeName;
           await fs.mkdir(serveNodePath, {recursive: true});
-          const result = await replicateRecursive(template, contentNodePath, serveNodePath);
-          return {[contentNodeName]: {...result, isDirectory: true}}
+          const result = await buildRecursive(template, contentNodePath, serveNodePath);
+          return {[contentNodeName]: {contents: result, isDirectory: true}}
         }
         
         if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
@@ -66,11 +66,11 @@ const replicateRecursive = async(template, contentRoot, serveRoot) => {
           const serveNodePath = `${serveRoot}/${stripExt(contentNodeName)}.html`;
           const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, {encoding: 'UTF-8'}));
           if(frontMatter.replicate) {
-            console.log(`Replicating [${contentNodePath}] into [${serveNodePath}]`);
+            console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
             await fs.writeFile(serveNodePath, template(frontMatter));
             const frontMatterOnly = {...frontMatter};
             delete frontMatterOnly.__content;
-            return {[contentNodeName]: {...frontMatterOnly, isFile: true}};
+            return {[contentNodeName]: {frontMatter: frontMatterOnly, isFile: true}};
           }
         }
         console.log(`Skipping [${contentNodePath}]`);
@@ -83,7 +83,7 @@ const replicateRecursive = async(template, contentRoot, serveRoot) => {
 }
 
 (async () => {
-  const result = await replicateRecursive(template, contentRoot, serveRoot);
+  const result = await buildRecursive(template, contentRoot, serveRoot);
   console.log('Writing meta.json...');
   await fs.writeFile(contentRoot + '/meta.json', JSON.stringify(result));
   console.log('Done!');

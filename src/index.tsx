@@ -1,5 +1,6 @@
 import { Shell } from './shell/shell';
 import { Terminal } from './core/terminal';
+import { Fs } from './core/fs';
 
 const dev = window.location.pathname.startsWith('/dev');
 
@@ -17,6 +18,8 @@ export const start = async (command?: string) => {
     );
     terminal.console.current.scrollToTop();
   }
+
+  console.log(Fs.getInstance());
 
   // @ts-ignore
   MathJax.Hub.Config({
