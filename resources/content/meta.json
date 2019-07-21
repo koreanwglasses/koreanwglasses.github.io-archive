@@ -1,0 +1,57 @@
+{
+  "about.md": {
+    "replicate": true,
+    "command": "cat about.md",
+    "isFile": true
+  },
+  "blog": {
+    "csdt-musiclab.md": {
+      "replicate": true,
+      "command": "cat blog/csdt-musiclab.md",
+      "date": "18 Apr 2018",
+      "isFile": true
+    },
+    "csdt-rhythm-wheels.md": {
+      "replicate": true,
+      "command": "cat blog/csdt-rhythm-wheels.md",
+      "date": "20 Jan 2018",
+      "isFile": true
+    },
+    "index.md": {
+      "replicate": true,
+      "command": "cd blog; ls",
+      "isFile": true
+    },
+    "mandelbrot.md": {
+      "replicate": true,
+      "command": "cat blog/mandelbrot.md",
+      "date": "19 Sep 2018",
+      "isFile": true
+    },
+    "musaic.md": {
+      "replicate": true,
+      "command": "cat blog/musaic.md",
+      "isFile": true
+    },
+    "n-dimensional-rendering-engine.md": {
+      "replicate": true,
+      "command": "cat blog/n-dimensional-rendering-engine.md",
+      "isFile": true
+    },
+    "planetsim.md": {
+      "replicate": true,
+      "command": "cat blog/planetsim.md",
+      "isFile": true
+    },
+    "randomwalk.md": {
+      "replicate": true,
+      "command": "cat blog/randomwalk.md",
+      "isFile": true
+    },
+    "isDirectory": true
+  },
+  "index.md": {
+    "replicate": true,
+    "isFile": true
+  }
+}
