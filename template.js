@@ -1,10 +1,8 @@
-<head>
+module.exports = ({command, externals}) =>
+`<head>
     <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/console.css">
-    
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-
+    ${externals}
 </head>
 <body>
     <div id="root">This is a dynamic website that relies heavily on JavaScript 
@@ -13,7 +11,7 @@
     <script src="/dev/js/scripts.js"></script>
     <script>
         window.onload = function() {
-            TerminalApp.start('cat blog/musaic.md');
+            TerminalApp.start(${command ? "'" + command + "'" : ""});
         }
     </script>
-</body>
+</body>`

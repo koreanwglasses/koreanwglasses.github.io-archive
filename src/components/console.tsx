@@ -43,8 +43,8 @@ export class Console extends React.Component<ConsoleProps> {
           onInput={this.props.onInput}
           onKeyDown={this.props.onKeyDown}
         />
-        <div className="console" onClick={this.focus} ref={this.div}>
-          {this.props.contents}
+        <div ref={this.div} className="console-container" onClick={this.focus}>
+          <div className="console">{this.props.contents}</div>
         </div>
       </>
     );

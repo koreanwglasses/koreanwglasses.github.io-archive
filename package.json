@@ -30,6 +30,7 @@
   "dependencies": {
     "@types/react": "^16.7.6",
     "@types/react-dom": "^16.0.9",
+    "@types/remarkable": "^1.7.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-markdown": "^4.1.0"

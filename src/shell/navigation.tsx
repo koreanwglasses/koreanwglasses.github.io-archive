@@ -41,9 +41,13 @@ export const Navigation = ({ shell }: { shell: Shell }) => (
     <Links shell={shell} />
     <br />
     <br />
-    <span className="info">Navigate using the links above, or type in a command below!</span>
+    <span className="info">
+      Navigate using the links above, or type in a command below!
+    </span>
     <br />
-    <span className="info">If you're stuck, try typing 'help', then hit enter.</span>
+    <span className="info">
+      If you're stuck, try typing 'help', then hit enter.
+    </span>
     <br />
     <br />
   </>

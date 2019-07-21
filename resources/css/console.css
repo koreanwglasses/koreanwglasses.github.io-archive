@@ -1,18 +1,20 @@
-.console {
-	width: 100%;
-  max-width: 100%;
-  min-width: 480px;
+.console-container {
   height: 100%;
-  
   overflow-y: scroll;
   overflow-x: hidden;
+	background-color: black;
+}
+
+.console {
+	width: 100%;
+  max-width: 800px;
+  min-width: 480px;
 
 	padding: 10px;
 	box-sizing: border-box;
 
 	font-family: Consolas, monospace;
 	color: white;
-	background-color: black;
 }
 
 .console-input {
@@ -86,6 +88,14 @@
   text-decoration: underline;
   font-weight: bold;
   color: #ff981d;
+}
+
+.console em {
+  color: #dce3e6
+}
+
+.console img {
+  width: 500px;
 }
 
 .console h1 {
