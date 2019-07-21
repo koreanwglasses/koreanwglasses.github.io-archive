@@ -90,6 +90,10 @@
   color: #ff981d;
 }
 
+.console a:hover {
+  cursor: pointer;
+}
+
 .console em {
   color: #dce3e6
 }

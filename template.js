@@ -7,6 +7,7 @@ module.exports = ({command, externals}) =>
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
+    <script src="https://kit.fontawesome.com/4c6205e508.js"></script>
     ${externals}
 </head>
 <body>
