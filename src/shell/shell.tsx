@@ -8,6 +8,8 @@ import { Welcome } from './welcome';
 import { ShellScriptArgs, ShellScript, IOShellScript } from './shell-script';
 import { ProcessingQueue, sleep } from '../utils/async';
 import { Cat } from './cat';
+import { Directory, Fs } from '../core/fs';
+import { Cd } from './cd';
 
 const Prompt = ({ cwd }: { cwd: string }) => (
   <>
@@ -20,7 +22,8 @@ const Prompt = ({ cwd }: { cwd: string }) => (
 
 const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
   welcome: (args: ShellScriptArgs) => new Welcome(args),
-  cat: (args: ShellScriptArgs) => new Cat(args)
+  cat: (args: ShellScriptArgs) => new Cat(args),
+  cd: (args: ShellScriptArgs) => new Cd(args)
 };
 
 export class Shell {
@@ -37,6 +40,12 @@ export class Shell {
   private presentBuffer: string = '';
 
   readonly dev: boolean;
+
+  public cwd: Directory;
+  private fs_: Fs;
+  get fs() {
+    return this.fs_;
+  }
 
   constructor({ terminal, dev }: { terminal: Terminal; dev?: boolean }) {
     this.terminal = terminal;
@@ -68,7 +77,7 @@ export class Shell {
   };
 
   private showPrompt() {
-    this.terminal.buffer.push(<Prompt cwd="~" />);
+    this.terminal.buffer.push(<Prompt cwd={'~' + this.cwd.path} />);
     this.lineBufferEditor.show();
     this.terminal.render();
   }
@@ -167,5 +176,11 @@ export class Shell {
     } else {
       this.showPrompt();
     }
+  }
+
+  async init() {
+    this.fs_ = new Fs();
+    await this.fs_.init();
+    this.cwd = this.fs_.root;
   }
 }

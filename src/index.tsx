@@ -6,11 +6,14 @@ const dev = window.location.pathname.startsWith('/dev');
 
 export const start = async (command?: string) => {
   document.getElementById('root').innerHTML = '';
+
   const terminal = new Terminal({ container: document.getElementById('root') });
   const shell = new Shell({ terminal, dev });
   terminal.render();
+
+  await shell.init();
   if (!command) {
-    shell.run('welcome');
+    await shell.run('welcome');
   } else {
     await shell.run(
       'welcome --skip-intro',
@@ -18,8 +21,6 @@ export const start = async (command?: string) => {
     );
     terminal.console.current.scrollToTop();
   }
-
-  console.log(Fs.getInstance());
 
   // @ts-ignore
   MathJax.Hub.Config({

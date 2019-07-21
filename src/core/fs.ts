@@ -20,9 +20,6 @@ function isDirectoryData(obj: NodeData): obj is DirectoryData {
   return 'isDirectory' in obj && obj.isDirectory;
 }
 
-export class NotADirectoryError extends Error {}
-export class NoSuchFileOrDirectoryError extends Error {}
-
 export abstract class Node {
   readonly directory: Directory;
   readonly path: string;
@@ -84,6 +81,8 @@ export class Directory extends Node {
    * @throws NoSuchFileOrDirectoryError, NotADirectoryError
    */
   get(relativePath: string): Node {
+    if (!relativePath) return this;
+
     const name =
       relativePath.indexOf('/') === -1
         ? relativePath
@@ -100,10 +99,10 @@ export class Directory extends Node {
       return (this.directory || this).get(nextPath);
     }
     const node = this.nodeMap[name];
-    if (!node) throw new NoSuchFileOrDirectoryError();
+    if (!node) return null;
     if (node instanceof File) {
       if (nextPath) {
-        throw new NotADirectoryError();
+        return null;
       } else {
         return node;
       }
@@ -158,7 +157,6 @@ export class Directory extends Node {
 }
 
 export class Fs {
-  private static instance: Fs = null;
   private root_: Directory = null;
 
   get root() {
@@ -179,13 +177,5 @@ export class Fs {
 
   get(fullpath: string) {
     return this.root_.get(fullpath);
-  }
-
-  static async getInstance() {
-    if (!Fs.instance) {
-      Fs.instance = new Fs();
-      await Fs.instance.init();
-    }
-    return Fs.instance;
   }
 }

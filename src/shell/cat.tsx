@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactMarkdown from 'react-markdown';
 import { ShellScript } from './shell-script';
 import { readAll, fetchText } from '../utils/async';
-import { Fs, NotADirectoryError, Directory, File } from '../core/fs';
+import { Fs, Directory, File } from '../core/fs';
 
 const fileExt = (filename: string) =>
   filename.slice(filename.lastIndexOf('.') + 1);
@@ -17,28 +17,26 @@ export class Cat extends ShellScript {
 
   async main(args: string[]) {
     if (args.length < 2) {
-      this.handleError('Missing filename\n');
+      this.handleError('missing filename\n');
       return;
     }
 
     if (args.length > 2) {
-      this.handleError('Too many arguments\n');
+      this.handleError('too many arguments\n');
       return;
     }
 
     const fileName = args[1];
     let node;
-    try {
-      node = (await Fs.getInstance()).get(fileName);
-    } catch (e) {
-      this.handleError(`${fileName}: No such file or directory\n`);
+    node = this.shell.fs.get(fileName);
+    if(node === null) {
+      this.handleError(`${fileName}: no such file or directory\n`);
       return;
     }
-    if (node instanceof Directory) {
-      this.handleError(`${fileName}: Is a directory\n`);
+    if (!(node instanceof File)) {
+      this.handleError(`${fileName}: is a directory\n`);
       return;
     }
-    node = node as File;
 
     let text: string;
     try {
