@@ -141,6 +141,7 @@ export class Shell {
       this.historyLine--;
       const index = this.history.length + this.historyLine;
       this.lineBufferEditor.buffer = this.history[index];
+      this.lineBufferEditor.cursorPos = this.lineBufferEditor.buffer.length;
       this.lineBufferEditor.update();
     }
   }
@@ -154,6 +155,7 @@ export class Shell {
         const index = this.history.length + this.historyLine;
         this.lineBufferEditor.buffer = this.history[index];
       }
+      this.lineBufferEditor.cursorPos = this.lineBufferEditor.buffer.length;
       this.lineBufferEditor.update();
     }
   }
