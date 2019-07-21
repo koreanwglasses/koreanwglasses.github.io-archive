@@ -7,7 +7,9 @@ module.exports = ({command}) =>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root">This is a dynamic website that relies heavily on JavaScript 
+        for animations and interactivity. For the best experience, please enable
+        JavaScript in your browser</div>
     <script src="/js/scripts.js"></script>
     <script>
         window.onload = function() {
