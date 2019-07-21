@@ -1,7 +1,6 @@
 ---
 replicate: true
 command: 'cat blog/planetsim.md'
-date: 'Before 2016'
 ---
 
 _Before 2016_
