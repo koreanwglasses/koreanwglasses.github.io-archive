@@ -9,6 +9,8 @@ a visual form of art, a Musaic.
 
 [![](http://img.youtube.com/vi/j-ntCsvdzB0/0.jpg)](http://www.youtube.com/watch?v=j-ntCsvdzB0 "")
 
+_Youtube Video_
+
 This was inspired in part by this answer on *Programming Puzzles and Code Golf* http://codegolf.stackexchange.com/a/22326/44953
 in which the user *fejesjoco* developed an algorithm to create aesthetically pleasing images containing all the colors on a standard computer screen.
 I use a similar algorithm to place colors on the screen, except that I use voronoi cells instead of a pixel grid, and I use colors based on sound samples
