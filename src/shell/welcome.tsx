@@ -56,7 +56,7 @@ export class Welcome extends ShellScript {
     this.shell.terminal.buffer.clear();
     this.shell.terminal.render();
 
-    this.write(<em>Press any key to skip intro</em>);
+    this.write(<span className="info">Press any key to skip intro</span>);
     this.write(<br />);
     this.write(<br />);
 
