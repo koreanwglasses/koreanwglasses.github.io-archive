@@ -14,7 +14,9 @@
 	box-sizing: border-box;
 
 	font-family: Consolas, monospace;
-  color: white;
+  color:#FFFFFF;
+
+  margin-top: calc(100vh - 40px);
 }
 
 .console-input {
@@ -56,38 +58,20 @@
   }
 }
 
-.color-primary {
-  color: #218fca;
-}
-
-.color-primary-light-1 {
-  color: #61a8ce;
-}
-
-.color-primary-light-2 {
-  color: #dce3e6;
-}
-
-.color-primary-dark-1 {
-  color: #046aa1;
-}
-
-.color-primary-dark-2 {
-  color: #01476c;
-}
-
-.color-complementary {
-  color: #ff981d;
-}
-
 .console .info {
   color: #606060;
+  font-style: italic;
 }
 
 .console a {
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: bold;
-  color: #ff981d;
+  color: #00C7C7;
+}
+
+.console a.special {
+  text-decoration: underline;
+  color: #7AD2D2;
 }
 
 .console a:hover {
@@ -106,18 +90,42 @@
   font-size: 16px;
   text-decoration: underline;
   font-weight: bold;
-  color: #61a8ce;
+  color: #FF7400;
 }
 
 .console h2 {
   font-size: 16px;
   font-weight: bold;
-  color: #61a8ce;
+  color: #FF8E31;
 }
 
 .console h3 {
   font-size: 16px;
   font-style: italic;
   font-weight: normal;
-  color: #61a8ce;
+  color: #FFC595;
 }
+
+::selection {
+  color: black;
+  background: #FFFFFF;
+}
+
+/* Palette URL: http://paletton.com/#uid=20u0u0kM-JwdnMKpQJGPiqiT+gt */
+
+/* Feel free to copy&paste color codes to your application */
+
+
+/* As hex codes */
+
+.color-primary-0 { color: #FF7400 }	/* Main Primary color */
+.color-primary-1 { color: #FFC595 }
+.color-primary-2 { color: #FF8E31 }
+.color-primary-3 { color: #D15F00 }
+.color-primary-4 { color: #833B00 }
+
+.color-complement-0 { color: #00C7C7 }	/* Main Complement color */
+.color-complement-1 { color: #7AD2D2 }
+.color-complement-2 { color: #26C8C8 }
+.color-complement-3 { color: #007E7E }
+.color-complement-4 { color: #004F4F }

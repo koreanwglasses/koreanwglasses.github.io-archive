@@ -19,7 +19,7 @@ export class Cd extends ShellScript {
         args[1][0] === '/'
           ? this.shell.fs.root.get(args[1])
           : this.shell.cwd.get(args[1]);
-      if(node === null) {
+      if (node === null) {
         this.handleError(`${args[1]}: no such file or directory`);
         return;
       }

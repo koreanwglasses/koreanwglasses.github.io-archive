@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { sleep } from '../utils/async';
 
 const noop = () => {};
 
 interface ConsoleProps {
   contents: React.ReactNode;
   onInput: React.FormEventHandler<HTMLInputElement>;
-  onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
+  onKeyDown: React.KeyboardEventHandler<HTMLDivElement>;
 }
 
 /**
@@ -33,8 +34,15 @@ export class Console extends React.Component<ConsoleProps> {
   }
 
   scrollToTop() {
-    this.div.current.scrollTop = 0;
+    this.div.current.scrollTop = this.div.current.clientHeight;
   }
+
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+      this.focus();
+    }
+    this.props.onKeyDown(e);
+  };
 
   render() {
     // TODO: Allow copying
@@ -47,7 +55,12 @@ export class Console extends React.Component<ConsoleProps> {
           onInput={this.props.onInput}
           onKeyDown={this.props.onKeyDown}
         />
-        <div ref={this.div} className="console-container" onClick={this.focus}>
+        <div
+          ref={this.div}
+          className="console-container"
+          onKeyDown={this.handleKeyDown}
+          tabIndex={0}
+        >
           <div className="console">{this.props.contents}</div>
         </div>
       </>

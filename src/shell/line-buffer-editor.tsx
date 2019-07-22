@@ -60,7 +60,7 @@ export class LineBufferEditor {
     );
   };
 
-  private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case 'Enter':
         this.flush();

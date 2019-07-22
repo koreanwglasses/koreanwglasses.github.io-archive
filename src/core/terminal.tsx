@@ -77,7 +77,7 @@ export class Terminal {
     callback: TerminalInputHandler;
     priority: number;
   }[] = [];
-  private keyDownCallbacks: React.KeyboardEventHandler<HTMLInputElement>[] = [];
+  private keyDownCallbacks: React.KeyboardEventHandler<HTMLDivElement>[] = [];
 
   public cursor: TerminalCursor = new TerminalCursor();
 
@@ -101,7 +101,7 @@ export class Terminal {
     e.currentTarget.value = '';
   };
 
-  private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     this.keyDownCallbacks.forEach(callback => callback(e));
   };
 

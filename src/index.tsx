@@ -7,6 +7,10 @@ const dev = window.location.pathname.startsWith('/dev');
 export const start = async (command?: string) => {
   document.getElementById('root').innerHTML = '';
 
+  window.onpopstate = () => {
+    location.reload();
+  };
+
   const terminal = new Terminal({ container: document.getElementById('root') });
   const shell = new Shell({ terminal, dev });
   terminal.render();
@@ -25,7 +29,7 @@ export const start = async (command?: string) => {
   // @ts-ignore
   MathJax.Hub.Config({
     tex2jax: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      inlineMath: [['$', '$']],
       processEscapes: true
     }
   });

@@ -27,9 +27,11 @@ export class Cat extends ShellScript {
     }
 
     const fileName = args[1];
-    let node;
-    node = this.shell.fs.get(fileName);
-    if(node === null) {
+    const node = fileName.startsWith('/')
+      ? this.shell.fs.get(fileName)
+      : this.shell.cwd.get(fileName);
+
+    if (node === null) {
       this.handleError(`${fileName}: no such file or directory\n`);
       return;
     }
@@ -57,6 +59,7 @@ export class Cat extends ShellScript {
         break;
     }
     this.shell.terminal.render();
+    this.shell.keepCommandInView();
 
     // @ts-ignore
     MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
