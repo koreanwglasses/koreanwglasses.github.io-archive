@@ -2,21 +2,21 @@
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-	background-color: black;
+  background-color: black;
 }
 
 .console {
 	width: 100%;
-  max-width: 1000px;
-  min-width: 480px;
+  max-width: 50em;
+  min-width: 20em;
 
-	padding: 10px;
+	padding: 0.5ex;
 	box-sizing: border-box;
 
 	font-family: Consolas, monospace;
   color:#FFFFFF;
 
-  margin-top: calc(100vh - 40px);
+  margin-top: calc(100vh - 1.5ex);
 }
 
 .console-input {
@@ -58,6 +58,7 @@
   }
 }
 
+
 .console .info {
   color: #606060;
   font-style: italic;
@@ -83,7 +84,8 @@
 }
 
 .console img {
-  width: 500px;
+  max-width: 100%;
+  max-height: 400px;
 }
 
 .console h1 {
@@ -109,6 +111,11 @@
 ::selection {
   color: black;
   background: #FFFFFF;
+}
+
+.console img.masthead-image {
+  width: 100%;
+  max-width: 25em;
 }
 
 /* Palette URL: http://paletton.com/#uid=20u0u0kM-JwdnMKpQJGPiqiT+gt */

@@ -14,7 +14,7 @@ const Links = ({ shell }: { shell: Shell }) => (
     {'\u2002\u2002'}
     <CommandLink
       label="Blog"
-      command={['cd blog', 'ls']}
+      command={['cd /blog', 'ls']}
       shell={shell}
       permalink="/blog"
     />
