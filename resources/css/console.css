@@ -16,6 +16,8 @@
 	font-family: Consolas, monospace;
   color:#FFFFFF;
 
+  word-break: break-word;
+
   margin-top: calc(100vh - 1.5ex);
 }
 
