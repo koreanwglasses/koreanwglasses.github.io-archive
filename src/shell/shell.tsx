@@ -11,6 +11,7 @@ import { Cat } from './cat';
 import { Directory, Fs } from '../core/fs';
 import { Cd } from './cd';
 import { Ls } from './ls';
+import { Help } from './help';
 
 const Prompt = React.forwardRef<HTMLSpanElement, { cwd: string }>(
   ({ cwd }, ref) => (
@@ -28,7 +29,8 @@ const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
   cat: (args: ShellScriptArgs) => new Cat(args),
   cd: (args: ShellScriptArgs) => new Cd(args),
   ls: (args: ShellScriptArgs) => new Ls(args),
-  dir: (args: ShellScriptArgs) => new Ls(args)
+  dir: (args: ShellScriptArgs) => new Ls(args),
+  help: (args: ShellScriptArgs) => new Help(args)
 };
 
 export class Shell {
