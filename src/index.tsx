@@ -1,17 +1,17 @@
 import { Shell } from './shell/shell';
 import { Terminal } from './core/terminal';
-import { Fs } from './core/fs';
 
-const dev = window.location.pathname.startsWith('/dev');
+export const start = async (command?: string, renderStatic?: boolean, dev?: boolean) => {
+  if(!renderStatic) {
+    dev = window.location.pathname.startsWith('/dev');
+    document.getElementById('root').innerHTML = '';
 
-export const start = async (command?: string) => {
-  document.getElementById('root').innerHTML = '';
+    window.onpopstate = () => {
+      location.reload();
+    };
+  }
 
-  window.onpopstate = () => {
-    location.reload();
-  };
-
-  const terminal = new Terminal({ container: document.getElementById('root') });
+  const terminal = new Terminal({ container: renderStatic ? null : document.getElementById('root'), renderStatic });
   const shell = new Shell({ terminal, dev });
   terminal.render();
 
@@ -23,14 +23,22 @@ export const start = async (command?: string) => {
       'welcome --skip-intro',
       ...command.split(';').map(str => str.trim())
     );
-    terminal.console.current.scrollToTop();
+    if(terminal.console.current) {
+      terminal.console.current.scrollToTop();
+    }
   }
 
-  // @ts-ignore
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$', '$']],
-      processEscapes: true
-    }
-  });
+  if(renderStatic) {
+    console.log(terminal.staticMarkup);
+  }
+
+  if(!renderStatic) {
+    // @ts-ignore
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$', '$']],
+        processEscapes: true
+      }
+    });
+  }
 };

@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = [{
     /////////////////////
     //// Development ////
@@ -42,5 +44,5 @@ module.exports = [{
     externals: {
         "react": "React",
         "react-dom": "ReactDOM",
-    }
+    },
 }];

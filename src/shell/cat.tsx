@@ -61,9 +61,11 @@ export class Cat extends ShellScript {
     this.shell.terminal.render();
     this.shell.keepCommandInView();
 
-    // @ts-ignore
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
-    // @ts-ignore
-    Prism.highlightAll();
+    if(!this.shell.terminal.renderStatic) {
+      // @ts-ignore
+      MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+      // @ts-ignore
+      Prism.highlightAll();
+    }
   }
 }

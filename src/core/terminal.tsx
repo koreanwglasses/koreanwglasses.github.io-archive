@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as ReactDOMServer from 'react-dom/server';
 import { Console } from '../components/console';
 import { TerminalCursor, CursorWrapper } from './terminal-cursor';
 import { TerminalReadonlyBuffer, TerminalBuffer } from './terminal-buffer';
@@ -81,8 +82,16 @@ export class Terminal {
 
   public cursor: TerminalCursor = new TerminalCursor();
 
-  constructor({ container }: { container: Element }) {
-    this.container = container;
+  readonly renderStatic: boolean;
+  private staticMarkup_: string;
+
+  get staticMarkup() {
+    return this.staticMarkup_;
+  }
+
+  constructor({ container, renderStatic }: { container?: Element, renderStatic?: boolean }) {
+    this.container = container || null;
+    this.renderStatic = renderStatic || false;
   }
 
   private handleInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -117,15 +126,24 @@ export class Terminal {
       this.cursor.position = this.buffer.length;
     }
 
-    ReactDOM.render(
-      <Console
-        ref={this.console}
-        contents={this.prepareContents()}
-        onInput={this.handleInput}
-        onKeyDown={this.handleKeyDown}
-      />,
-      this.container
-    );
+    if(this.container) {
+      ReactDOM.render(
+        <Console
+          ref={this.console}
+          contents={this.prepareContents()}
+          onInput={this.handleInput}
+          onKeyDown={this.handleKeyDown}
+        />,
+        this.container
+      );
+    }
+    if(this.renderStatic) {
+      this.staticMarkup_ = ReactDOMServer.renderToStaticMarkup(
+        <Console
+          contents={this.prepareContents()}
+        />
+      );
+    }
   }
 
   onInput(callback: TerminalInputHandler, priority: number = 0) {
