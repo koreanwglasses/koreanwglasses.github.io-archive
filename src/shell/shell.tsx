@@ -27,7 +27,8 @@ const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
   welcome: (args: ShellScriptArgs) => new Welcome(args),
   cat: (args: ShellScriptArgs) => new Cat(args),
   cd: (args: ShellScriptArgs) => new Cd(args),
-  ls: (args: ShellScriptArgs) => new Ls(args)
+  ls: (args: ShellScriptArgs) => new Ls(args),
+  dir: (args: ShellScriptArgs) => new Ls(args),
 };
 
 export class Shell {
@@ -75,6 +76,7 @@ export class Shell {
       !(this.runningScript instanceof IOShellScript) ||
       !this.runningScript.handleInput(buffer)
     ) {
+      this.lineBufferEditor.hide();
       this.terminal.buffer.push(<br />);
       this.terminal.render();
       this.processingQueue.push(buffer);
@@ -99,8 +101,6 @@ export class Shell {
   // TODO: update url to last command run
 
   private async processLine(line: string) {
-    this.lineBufferEditor.hide();
-
     // Multiple commands
     if (line.indexOf(';') !== -1) {
       this.processingQueue.push(...line.split(';'));
