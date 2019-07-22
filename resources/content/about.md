@@ -4,7 +4,7 @@ command: 'cat about.md'
 ---
 # About
 
-Welcome to fred-choi.com! I, Fred Choi, created this website so that I can share with the larger community the projects I have been working on, and things I discover along the way. I work mostly on visualization and interaction driven programs, and stick to open source principles. You will also find some non-programming related stuff, as I like to write music and do other things.
+Welcome to fred-choi.com! I, Fred Choi, created this website so that I can share with the larger community the projects I have been working on, and the things I discover along the way. I work mostly on visualization and interaction driven programs, and stick to open source principles. You will also find some non-programming related stuff, as I like to write music and do other things.
 
 Navigate this website by typing in commands, or by using the orange links. Try typing `help` to get started. And if you find any issues, don't be silent! Please report them at https://github.com/koreanwglasses/koreanwglasses.github.io/issues
 
