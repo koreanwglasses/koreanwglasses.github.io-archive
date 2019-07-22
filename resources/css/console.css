@@ -118,6 +118,7 @@
 .console img.masthead-image {
   width: 100%;
   max-width: 25em;
+  display: block;
 }
 
 /* Palette URL: http://paletton.com/#uid=20u0u0kM-JwdnMKpQJGPiqiT+gt */
