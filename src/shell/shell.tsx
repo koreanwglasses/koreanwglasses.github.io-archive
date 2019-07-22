@@ -28,7 +28,7 @@ const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
   cat: (args: ShellScriptArgs) => new Cat(args),
   cd: (args: ShellScriptArgs) => new Cd(args),
   ls: (args: ShellScriptArgs) => new Ls(args),
-  dir: (args: ShellScriptArgs) => new Ls(args),
+  dir: (args: ShellScriptArgs) => new Ls(args)
 };
 
 export class Shell {
