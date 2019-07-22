@@ -93,8 +93,9 @@ export class Shell {
     this.lineBufferEditor.show();
     this.terminal.render();
 
-    if (this.willKeepCommandInView && this.promptRefs.length > 2) {
+    if (this.willKeepCommandInView && this.promptRefs[this.promptRefs.length - 2]) {
       this.promptRefs[this.promptRefs.length - 2].scrollIntoView();
+      this.willKeepCommandInView = false;
     }
   }
 
