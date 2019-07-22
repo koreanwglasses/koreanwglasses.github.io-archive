@@ -67,18 +67,16 @@ export class Shell {
   private handleFlush = (e: LineBufferEditorFlushEvent) => {
     this.historyLine = 0;
 
-    this.terminal.buffer.push(<br />);
-
     const buffer = e.target.buffer;
     this.lineBufferEditor.reset();
-
-    this.terminal.render();
 
     if (
       !this.runningScript ||
       !(this.runningScript instanceof IOShellScript) ||
       !this.runningScript.handleInput(buffer)
     ) {
+      this.terminal.buffer.push(<br />);
+      this.terminal.render();
       this.processingQueue.push(buffer);
     }
   };

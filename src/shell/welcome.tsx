@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ShellScript, ShellScriptArgs, IOShellScript } from './shell-script';
+import { ShellScriptArgs, IOShellScript } from './shell-script';
 import { sleep } from '../utils/async';
 import { Navigation } from './navigation';
 
@@ -22,21 +22,22 @@ const masthead2 =
   '\u2588\u2588\u2554\u255D\u2588\u2588\u2554\u255D\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u00A0\u00A0\u2588\u2588\u2551\u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D\u2588\u2588\u2551\n' +
   '\u255A\u2550\u255D\u00A0\u255A\u2550\u255D\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u255A\u2550\u2550\u2550\u2550\u2550\u255D\u255A\u2550\u255D\u00A0\u00A0\u255A\u2550\u255D\u00A0\u255A\u2550\u2550\u2550\u2550\u2550\u255D\u00A0\u255A\u2550\u255D\n';
 
-export class Welcome extends ShellScript {
+export class Welcome extends IOShellScript {
   private skip = false;
 
   constructor(args: ShellScriptArgs) {
     super(args);
-    args.shell.terminal.onKeyDown(this.handleSkip);
-    args.shell.terminal.onInput(this.handleSkip);
+    args.shell.terminal.onKeyDown(this.handleInput);
+    args.shell.terminal.onInput(this.handleInput);
   }
 
   destroy() {
-    this.shell.terminal.unregisterInputHandler(this.handleSkip);
-    this.shell.terminal.unregisterKeyDownEventHandler(this.handleSkip);
+    this.shell.terminal.unregisterInputHandler(this.handleInput);
+    this.shell.terminal.unregisterKeyDownEventHandler(this.handleInput);
   }
 
-  private handleSkip = () => {
+
+  handleInput = () => {
     this.skip = true;
     return true;
   };
