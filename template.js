@@ -1,8 +1,9 @@
-module.exports = ({command, externals}) =>
+module.exports = ({command, externals, title}) =>
 `<head>
     <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/console.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/prism.css">
+    <title>Fred Choi: ${title}</title>
 
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">

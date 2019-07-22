@@ -67,7 +67,12 @@ const buildRecursive = async(template, contentRoot, serveRoot) => {
           const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, {encoding: 'UTF-8'}));
           if(frontMatter.replicate) {
             console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
-            await fs.writeFile(serveNodePath, template(frontMatter));
+
+            // Write html
+            const templateArgs = {title: stripExt(contentNodeName), ...frontMatter};
+            await fs.writeFile(serveNodePath, template(templateArgs));
+
+            // Keep track of file structure
             const frontMatterOnly = {...frontMatter};
             delete frontMatterOnly.__content;
             return {[contentNodeName]: {frontMatter: frontMatterOnly, isFile: true}};

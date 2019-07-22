@@ -3,4 +3,4 @@ const externals = `
     <script src="/node_modules/react/umd/react.development.js"></script>
     <script src="/node_modules/react-dom/umd/react-dom.development.js"></script>
 `
-module.exports = ({command}) => template({command, externals});
+module.exports = args => template({...args, externals});

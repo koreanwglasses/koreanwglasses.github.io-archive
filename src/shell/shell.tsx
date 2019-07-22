@@ -93,7 +93,7 @@ export class Shell {
     this.lineBufferEditor.show();
     this.terminal.render();
 
-    if (this.willKeepCommandInView && this.promptRefs.length >= 2) {
+    if (this.willKeepCommandInView && this.promptRefs.length > 2) {
       this.promptRefs[this.promptRefs.length - 2].scrollIntoView();
     }
   }
@@ -221,8 +221,8 @@ const injectCommand = (
   } else {
     shell.run(command);
   }
-
   if (permalink) {
+    document.title = 'Fred Choi: ' + title;
     window.history.pushState(
       permalink,
       title,
