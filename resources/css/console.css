@@ -116,6 +116,10 @@
   width: 100%;
   max-width: 25em;
   display: block;
+
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .sticky {
