@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { sleep } from '../utils/async';
+import { isMobile } from '../utils/environment';
 
 const noop = () => {};
 
@@ -7,6 +8,7 @@ interface ConsoleProps {
   contents: React.ReactNode;
   onInput: React.FormEventHandler<HTMLInputElement>;
   onKeyDown: React.KeyboardEventHandler<HTMLDivElement>;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
 /**
@@ -59,9 +61,10 @@ export class Console extends React.Component<ConsoleProps> {
           ref={this.div}
           className="console-container"
           onKeyDown={this.handleKeyDown}
+          onClick={this.props.onClick}
           tabIndex={0}
         >
-          <div className="console">{this.props.contents}</div>
+          <div className={"console " + (isMobile() ? 'extra-padding-bottom' : '')}>{this.props.contents}</div>
         </div>
       </>
     );

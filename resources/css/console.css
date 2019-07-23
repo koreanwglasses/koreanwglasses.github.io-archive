@@ -60,7 +60,6 @@
   }
 }
 
-
 .console .info {
   color: #606060;
   font-style: italic;
@@ -119,6 +118,18 @@
   width: 100%;
   max-width: 25em;
   display: block;
+}
+
+.sticky {
+  border-top: 1px solid white;
+  position: fixed;
+  bottom: 0;
+  background: black;
+  padding: .5ex 0;
+}
+
+.extra-padding-bottom {
+  margin-bottom: 4em;
 }
 
 /* Palette URL: http://paletton.com/#uid=20u0u0kM-JwdnMKpQJGPiqiT+gt */
