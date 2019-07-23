@@ -1,4 +1,4 @@
-module.exports = ({command, externals, title}) =>
+module.exports = ({command, externals, title, mainScript}) =>
 `<head>
     <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/console.css">
@@ -17,7 +17,7 @@ module.exports = ({command, externals, title}) =>
     <div id="root">This is a dynamic website that relies heavily on JavaScript 
         for animations and interactivity. For the best experience, please enable
         JavaScript in your browser</div>
-    <script src="/dev/js/scripts.js"></script>
+    ${mainScript}
     <script>
         window.onload = function() {
             TerminalApp.start(${command ? "'" + command + "'" : ""});
