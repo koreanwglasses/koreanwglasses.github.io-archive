@@ -3,6 +3,7 @@ import * as ReactMarkdown from 'react-markdown';
 import { ShellScript } from './shell-script';
 import { readAll, fetchText } from '../utils/async';
 import { Fs, Directory, File } from '../core/fs';
+import { Shell } from './shell';
 
 const fileExt = (filename: string) =>
   filename.slice(filename.lastIndexOf('.') + 1);
@@ -15,10 +16,10 @@ export class Cat extends ShellScript {
     const files = start.startsWith('/')
       ? this.shell.fs.root.tree({ filesOnly: true })
       : this.shell.cwd.tree({ filesOnly: true });
-    return files.filter(file => file.startsWith(start));
+    return files
+      .filter(file => file.startsWith(start))
+      .map(file => args[0] + ' ' + file);
   }
-
-  destroy() {}
 
   private handleError(message: string) {
     this.shell.terminal.buffer.push(`cat: ${message}\n`);

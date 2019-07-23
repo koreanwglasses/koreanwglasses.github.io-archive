@@ -2,8 +2,6 @@ import * as React from 'react';
 import { ShellScript } from './shell-script';
 
 export class Help extends ShellScript {
-  destroy() {}
-
   main(args: string[]) {
     const buffer = this.shell.terminal.buffer;
     buffer.push('cat [filename] - displays the contents of a file\n');

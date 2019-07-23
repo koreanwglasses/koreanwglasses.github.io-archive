@@ -2,8 +2,6 @@ import { ShellScript } from './shell-script';
 import { Fs, Directory } from '../core/fs';
 
 export class Cd extends ShellScript {
-  destroy() {}
-
   handleError(message: string) {
     this.shell.terminal.buffer.push(`~bash: cd: ${message}\n`);
     this.shell.terminal.render();
