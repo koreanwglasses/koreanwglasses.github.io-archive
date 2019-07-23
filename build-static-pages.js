@@ -85,42 +85,43 @@ const getExt = (filename) => filename.slice(filename.lastIndexOf('.') + 1);
 const buildRecursive = async (template, contentRoot, serveRoot) => {
 	console.log(`Building [${contentRoot}] into [${serveRoot}]`);
 	const contentNodeNames = await fs.readdir(contentRoot);
-	const result = await Promise.all(
-		contentNodeNames.map((contentNodeName) =>
-			(async () => {
-				const contentNodePath = contentRoot + '/' + contentNodeName;
-				const contentNodeStats = await fs.lstat(contentNodePath);
+	const result = [];
+	
+	for(const contentNodeName of contentNodeNames) {
+		const contentNodePath = contentRoot + '/' + contentNodeName;
+		const contentNodeStats = await fs.lstat(contentNodePath);
 
-				if (contentNodeStats.isDirectory()) {
-					// Recurse on directory
-					const serveNodePath = serveRoot + '/' + contentNodeName;
-					await fs.mkdir(serveNodePath, { recursive: true });
-					const result = await buildRecursive(template, contentNodePath, serveNodePath);
-					return { [contentNodeName]: { contents: result, isDirectory: true } };
-				}
+		if (contentNodeStats.isDirectory()) {
+			// Recurse on directory
+			const serveNodePath = serveRoot + '/' + contentNodeName;
+			await fs.mkdir(serveNodePath, { recursive: true });
+			
+			const subResult = await buildRecursive(template, contentNodePath, serveNodePath);
+			result.push({ [contentNodeName]: { contents: subResult, isDirectory: true } });
+			continue;
+		}
 
-				if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
-					// Generate and write file
-					const serveNodePath = `${serveRoot}/${stripExt(contentNodeName)}.html`;
-					const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, { encoding: 'UTF-8' }));
-					if (frontMatter.replicate) {
-						console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
+		if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
+			// Generate and write file
+			const serveNodePath = `${serveRoot}/${stripExt(contentNodeName)}.html`;
+			const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, { encoding: 'UTF-8' }));
+			if (frontMatter.replicate) {
+				console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
 
-						// Write html
-						const templateArgs = { title: stripExt(contentNodeName), ...frontMatter };
-						await fs.writeFile(serveNodePath, template(templateArgs));
+				// Write html
+				const templateArgs = { title: stripExt(contentNodeName), ...frontMatter };
+				await fs.writeFile(serveNodePath, template(templateArgs));
 
-						// Keep track of file structure
-						const frontMatterOnly = { ...frontMatter };
-						delete frontMatterOnly.__content;
-						return { [contentNodeName]: { frontMatter: frontMatterOnly, isFile: true } };
-					}
-				}
-				console.log(`Skipping [${contentNodePath}]`);
-				return {};
-			})()
-		)
-	);
+				// Keep track of file structure
+				const frontMatterOnly = { ...frontMatter };
+				delete frontMatterOnly.__content;
+				result.push({ [contentNodeName]: { frontMatter: frontMatterOnly, isFile: true } });
+				continue;
+			}
+		}
+		
+		console.log(`Skipping [${contentNodePath}]`);
+	}
 
 	return result.reduce((prev, cur) => {
 		return { ...prev, ...cur };
