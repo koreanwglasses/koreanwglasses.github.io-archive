@@ -40,49 +40,62 @@ const getExt = (filename) => filename.slice(filename.lastIndexOf('.') + 1);
  * with the template. 
  * 
  * @param {(props: any) => string} template
- * @param {string} contentRoot 
- * @param {string} serveRoot 
+ * @param {string} contentDir 
+ * @param {string} serveDir 
  * 
  * @returns {any} A summary of the structure traversed 
  */
-const buildRecursive = (template, contentRoot, serveRoot) => {
-	console.log(`Building [${contentRoot}] into [${serveRoot}]`);
-	const contentNodeNames = fs.readdirSync(contentRoot);
+const buildRecursive = (template, contentDir, serveDir) => {
+	console.log(`Building [${contentDir}] into [${serveDir}]`);
+	const contentNodeNames = fs.readdirSync(contentDir);
 	const result = [];
-	
-	for(const contentNodeName of contentNodeNames) {
-		const contentNodePath = contentRoot + '/' + contentNodeName;
+
+	for (const contentNodeName of contentNodeNames) {
+		const contentNodePath = contentDir + '/' + contentNodeName;
 		const contentNodeStats = fs.lstatSync(contentNodePath);
 
 		if (contentNodeStats.isDirectory()) {
 			// Recurse on directory
-			const serveNodePath = serveRoot + '/' + contentNodeName;
-		    fs.mkdirSync(serveNodePath, { recursive: true });
-			
+			const serveNodePath = serveDir + '/' + contentNodeName;
+			fs.mkdirSync(serveNodePath, { recursive: true });
+
 			const subResult = buildRecursive(template, contentNodePath, serveNodePath);
-			result.push({ [contentNodeName]: { contents: subResult, isDirectory: true } });
+			if (Object.keys(subResult).length > 0) {
+				result.push({ [contentNodeName]: { contents: subResult, isDirectory: true } });
+			}
 			continue;
 		}
 
 		if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
 			// Generate and write file
-			const serveNodePath = `${serveRoot}/${stripExt(contentNodeName)}.html`;
+			const serveNodePath = `${serveDir}/${stripExt(contentNodeName)}.html`;
 			const frontMatter = yfm.loadFront(fs.readFileSync(contentNodePath, { encoding: 'UTF-8' }));
 			if (frontMatter.replicate) {
 				console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
 
 				// Write html
-				const templateArgs = { title: stripExt(contentNodeName), ...frontMatter };
-			    fs.writeFileSync(serveNodePath, template(templateArgs));
+				const templateArgs = {
+					title: stripExt(contentNodeName),
+					command: 'cat ' + contentNodePath.slice(contentRoot.length),
+					...frontMatter
+				};
+				fs.writeFileSync(serveNodePath, template(templateArgs));
 
 				// Keep track of file structure
 				const frontMatterOnly = { ...frontMatter };
 				delete frontMatterOnly.__content;
 				result.push({ [contentNodeName]: { frontMatter: frontMatterOnly, isFile: true } });
 				continue;
+			} else if (frontMatter.redirect) {
+				console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
+
+				// Write html
+				fs.writeFileSync(serveNodePath, template(frontMatter));
+
+				// skip tracking for this file
+				return {};
 			}
 		}
-		
 		console.log(`Skipping [${contentNodePath}]`);
 	}
 
@@ -92,7 +105,7 @@ const buildRecursive = (template, contentRoot, serveRoot) => {
 };
 
 (async () => {
-	const result = await buildRecursive(template, contentRoot, serveRoot);
+	const result = buildRecursive(template, contentRoot, serveRoot);
 	console.log('Writing meta.json...');
 	fs.writeFileSync(contentRoot + '/meta.json', JSON.stringify(result));
 	console.log('Done!');
