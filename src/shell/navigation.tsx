@@ -20,7 +20,9 @@ export const Links = ({ shell }: { shell: Shell }) => (
       permalink="/projects"
     />
     {'\u2002\u2002'}
-    <a href="/resources/assets/Resume.pdf" target="_blank">Resume</a>
+    <a href="/resources/assets/Resume.pdf" target="_blank">
+      Resume
+    </a>
     {'\u2002\u2002'}
     <a href="https://github.com/koreanwglasses" target="_blank">
       <i className="fab fa-github" />

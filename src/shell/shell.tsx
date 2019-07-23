@@ -12,6 +12,7 @@ import { Directory, Fs } from '../core/fs';
 import { Cd } from './cd';
 import { Ls } from './ls';
 import { Help } from './help';
+import { Clear } from './clear';
 
 const Prompt = React.forwardRef<HTMLSpanElement, { cwd: string }>(
   ({ cwd }, ref) => (
@@ -30,7 +31,9 @@ const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
   cd: (args: ShellScriptArgs) => new Cd(args),
   ls: (args: ShellScriptArgs) => new Ls(args),
   dir: (args: ShellScriptArgs) => new Ls(args),
-  help: (args: ShellScriptArgs) => new Help(args)
+  help: (args: ShellScriptArgs) => new Help(args),
+  clear: (args: ShellScriptArgs) => new Clear(args),
+  clr: (args: ShellScriptArgs) => new Clear(args)
 };
 
 export class Shell {
