@@ -82,6 +82,8 @@ export class Terminal {
 
   public cursor: TerminalCursor = new TerminalCursor();
 
+  public partyMode: boolean = false;
+
   constructor({ container }: { container: Element }) {
     this.container = container;
   }
@@ -129,6 +131,7 @@ export class Terminal {
         onInput={this.handleInput}
         onKeyDown={this.handleKeyDown}
         onClick={this.handleClick}
+        partyMode={this.partyMode}
       />,
       this.container
     );

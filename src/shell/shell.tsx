@@ -13,6 +13,7 @@ import { Cd } from './cd';
 import { Ls } from './ls';
 import { Help } from './help';
 import { Clear } from './clear';
+import { Party } from './party';
 
 const Prompt = React.forwardRef<HTMLSpanElement, { cwd: string }>(
   ({ cwd }, ref) => (
@@ -33,7 +34,8 @@ const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
   dir: (args: ShellScriptArgs) => new Ls(args),
   help: (args: ShellScriptArgs) => new Help(args),
   clear: (args: ShellScriptArgs) => new Clear(args),
-  clr: (args: ShellScriptArgs) => new Clear(args)
+  clr: (args: ShellScriptArgs) => new Clear(args),
+  party: (args: ShellScriptArgs) => new Party(args)
 };
 
 export class Shell {

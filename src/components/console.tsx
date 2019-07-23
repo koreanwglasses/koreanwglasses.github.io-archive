@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { sleep } from '../utils/async';
 import { isMobile } from '../utils/environment';
+import { DiscoBall } from './disco-ball';
 
 const noop = () => {};
 
@@ -9,6 +10,7 @@ interface ConsoleProps {
   onInput: React.FormEventHandler<HTMLInputElement>;
   onKeyDown: React.KeyboardEventHandler<HTMLDivElement>;
   onClick: React.MouseEventHandler<HTMLDivElement>;
+  partyMode: boolean;
 }
 
 /**
@@ -17,7 +19,9 @@ interface ConsoleProps {
 export class Console extends React.Component<ConsoleProps> {
   static defaultProps = {
     onInput: noop,
-    onKeyDown: noop
+    onKeyDown: noop,
+    onClick: noop,
+    partyMode: false
   };
 
   private input = React.createRef<HTMLInputElement>();
@@ -69,6 +73,7 @@ export class Console extends React.Component<ConsoleProps> {
             {this.props.contents}
           </div>
         </div>
+        {this.props.partyMode && <DiscoBall />}
       </>
     );
   }
