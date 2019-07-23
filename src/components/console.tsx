@@ -47,7 +47,6 @@ export class Console extends React.Component<ConsoleProps> {
   };
 
   render() {
-    // TODO: Allow copying
     return (
       <>
         <input

@@ -161,3 +161,7 @@
 .color-secondary-2-2 { color: #FF3131 }
 .color-secondary-2-3 { color: #D10000 }
 .color-secondary-2-4 { color: #830000 }
+
+/* Preload critical images */
+#preload-01 { background: url(/resources/assets/masthead1.png) no-repeat -9999px -9999px; }
+#preload-02 { background: url(/resources/assets/masthead2.png) no-repeat -9999px -9999px; }
