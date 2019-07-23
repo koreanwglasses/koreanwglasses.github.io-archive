@@ -14,7 +14,7 @@ You can follow this project [here](https://github.com/CSDTs/CSDT_Single_Page/tre
 
 ## Current Progress
 
-Dr. Ron Eglash, the professor who was overseeing CSDT has left RPI to teach a U Michigan. This project will likely have no more updates.
+Dr. Ron Eglash, the professor who was overseeing CSDT has left RPI to teach at U Michigan. This project will likely have no more updates.
 
 ---
 
