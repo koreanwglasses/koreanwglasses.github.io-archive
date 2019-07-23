@@ -4,7 +4,7 @@ module.exports = ({command, externals, title, mainScript}) =>
     <link rel="stylesheet" type="text/css" href="/resources/css/console.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/prism.css">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5" />
     <title>Fred Choi: ${title}</title>
 
     <script type="text/javascript" async
