@@ -78,6 +78,7 @@ export class Terminal {
     priority: number;
   }[] = [];
   private keyDownCallbacks: React.KeyboardEventHandler<HTMLDivElement>[] = [];
+  private clickCallbacks: React.MouseEventHandler<HTMLDivElement>[] = [];
 
   public cursor: TerminalCursor = new TerminalCursor();
 
@@ -105,6 +106,10 @@ export class Terminal {
     this.keyDownCallbacks.forEach(callback => callback(e));
   };
 
+  private handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    this.clickCallbacks.forEach(callback => callback(e));
+  };
+
   private prepareContents() {
     return insertLineBreaks(
       replaceSpaces(injectCursor(this.buffer, this.cursor.position))
@@ -123,6 +128,7 @@ export class Terminal {
         contents={this.prepareContents()}
         onInput={this.handleInput}
         onKeyDown={this.handleKeyDown}
+        onClick={this.handleClick}
       />,
       this.container
     );
@@ -137,10 +143,15 @@ export class Terminal {
     this.keyDownCallbacks.push(callback);
   }
 
+  onClick(callback: React.MouseEventHandler<HTMLDivElement>) {
+    this.clickCallbacks.push(callback);
+  }
+
   unregisterInputHandler(handler: TerminalInputHandler) {
     const index = this.inputCallbacks.findIndex(
       ({ callback }) => callback === handler
     );
+    if(index === -1) return;
     this.inputCallbacks.splice(index, 1);
   }
 
@@ -148,6 +159,13 @@ export class Terminal {
     handler: React.KeyboardEventHandler<HTMLInputElement>
   ) {
     const index = this.keyDownCallbacks.indexOf(handler);
+    if(index === -1) return;
     this.keyDownCallbacks.splice(index, 1);
+  }
+
+  unregisterClickEventHandler(handler: React.MouseEventHandler<HTMLDivElement>) {
+    const index = this.clickCallbacks.indexOf(handler);
+    if(index === -1) return;
+    this.clickCallbacks.splice(index, 1);
   }
 }

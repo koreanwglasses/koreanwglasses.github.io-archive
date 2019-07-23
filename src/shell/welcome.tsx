@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ShellScriptArgs, IOShellScript } from './shell-script';
 import { sleep } from '../utils/async';
-import { Navigation } from './navigation';
+import { Links, MainInfo } from './navigation';
 import { isMobile } from '../utils/environment';
 
 const welcomeMessage1 = 'Hello visitor.';
@@ -47,11 +47,17 @@ export class Welcome extends IOShellScript {
     super(args);
     args.shell.terminal.onKeyDown(this.handleInput);
     args.shell.terminal.onInput(this.handleInput);
+
+    (async() => {
+      await sleep(500);
+      args.shell.terminal.onClick(this.handleInput);
+    })();
   }
 
   destroy() {
     this.shell.terminal.unregisterInputHandler(this.handleInput);
     this.shell.terminal.unregisterKeyDownEventHandler(this.handleInput);
+    this.shell.terminal.unregisterClickEventHandler(this.handleInput);
   }
 
   handleInput = () => {
@@ -73,6 +79,10 @@ export class Welcome extends IOShellScript {
 
     this.shell.terminal.buffer.clear();
     this.shell.terminal.render();
+
+    if(isMobile()) {
+      this.write(<Links shell={this.shell} />);
+    }
 
     this.write(<span className="info">Press any key to skip intro</span>);
     this.write(<br />);
@@ -99,7 +109,13 @@ export class Welcome extends IOShellScript {
     this.write(<Masthead2 />);
     await this.wait(1000);
 
-    this.write(<Navigation shell={this.shell} />);
+    if(!isMobile()) {
+      this.write(<br/>);
+      this.write(<Links shell={this.shell} />);
+      this.write(<br/>);
+    }
+
+    this.write(<MainInfo />);
 
     await this.wait(500);
   }
