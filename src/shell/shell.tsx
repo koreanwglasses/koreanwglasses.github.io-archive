@@ -191,9 +191,9 @@ export class Shell {
     const args = this.lineBufferEditor.buffer.split(' ');
     if (!this.tabCompletions) {
       if (args.length === 1 && !(args[0] in scripts)) {
-        this.tabCompletions = Object.keys(scripts).filter(command =>
-          command.startsWith(args[0])
-        );
+        this.tabCompletions = Object.keys(scripts)
+          .filter(command => command.startsWith(args[0]))
+          .map(command => command + ' ');
         this.tabCompletionIndex = 0;
       } else if (args[0] in scripts) {
         this.tabCompletions = scripts[args[0]]({ shell: this }).tabCompletions(
