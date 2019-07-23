@@ -25,9 +25,10 @@ redirect ?
     ${externals}
 </head>
 <body>
-    <div id="root">This is a dynamic website that relies heavily on JavaScript 
+    <noscript>This is a dynamic website that relies heavily on JavaScript 
         for animations and interactivity. For the best experience, please enable
-        JavaScript in your browser</div>
+        JavaScript in your browser</noscript>
+    <div id="root"></div>
     ${mainScript}
     <div id="preload-01"/>
     <div id="preload-02"/>
