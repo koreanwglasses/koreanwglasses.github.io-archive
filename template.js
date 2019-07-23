@@ -18,6 +18,8 @@ module.exports = ({command, externals, title, mainScript}) =>
         for animations and interactivity. For the best experience, please enable
         JavaScript in your browser</div>
     ${mainScript}
+    <div id="preload-01"/>
+    <div id="preload-02"/>
     <script>
         window.onload = function() {
             TerminalApp.start(${command ? "'" + command + "'" : ""});
