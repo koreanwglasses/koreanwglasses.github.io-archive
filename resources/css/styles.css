@@ -1,4 +1,6 @@
 /* Global/Base Styles */
 body {
     margin: 0;
+    background: black;
+    color: white;
 }

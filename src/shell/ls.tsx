@@ -73,7 +73,7 @@ export class Ls extends ShellScript {
           'drw--r--r-- 1 (directory) ',
           <CommandLink
             label={node.name}
-            command={[`cd ${node.name}`, 'ls']}
+            command={[`cd ${node.path}`, 'ls']}
             shell={this.shell}
             permalink={node.path}
             special
@@ -88,7 +88,7 @@ export class Ls extends ShellScript {
           ' ',
           <CommandLink
             label={node.name}
-            command={`cat ${node.name}`}
+            command={`cat ${node.path}`}
             shell={this.shell}
             permalink={node.path.slice(0, node.path.lastIndexOf('.'))}
           />,
