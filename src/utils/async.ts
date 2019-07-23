@@ -52,6 +52,15 @@ export const readAll = async (stream: ReadableStream) => {
 };
 
 export const fetchText = async (uri: string) => {
+  if (
+    window.location.hostname.endsWith('fred-choi.com') &&
+    uri.startsWith('/')
+  ) {
+    uri =
+      'https://raw.githubusercontent.com/koreanwglasses/koreanwglasses.github.io/master' +
+      uri;
+  }
+
   const response = await fetch(uri);
   if (!response.ok) {
     throw response;

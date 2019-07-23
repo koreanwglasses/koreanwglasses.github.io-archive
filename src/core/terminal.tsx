@@ -169,7 +169,7 @@ export class Terminal {
     const index = this.inputCallbacks.findIndex(
       ({ callback }) => callback === handler
     );
-    if(index === -1) return;
+    if (index === -1) return;
     this.inputCallbacks.splice(index, 1);
   }
 
@@ -177,13 +177,15 @@ export class Terminal {
     handler: React.KeyboardEventHandler<HTMLInputElement>
   ) {
     const index = this.keyDownCallbacks.indexOf(handler);
-    if(index === -1) return;
+    if (index === -1) return;
     this.keyDownCallbacks.splice(index, 1);
   }
 
-  unregisterClickEventHandler(handler: React.MouseEventHandler<HTMLDivElement>) {
+  unregisterClickEventHandler(
+    handler: React.MouseEventHandler<HTMLDivElement>
+  ) {
     const index = this.clickCallbacks.indexOf(handler);
-    if(index === -1) return;
+    if (index === -1) return;
     this.clickCallbacks.splice(index, 1);
   }
 }
