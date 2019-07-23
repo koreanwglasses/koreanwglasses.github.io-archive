@@ -13,44 +13,7 @@
  * TODO: Insert a static rendering of the page as a fallback incase javascript is disabled
  */
 
-const fs_callback = require('fs');
-const fs = {
-	readdir: (path) =>
-		new Promise((resolve, reject) =>
-			fs_callback.readdir(path, (err, files) => {
-				if (err) reject(err);
-				resolve(files);
-			})
-		),
-	lstat: (path) =>
-		new Promise((resolve, reject) =>
-			fs_callback.lstat(path, (err, stats) => {
-				if (err) reject(err);
-				resolve(stats);
-			})
-		),
-	mkdir: (path, options) =>
-		new Promise((resolve, reject) =>
-			fs_callback.mkdir(path, options, (err) => {
-				if (err) reject(err);
-				resolve();
-			})
-		),
-	readFile: (path, options) =>
-		new Promise((resolve, reject) =>
-			fs_callback.readFile(path, options, (err, data) => {
-				if (err) reject(err);
-				resolve(data);
-			})
-		),
-	writeFile: (path, content) =>
-		new Promise((resolve, reject) =>
-			fs_callback.writeFile(path, content, (err) => {
-				if (err) reject(err);
-				resolve();
-			})
-		)
-};
+const fs = require('fs');
 
 const yfm = require('yaml-front-matter');
 const argv = require('minimist')(process.argv);
@@ -82,21 +45,21 @@ const getExt = (filename) => filename.slice(filename.lastIndexOf('.') + 1);
  * 
  * @returns {any} A summary of the structure traversed 
  */
-const buildRecursive = async (template, contentRoot, serveRoot) => {
+const buildRecursive = (template, contentRoot, serveRoot) => {
 	console.log(`Building [${contentRoot}] into [${serveRoot}]`);
-	const contentNodeNames = await fs.readdir(contentRoot);
+	const contentNodeNames = fs.readdirSync(contentRoot);
 	const result = [];
 	
 	for(const contentNodeName of contentNodeNames) {
 		const contentNodePath = contentRoot + '/' + contentNodeName;
-		const contentNodeStats = await fs.lstat(contentNodePath);
+		const contentNodeStats = fs.lstatSync(contentNodePath);
 
 		if (contentNodeStats.isDirectory()) {
 			// Recurse on directory
 			const serveNodePath = serveRoot + '/' + contentNodeName;
-			await fs.mkdir(serveNodePath, { recursive: true });
+		    fs.mkdirSync(serveNodePath, { recursive: true });
 			
-			const subResult = await buildRecursive(template, contentNodePath, serveNodePath);
+			const subResult = buildRecursive(template, contentNodePath, serveNodePath);
 			result.push({ [contentNodeName]: { contents: subResult, isDirectory: true } });
 			continue;
 		}
@@ -104,13 +67,13 @@ const buildRecursive = async (template, contentRoot, serveRoot) => {
 		if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
 			// Generate and write file
 			const serveNodePath = `${serveRoot}/${stripExt(contentNodeName)}.html`;
-			const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, { encoding: 'UTF-8' }));
+			const frontMatter = yfm.loadFront(fs.readFileSync(contentNodePath, { encoding: 'UTF-8' }));
 			if (frontMatter.replicate) {
 				console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
 
 				// Write html
 				const templateArgs = { title: stripExt(contentNodeName), ...frontMatter };
-				await fs.writeFile(serveNodePath, template(templateArgs));
+			    fs.writeFileSync(serveNodePath, template(templateArgs));
 
 				// Keep track of file structure
 				const frontMatterOnly = { ...frontMatter };
@@ -131,6 +94,6 @@ const buildRecursive = async (template, contentRoot, serveRoot) => {
 (async () => {
 	const result = await buildRecursive(template, contentRoot, serveRoot);
 	console.log('Writing meta.json...');
-	await fs.writeFile(contentRoot + '/meta.json', JSON.stringify(result));
+	fs.writeFileSync(contentRoot + '/meta.json', JSON.stringify(result));
 	console.log('Done!');
 })();
