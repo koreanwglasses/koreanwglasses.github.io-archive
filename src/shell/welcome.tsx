@@ -48,7 +48,7 @@ export class Welcome extends IOShellScript {
     args.shell.terminal.onKeyDown(this.handleInput);
     args.shell.terminal.onInput(this.handleInput);
 
-    (async() => {
+    (async () => {
       await sleep(500);
       args.shell.terminal.onClick(this.handleInput);
     })();
@@ -80,7 +80,7 @@ export class Welcome extends IOShellScript {
     this.shell.terminal.buffer.clear();
     this.shell.terminal.render();
 
-    if(isMobile()) {
+    if (isMobile()) {
       this.write(<Links shell={this.shell} />);
     }
 
@@ -109,10 +109,10 @@ export class Welcome extends IOShellScript {
     this.write(<Masthead2 />);
     await this.wait(1000);
 
-    if(!isMobile()) {
-      this.write(<br/>);
+    if (!isMobile()) {
+      this.write(<br />);
       this.write(<Links shell={this.shell} />);
-      this.write(<br/>);
+      this.write(<br />);
     }
 
     this.write(<MainInfo />);

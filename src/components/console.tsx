@@ -64,7 +64,11 @@ export class Console extends React.Component<ConsoleProps> {
           onClick={this.props.onClick}
           tabIndex={0}
         >
-          <div className={"console " + (isMobile() ? 'extra-padding-bottom' : '')}>{this.props.contents}</div>
+          <div
+            className={'console ' + (isMobile() ? 'extra-padding-bottom' : '')}
+          >
+            {this.props.contents}
+          </div>
         </div>
       </>
     );
