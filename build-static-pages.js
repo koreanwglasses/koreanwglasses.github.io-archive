@@ -85,57 +85,56 @@ const getExt = (filename) => filename.slice(filename.lastIndexOf('.') + 1);
 const buildRecursive = async (template, contentDir, serveDir) => {
 	console.log(`Building [${contentDir}] into [${serveDir}]`);
 	const contentNodeNames = await fs.readdir(contentDir);
-	const result = await Promise.all(
-		contentNodeNames.map((contentNodeName) =>
-			(async () => {
-				const contentNodePath = contentDir + '/' + contentNodeName;
-				const contentNodeStats = await fs.lstat(contentNodePath);
+	const result = [];
 
-				if (contentNodeStats.isDirectory()) {
-					// Recurse on directory
-					const serveNodePath = serveDir + '/' + contentNodeName;
-					await fs.mkdir(serveNodePath, { recursive: true });
-					const result = await buildRecursive(template, contentNodePath, serveNodePath);
-					if(Object.keys(result).length > 0) {
-						return { [contentNodeName]: { contents: result, isDirectory: true } };
-					}
-				}
+	for (const contentNodeName of contentNodeNames) {
+		const contentNodePath = contentDir + '/' + contentNodeName;
+		const contentNodeStats = await fs.lstat(contentNodePath);
 
-				if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
-					// Generate and write file
-					const serveNodePath = `${serveDir}/${stripExt(contentNodeName)}.html`;
-					const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, { encoding: 'UTF-8' }));
-					if (frontMatter.replicate) {
-						console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
+		if (contentNodeStats.isDirectory()) {
+			// Recurse on directory
+			const serveNodePath = serveDir + '/' + contentNodeName;
+			await fs.mkdir(serveNodePath, { recursive: true });
 
-						// Write html
-						const templateArgs = { 
-							title: stripExt(contentNodeName),
-							command: 'cat ' + contentNodePath.slice(contentRoot.length),
-							...frontMatter
-						};
-						await fs.writeFile(serveNodePath, template(templateArgs));
+			const subResult = await buildRecursive(template, contentNodePath, serveNodePath);
+			if (Object.keys(subResult).length > 0) {
+				result.push({ [contentNodeName]: { contents: subResult, isDirectory: true } });
+			}
+			continue;
+		}
 
-						// Keep track of file structure
-						const frontMatterOnly = { ...frontMatter };
-						delete frontMatterOnly.__content;
-						return { [contentNodeName]: { frontMatter: frontMatterOnly, isFile: true } };
-					} else if (frontMatter.redirect) {
-						console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
+		if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
+			// Generate and write file
+			const serveNodePath = `${serveDir}/${stripExt(contentNodeName)}.html`;
+			const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, { encoding: 'UTF-8' }));
+			if (frontMatter.replicate) {
+				console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
 
-						// Write html
-						await fs.writeFile(serveNodePath, template(frontMatter));
+				// Write html
+				const templateArgs = {
+					title: stripExt(contentNodeName),
+					command: 'cat ' + contentNodePath.slice(contentRoot.length),
+					...frontMatter
+				};
+				await fs.writeFile(serveNodePath, template(templateArgs));
 
-						// skip tracking for this file
-						return {};
-					}
-				}
+				// Keep track of file structure
+				const frontMatterOnly = { ...frontMatter };
+				delete frontMatterOnly.__content;
+				result.push({ [contentNodeName]: { frontMatter: frontMatterOnly, isFile: true } });
+				continue;
+			} else if (frontMatter.redirect) {
+				console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
 
-				console.log(`Skipping [${contentNodePath}]`);
+				// Write html
+				await fs.writeFile(serveNodePath, template(frontMatter));
+
+				// skip tracking for this file
 				return {};
-			})()
-		)
-	);
+			}
+		}
+		console.log(`Skipping [${contentNodePath}]`);
+	}
 
 	return result.reduce((prev, cur) => {
 		return { ...prev, ...cur };
