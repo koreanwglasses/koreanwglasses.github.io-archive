@@ -8,12 +8,15 @@ const fileExt = (filename: string) =>
   filename.slice(filename.lastIndexOf('.') + 1);
 
 export class Cat extends ShellScript {
-  // tabCompletions(currentBuffer: string) {
-  //   const args = currentBuffer.split(' ');
-  //   const start = args[1] || '';
-    
-  //   const files = 
-  // }
+  tabCompletions(currentBuffer: string) {
+    const args = currentBuffer.split(' ');
+    const start = args[1] || '';
+
+    const files = start.startsWith('/')
+      ? this.shell.fs.root.tree({ filesOnly: true })
+      : this.shell.cwd.tree({ filesOnly: true });
+    return files.filter(file => file.startsWith(start));
+  }
 
   destroy() {}
 

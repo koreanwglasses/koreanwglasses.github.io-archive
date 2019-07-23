@@ -12,7 +12,9 @@ export abstract class ShellScript {
 
   abstract main(args: string[]): void | Promise<void>;
 
-  tabCompletions(currentBuffer: string): string[] { return []; }
+  tabCompletions(currentBuffer: string): string[] {
+    return [];
+  }
 }
 
 export abstract class IOShellScript extends ShellScript {
