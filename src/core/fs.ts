@@ -76,6 +76,33 @@ export class Directory extends Node {
     return this.nodes;
   }
 
+  // Returns a list of all paths and subpaths in this directory
+  tree(args?: {
+    filesOnly?: boolean;
+    directoriesOnly?: boolean;
+    relative?: boolean;
+  }): string[] {
+    const { filesOnly = false, directoriesOnly = false, relative = true } =
+      args || {};
+
+    const paths = [];
+    for (const node of this.nodes) {
+      if (node instanceof Directory) {
+        if (!filesOnly) {
+          paths.push(node.path);
+        }
+        paths.push(
+          ...node.tree({ filesOnly, directoriesOnly, relative: false })
+        );
+      } else if (!directoriesOnly) {
+        paths.push(node.path);
+      }
+    }
+    return relative
+      ? paths.map(path => path.slice(this.path.length + 1))
+      : paths;
+  }
+
   /**
    * @param relativePath
    * @throws NoSuchFileOrDirectoryError, NotADirectoryError

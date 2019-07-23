@@ -57,6 +57,9 @@ export class Shell {
   private promptRefs: HTMLSpanElement[] = [];
   private willKeepCommandInView: boolean;
 
+  private tabCompletions: string[] = null;
+  private tabCompletionIndex = 0;
+
   constructor({ terminal, dev }: { terminal: Terminal; dev?: boolean }) {
     this.terminal = terminal;
     this.terminal.onKeyDown(this.handleKeydown);
@@ -125,11 +128,6 @@ export class Shell {
         await result;
       }
 
-      const destroy = this.runningScript.destroy();
-      if (destroy instanceof Promise) {
-        await destroy;
-      }
-
       this.runningScript = null;
     } else if (command !== '') {
       await sleep(100);
@@ -150,6 +148,12 @@ export class Shell {
         break;
       case 'ArrowDown':
         this.historyForward();
+        break;
+      case 'Tab':
+        this.nextCompletion();
+        break;
+      default:
+        this.tabCompletions = null;
         break;
     }
   };
@@ -177,6 +181,36 @@ export class Shell {
       }
       this.lineBufferEditor.cursorPos = this.lineBufferEditor.buffer.length;
       this.lineBufferEditor.update();
+    }
+  }
+
+  private nextCompletion() {
+    const args = this.lineBufferEditor.buffer.split(' ');
+    if (!this.tabCompletions) {
+      if (args.length === 1 && !(args[0] in scripts)) {
+        this.tabCompletions = Object.keys(scripts).filter(command =>
+          command.startsWith(args[0])
+        );
+        this.tabCompletionIndex = 0;
+      } else if (args[0] in scripts) {
+        this.tabCompletions = scripts[args[0]]({ shell: this }).tabCompletions(
+          this.lineBufferEditor.buffer
+        );
+        this.tabCompletionIndex = 0;
+      } else {
+        this.tabCompletions = [];
+      }
+    }
+
+    if (this.tabCompletions.length > 0) {
+      this.lineBufferEditor.buffer = this.tabCompletions[
+        this.tabCompletionIndex
+      ];
+      this.lineBufferEditor.cursorPos = this.lineBufferEditor.buffer.length;
+      this.lineBufferEditor.update();
+
+      this.tabCompletionIndex =
+        (this.tabCompletionIndex + 1) % this.tabCompletions.length;
     }
   }
 

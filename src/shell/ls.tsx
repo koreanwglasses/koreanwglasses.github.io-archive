@@ -41,8 +41,6 @@ const compareNodes = (a: Node, b: Node): number => {
 };
 
 export class Ls extends ShellScript {
-  destroy() {}
-
   private handleWarning(message: string) {
     this.shell.terminal.buffer.push(
       <span className="color-secondary-1-0">{'warning: ' + message}</span>,

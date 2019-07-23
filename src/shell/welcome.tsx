@@ -43,23 +43,6 @@ const Masthead2 = () =>
 export class Welcome extends IOShellScript {
   private skip = false;
 
-  constructor(args: ShellScriptArgs) {
-    super(args);
-    args.shell.terminal.onKeyDown(this.handleInput);
-    args.shell.terminal.onInput(this.handleInput);
-
-    (async () => {
-      await sleep(500);
-      args.shell.terminal.onClick(this.handleInput);
-    })();
-  }
-
-  destroy() {
-    this.shell.terminal.unregisterInputHandler(this.handleInput);
-    this.shell.terminal.unregisterKeyDownEventHandler(this.handleInput);
-    this.shell.terminal.unregisterClickEventHandler(this.handleInput);
-  }
-
   handleInput = () => {
     this.skip = true;
     return true;
@@ -75,6 +58,14 @@ export class Welcome extends IOShellScript {
   }
 
   async main(args: string[]) {
+    this.shell.terminal.onKeyDown(this.handleInput);
+    this.shell.terminal.onInput(this.handleInput);
+
+    (async () => {
+      await sleep(500);
+      this.shell.terminal.onClick(this.handleInput);
+    })();
+
     if (args.length > 1 && args[1] === '--skip-intro') this.skip = true;
 
     this.shell.terminal.buffer.clear();
@@ -118,5 +109,9 @@ export class Welcome extends IOShellScript {
     this.write(<MainInfo />);
 
     await this.wait(500);
+
+    this.shell.terminal.unregisterInputHandler(this.handleInput);
+    this.shell.terminal.unregisterKeyDownEventHandler(this.handleInput);
+    this.shell.terminal.unregisterClickEventHandler(this.handleInput);
   }
 }
