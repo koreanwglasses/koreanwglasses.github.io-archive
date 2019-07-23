@@ -8,6 +8,13 @@ const fileExt = (filename: string) =>
   filename.slice(filename.lastIndexOf('.') + 1);
 
 export class Cat extends ShellScript {
+  // tabCompletions(currentBuffer: string) {
+  //   const args = currentBuffer.split(' ');
+  //   const start = args[1] || '';
+    
+  //   const files = 
+  // }
+
   destroy() {}
 
   private handleError(message: string) {

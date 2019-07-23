@@ -17,6 +17,7 @@ export const start = async (command?: string) => {
   terminal.console.current.focus();
 
   await shell.init();
+  console.log(shell.fs.root.tree());
   if (!command) {
     await shell.run('welcome');
   } else {

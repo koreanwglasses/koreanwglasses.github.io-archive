@@ -11,6 +11,8 @@ export abstract class ShellScript {
   abstract destroy(): void | Promise<void>;
 
   abstract main(args: string[]): void | Promise<void>;
+
+  tabCompletions(currentBuffer: string): string[] { return []; }
 }
 
 export abstract class IOShellScript extends ShellScript {
