@@ -11,6 +11,7 @@ import { Cat } from './cat';
 import { Directory, Fs } from '../core/fs';
 import { Cd } from './cd';
 import { Ls } from './ls';
+import { Help } from './help';
 
 const Prompt = React.forwardRef<HTMLSpanElement, { cwd: string }>(
   ({ cwd }, ref) => (
@@ -27,7 +28,9 @@ const scripts: { [command: string]: (args: ShellScriptArgs) => ShellScript } = {
   welcome: (args: ShellScriptArgs) => new Welcome(args),
   cat: (args: ShellScriptArgs) => new Cat(args),
   cd: (args: ShellScriptArgs) => new Cd(args),
-  ls: (args: ShellScriptArgs) => new Ls(args)
+  ls: (args: ShellScriptArgs) => new Ls(args),
+  dir: (args: ShellScriptArgs) => new Ls(args),
+  help: (args: ShellScriptArgs) => new Help(args)
 };
 
 export class Shell {
@@ -67,18 +70,17 @@ export class Shell {
   private handleFlush = (e: LineBufferEditorFlushEvent) => {
     this.historyLine = 0;
 
-    this.terminal.buffer.push(<br />);
-
     const buffer = e.target.buffer;
     this.lineBufferEditor.reset();
-
-    this.terminal.render();
 
     if (
       !this.runningScript ||
       !(this.runningScript instanceof IOShellScript) ||
       !this.runningScript.handleInput(buffer)
     ) {
+      this.lineBufferEditor.hide();
+      this.terminal.buffer.push(<br />);
+      this.terminal.render();
       this.processingQueue.push(buffer);
     }
   };
@@ -95,14 +97,13 @@ export class Shell {
 
     if (this.willKeepCommandInView && this.promptRefs[this.promptRefs.length - 2]) {
       this.promptRefs[this.promptRefs.length - 2].scrollIntoView();
+      this.willKeepCommandInView = false;
     }
   }
 
   // TODO: update url to last command run
 
   private async processLine(line: string) {
-    this.lineBufferEditor.hide();
-
     // Multiple commands
     if (line.indexOf(';') !== -1) {
       this.processingQueue.push(...line.split(';'));

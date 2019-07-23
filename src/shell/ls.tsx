@@ -43,7 +43,19 @@ const compareNodes = (a: Node, b: Node): number => {
 export class Ls extends ShellScript {
   destroy() {}
 
+  private handleWarning(message: string) {
+    this.shell.terminal.buffer.push(
+      <span className="color-secondary-1-0">{'warning: ' + message}</span>,
+      <br />
+    );
+    this.shell.terminal.render();
+  }
+
   main(args: string[]): void | Promise<void> {
+    if (args.length > 1) {
+      this.handleWarning('arguments not currently supported');
+    }
+
     const buffer = this.shell.terminal.buffer;
     buffer.push(
       <span className="info">

@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { ShellScript, ShellScriptArgs, IOShellScript } from './shell-script';
+import { ShellScriptArgs, IOShellScript } from './shell-script';
 import { sleep } from '../utils/async';
-import { Navigation } from './navigation';
+import { Links, MainInfo } from './navigation';
+import { isMobile } from '../utils/environment';
 
 const welcomeMessage1 = 'Hello visitor.';
 const welcomeMessage2 = ' Welcome to fred-choi.com!';
 
-const masthead1 =
+const masthead1Text =
   '\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u00A0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2557\u00A0\u2588\u2588\u2557\n' +
   '\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2554\u255D\u2588\u2588\u2554\u255D\n' +
   '\u2588\u2588\u2588\u2588\u2588\u2557\u00A0\u00A0\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D\u2588\u2588\u2588\u2588\u2588\u2557\u00A0\u00A0\u2588\u2588\u2551\u00A0\u00A0\u2588\u2588\u2551\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2554\u255D\u2588\u2588\u2554\u255D\u00A0\n' +
@@ -14,7 +15,7 @@ const masthead1 =
   '\u2588\u2588\u2551\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2551\u00A0\u00A0\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D\u00A0\u00A0\u00A0\u00A0\u00A0\u255A\u2588\u2588\u2557\u255A\u2588\u2588\u2557\n' +
   '\u255A\u2550\u255D\u00A0\u00A0\u00A0\u00A0\u00A0\u255A\u2550\u255D\u00A0\u00A0\u255A\u2550\u255D\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u255D\u255A\u2550\u2550\u2550\u2550\u2550\u255D\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u255A\u2550\u255D\u00A0\u255A\u2550\u255D\n';
 
-const masthead2 =
+const masthead2Text =
   '\u2588\u2588\u2557\u00A0\u2588\u2588\u2557\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557\u00A0\u00A0\u2588\u2588\u2557\u00A0\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u00A0\u2588\u2588\u2557\n' +
   '\u255A\u2588\u2588\u2557\u255A\u2588\u2588\u2557\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2551\u00A0\u00A0\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2551\n' +
   '\u00A0\u255A\u2588\u2588\u2557\u255A\u2588\u2588\u2557\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2551\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551\u00A0\u00A0\u00A0\u2588\u2588\u2551\u2588\u2588\u2551\n' +
@@ -22,21 +23,44 @@ const masthead2 =
   '\u2588\u2588\u2554\u255D\u2588\u2588\u2554\u255D\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u00A0\u00A0\u2588\u2588\u2551\u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D\u2588\u2588\u2551\n' +
   '\u255A\u2550\u255D\u00A0\u255A\u2550\u255D\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u255A\u2550\u2550\u2550\u2550\u2550\u255D\u255A\u2550\u255D\u00A0\u00A0\u255A\u2550\u255D\u00A0\u255A\u2550\u2550\u2550\u2550\u2550\u255D\u00A0\u255A\u2550\u255D\n';
 
-export class Welcome extends ShellScript {
+const insertBreaks = (text: string) =>
+  text.split(/(\n)/g).map(value => (value === '\n' ? <br /> : value));
+
+const Masthead1 = () =>
+  isMobile() ? (
+    <img src="/resources/assets/masthead1.png" className="masthead-image" />
+  ) : (
+    <div>{insertBreaks(masthead1Text)}</div>
+  );
+
+const Masthead2 = () =>
+  isMobile() ? (
+    <img src="/resources/assets/masthead2.png" className="masthead-image" />
+  ) : (
+    <div>{insertBreaks(masthead2Text)}</div>
+  );
+
+export class Welcome extends IOShellScript {
   private skip = false;
 
   constructor(args: ShellScriptArgs) {
     super(args);
-    args.shell.terminal.onKeyDown(this.handleSkip);
-    args.shell.terminal.onInput(this.handleSkip);
+    args.shell.terminal.onKeyDown(this.handleInput);
+    args.shell.terminal.onInput(this.handleInput);
+
+    (async() => {
+      await sleep(500);
+      args.shell.terminal.onClick(this.handleInput);
+    })();
   }
 
   destroy() {
-    this.shell.terminal.unregisterInputHandler(this.handleSkip);
-    this.shell.terminal.unregisterKeyDownEventHandler(this.handleSkip);
+    this.shell.terminal.unregisterInputHandler(this.handleInput);
+    this.shell.terminal.unregisterKeyDownEventHandler(this.handleInput);
+    this.shell.terminal.unregisterClickEventHandler(this.handleInput);
   }
 
-  private handleSkip = () => {
+  handleInput = () => {
     this.skip = true;
     return true;
   };
@@ -55,6 +79,10 @@ export class Welcome extends ShellScript {
 
     this.shell.terminal.buffer.clear();
     this.shell.terminal.render();
+
+    if(isMobile()) {
+      this.write(<Links shell={this.shell} />);
+    }
 
     this.write(<span className="info">Press any key to skip intro</span>);
     this.write(<br />);
@@ -76,12 +104,18 @@ export class Welcome extends ShellScript {
     await this.wait(100);
     this.write('\n');
     await this.wait(500);
-    this.write(masthead1);
+    this.write(<Masthead1 />);
     await this.wait(500);
-    this.write(masthead2);
+    this.write(<Masthead2 />);
     await this.wait(1000);
 
-    this.write(<Navigation shell={this.shell} />);
+    if(!isMobile()) {
+      this.write(<br/>);
+      this.write(<Links shell={this.shell} />);
+      this.write(<br/>);
+    }
+
+    this.write(<MainInfo />);
 
     await this.wait(500);
   }

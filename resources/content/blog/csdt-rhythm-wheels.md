@@ -12,7 +12,7 @@ You can find the repository for this project here -> https://github.com/CSnap/CS
 
 \~\~\~ Latest Info \~\~\~
 
-Dr. Ron Eglash, the professor who was overseeing CSDT has left RPI to teach a U Michigan. This project will likely have no more updates.
+Dr. Ron Eglash, the professor who was overseeing CSDT has left RPI to teach at U Michigan. This project will likely have no more updates.
 
 \~\~\~ Previous Updates \~\~\~
 

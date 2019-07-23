@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Shell, CommandLink } from './shell';
+import { isMobile } from '../utils/environment';
 
-const Links = ({ shell }: { shell: Shell }) => (
-  <>
+export const Links = ({ shell }: { shell: Shell }) => (
+  <div className={isMobile() ? "sticky" : ""}>
     <CommandLink label="Home" command="welcome" shell={shell} permalink="/" />
     {'\u2002\u2002'}
     <CommandLink
@@ -13,8 +14,15 @@ const Links = ({ shell }: { shell: Shell }) => (
     />
     {'\u2002\u2002'}
     <CommandLink
+      label="Projects"
+      command={['cd /projects', 'ls']}
+      shell={shell}
+      permalink="/projects"
+    />
+    {'\u2002\u2002'}
+    <CommandLink
       label="Blog"
-      command={['cd blog', 'ls']}
+      command={['cd /blog', 'ls']}
       shell={shell}
       permalink="/blog"
     />
@@ -28,14 +36,11 @@ const Links = ({ shell }: { shell: Shell }) => (
     <a href="https://www.linkedin.com/in/fred-choi">
       <i className="fab fa-linkedin" />
     </a>
-  </>
+  </div>
 );
 
-export const Navigation = ({ shell }: { shell: Shell }) => (
+export const MainInfo = () => 
   <>
-    <br />
-    <Links shell={shell} />
-    <br />
     <br />
     <span className="info">
       Navigate using the links above, or type in a command below!
@@ -46,5 +51,4 @@ export const Navigation = ({ shell }: { shell: Shell }) => (
     </span>
     <br />
     <br />
-  </>
-);
+    </>

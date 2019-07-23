@@ -14,6 +14,7 @@ export const start = async (command?: string, renderStatic?: boolean, dev?: bool
   const terminal = new Terminal({ container: renderStatic ? null : document.getElementById('root'), renderStatic });
   const shell = new Shell({ terminal, dev });
   terminal.render();
+  terminal.console.current.focus();
 
   await shell.init();
   if (!command) {
