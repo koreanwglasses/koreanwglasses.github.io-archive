@@ -1,6 +1,5 @@
 ---
 replicate: true
-command: "cat /projects/physik.md"
 date: 22 Jul 2019
 ---
 

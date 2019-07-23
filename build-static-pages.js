@@ -77,45 +77,60 @@ const getExt = (filename) => filename.slice(filename.lastIndexOf('.') + 1);
  * with the template. 
  * 
  * @param {(props: any) => string} template
- * @param {string} contentRoot 
- * @param {string} serveRoot 
+ * @param {string} contentDir 
+ * @param {string} serveDir 
  * 
  * @returns {any} A summary of the structure traversed 
  */
-const buildRecursive = async (template, contentRoot, serveRoot) => {
-	console.log(`Building [${contentRoot}] into [${serveRoot}]`);
-	const contentNodeNames = await fs.readdir(contentRoot);
+const buildRecursive = async (template, contentDir, serveDir) => {
+	console.log(`Building [${contentDir}] into [${serveDir}]`);
+	const contentNodeNames = await fs.readdir(contentDir);
 	const result = await Promise.all(
 		contentNodeNames.map((contentNodeName) =>
 			(async () => {
-				const contentNodePath = contentRoot + '/' + contentNodeName;
+				const contentNodePath = contentDir + '/' + contentNodeName;
 				const contentNodeStats = await fs.lstat(contentNodePath);
 
 				if (contentNodeStats.isDirectory()) {
 					// Recurse on directory
-					const serveNodePath = serveRoot + '/' + contentNodeName;
+					const serveNodePath = serveDir + '/' + contentNodeName;
 					await fs.mkdir(serveNodePath, { recursive: true });
 					const result = await buildRecursive(template, contentNodePath, serveNodePath);
-					return { [contentNodeName]: { contents: result, isDirectory: true } };
+					if(Object.keys(result).length > 0) {
+						return { [contentNodeName]: { contents: result, isDirectory: true } };
+					}
 				}
 
 				if (contentNodeStats.isFile() && getExt(contentNodeName) === 'md') {
 					// Generate and write file
-					const serveNodePath = `${serveRoot}/${stripExt(contentNodeName)}.html`;
+					const serveNodePath = `${serveDir}/${stripExt(contentNodeName)}.html`;
 					const frontMatter = yfm.loadFront(await fs.readFile(contentNodePath, { encoding: 'UTF-8' }));
 					if (frontMatter.replicate) {
 						console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
 
 						// Write html
-						const templateArgs = { title: stripExt(contentNodeName), ...frontMatter };
+						const templateArgs = { 
+							title: stripExt(contentNodeName),
+							command: 'cat ' + contentNodePath.slice(contentRoot.length),
+							...frontMatter
+						};
 						await fs.writeFile(serveNodePath, template(templateArgs));
 
 						// Keep track of file structure
 						const frontMatterOnly = { ...frontMatter };
 						delete frontMatterOnly.__content;
 						return { [contentNodeName]: { frontMatter: frontMatterOnly, isFile: true } };
+					} else if (frontMatter.redirect) {
+						console.log(`Building [${contentNodePath}] into [${serveNodePath}]`);
+
+						// Write html
+						await fs.writeFile(serveNodePath, template(frontMatter));
+
+						// skip tracking for this file
+						return {};
 					}
 				}
+
 				console.log(`Skipping [${contentNodePath}]`);
 				return {};
 			})()
