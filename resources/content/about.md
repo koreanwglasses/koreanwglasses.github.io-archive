@@ -23,4 +23,4 @@ Navigate this website by typing in commands, or by using the orange links. Try t
 
 * I first started programming in 7th grade. Well, I tried to follow a tutorial on how to make a video game, but did not really understood how anything worked. I picked up programming again two years after reading about the RSA algorithm, which I implemented for myself in C#. 
 
-* My favorite composer is Bach (of course), then a toss-up between Schubert, Beethoven, Mendelssohn, Balakirev, Borodin, Rimsky-Korsakov, ...(every romantic romposer)
+* My favorite composer is Bach (of course), then a toss-up between Schubert, Beethoven, Mendelssohn, Balakirev, Borodin, Rimsky-Korsakov, ...(every romantic composer)
