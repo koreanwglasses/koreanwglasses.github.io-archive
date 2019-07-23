@@ -20,13 +20,6 @@ export const Links = ({ shell }: { shell: Shell }) => (
       permalink="/projects"
     />
     {'\u2002\u2002'}
-    <CommandLink
-      label="Blog"
-      command={['cd /blog', 'ls']}
-      shell={shell}
-      permalink="/blog"
-    />
-    {'\u2002\u2002'}
     <a href="/resources/assets/Resume.pdf">Resume</a>
     {'\u2002\u2002'}
     <a href="https://github.com/koreanwglasses">

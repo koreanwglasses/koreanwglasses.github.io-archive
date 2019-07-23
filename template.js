@@ -1,10 +1,21 @@
-module.exports = ({command, externals, title, mainScript}) =>
+module.exports = ({command, externals, title, mainScript, redirect}) =>
+redirect ? 
+`<head>
+    <title>Redirecting...</title>
+</head>
+<body>
+    This page has been moved to ${redirect}. Redirecting...
+    <script>
+        window.location = '${redirect}'
+    </script>
+</body>
+` :
 `<head>
     <link rel="stylesheet" type="text/css" href="/resources/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/console.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/prism.css">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5" />
     <title>Fred Choi: ${title}</title>
 
     <script type="text/javascript" async
@@ -14,10 +25,13 @@ module.exports = ({command, externals, title, mainScript}) =>
     ${externals}
 </head>
 <body>
-    <div id="root">This is a dynamic website that relies heavily on JavaScript 
+    <noscript>This is a dynamic website that relies heavily on JavaScript 
         for animations and interactivity. For the best experience, please enable
-        JavaScript in your browser</div>
+        JavaScript in your browser</noscript>
+    <div id="root"></div>
     ${mainScript}
+    <div id="preload-01"/>
+    <div id="preload-02"/>
     <script>
         window.onload = function() {
             TerminalApp.start(${command ? "'" + command + "'" : ""});

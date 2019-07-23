@@ -1,3 +1,4 @@
 ---
+command: ''
 replicate: true
 ---
