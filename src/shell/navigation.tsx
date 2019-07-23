@@ -3,7 +3,7 @@ import { Shell, CommandLink } from './shell';
 import { isMobile } from '../utils/environment';
 
 export const Links = ({ shell }: { shell: Shell }) => (
-  <div className={isMobile() ? "sticky" : ""}>
+  <div className={isMobile() ? 'sticky' : ''}>
     <CommandLink label="Home" command="welcome" shell={shell} permalink="/" />
     {'\u2002\u2002'}
     <CommandLink
@@ -39,7 +39,7 @@ export const Links = ({ shell }: { shell: Shell }) => (
   </div>
 );
 
-export const MainInfo = () => 
+export const MainInfo = () => (
   <>
     <br />
     <span className="info">
@@ -51,4 +51,5 @@ export const MainInfo = () =>
     </span>
     <br />
     <br />
-    </>
+  </>
+);
