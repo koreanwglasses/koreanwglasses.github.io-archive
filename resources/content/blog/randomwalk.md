@@ -5,7 +5,7 @@ command: 'cat blog/randomwalk.md'
 
 _Before 2016_
 
-While playing around on WolframAlpha, I discovered that it could generate non-self-intersecting random walks on a 2D lattice. However, it would always stop when it came to a dead end. Unsatisfied with this, I decided to write my own algorithm do generate arbitrarily long self-avoiding random walks using algorithms such as backtracking. However, simple backtracking would take forever to realize that the walf had already closed itself off, so I continued to tinker until I found what is described below: a loop checking/self-avoiding random walk generator that runs in polynomial time (with respect to path length).
+While playing around on WolframAlpha, I discovered that it could generate non-self-intersecting random walks on a 2D lattice. However, it would always stop when it came to a dead end. Unsatisfied with this, I decided to write my own algorithm do generate arbitrarily long self-avoiding random walks using algorithms such as backtracking. However, simple backtracking would take forever to realize that the walk had already closed itself off, so I continued to tinker until I found what is described below: a loop checking/self-avoiding random walk generator that runs in polynomial time (with respect to path length).
 
 <img src="/assets/ndre/flat-torus.PNG" width="40%" alt="Flat Torus">
 
