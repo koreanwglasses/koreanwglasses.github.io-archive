@@ -10,7 +10,6 @@ const partyStartMessages = [
 
 const partyEndMessages = [
   "Party's over!\n",
-  "You don't have to go home, but you can't stay here!\n"
 ];
 
 export class Party extends ShellScript {
