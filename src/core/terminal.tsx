@@ -82,6 +82,7 @@ export class Terminal {
   private clickCallbacks: React.MouseEventHandler<HTMLDivElement>[] = [];
 
   public cursor: TerminalCursor = new TerminalCursor();
+  public partyMode: boolean = false;
 
   readonly renderStatic: boolean;
   private staticMarkup_: string;
@@ -139,6 +140,7 @@ export class Terminal {
           onInput={this.handleInput}
           onKeyDown={this.handleKeyDown}
           onClick={this.handleClick}
+          partyMode={this.partyMode}
         />,
         this.container
       );

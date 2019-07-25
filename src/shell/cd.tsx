@@ -2,7 +2,17 @@ import { ShellScript } from './shell-script';
 import { Fs, Directory } from '../core/fs';
 
 export class Cd extends ShellScript {
-  destroy() {}
+  tabCompletions(currentBuffer: string) {
+    const args = currentBuffer.split(' ');
+    const start = args[1] || '';
+
+    const files = start.startsWith('/')
+      ? this.shell.fs.root.tree({ directoriesOnly: true })
+      : this.shell.cwd.tree({ directoriesOnly: true });
+    return files
+      .filter(file => file.startsWith(start))
+      .map(file => args[0] + ' ' + file);
+  }
 
   handleError(message: string) {
     this.shell.terminal.buffer.push(`~bash: cd: ${message}\n`);

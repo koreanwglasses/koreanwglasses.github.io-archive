@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Code New Roman'; /*a name to be used later*/
+    src: url('/resources/assets/Code New Roman.otf'); /*URL to font*/
+}
+
 .console-container {
   height: 100%;
   overflow-y: scroll;
@@ -13,7 +18,7 @@
 	padding: 0.5ex;
 	box-sizing: border-box;
 
-	font-family: Consolas, monospace;
+	font-family: 'Code New Roman', Consolas, monospace;
   color:#FFFFFF;
 
   word-break: break-word;
@@ -169,3 +174,31 @@
 /* Preload critical images */
 #preload-01 { background: url(/resources/assets/masthead1.png) no-repeat -9999px -9999px; }
 #preload-02 { background: url(/resources/assets/masthead2.png) no-repeat -9999px -9999px; }
+
+/* Easter eggs! */
+.disco-ball-container {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  text-align: center;
+  pointer-events: none;
+}
+
+.disco-ball {
+  display: inline-block;
+  text-align: center;
+}
+
+.party {
+  animation: party 5s linear infinite;
+}
+
+@keyframes party {
+  from {
+    filter: hue-rotate();
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
