@@ -8,9 +8,7 @@ const partyStartMessages = [
   'Party time!\n'
 ];
 
-const partyEndMessages = [
-  "Party's over!\n",
-];
+const partyEndMessages = ["Party's over!\n"];
 
 export class Party extends ShellScript {
   tabCompletions(currentBuffer: string) {

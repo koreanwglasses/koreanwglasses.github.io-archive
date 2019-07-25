@@ -171,6 +171,30 @@
 .color-secondary-2-3 { color: #D10000 }
 .color-secondary-2-4 { color: #830000 }
 
+.colorscheme-ryan .color-primary-0 { color: rgb(131, 68, 185) }
+.colorscheme-ryan .color-primary-1 { color: rgb(201, 179, 221) }
+.colorscheme-ryan .color-primary-2 { color: #946FB4 }
+.colorscheme-ryan .color-primary-3 { color: #490981 }	/* Main Primary color */
+.colorscheme-ryan .color-primary-4 { color: #350460 }
+
+.colorscheme-ryan .color-complement-0 { color: #016E73 }	/* Main Secondary color (2) */
+.colorscheme-ryan .color-complement-1 { color: #61A2A5 }
+.colorscheme-ryan .color-complement-2 { color: #1D888D }
+.colorscheme-ryan .color-complement-3 { color: #005256 }
+.colorscheme-ryan .color-complement-4 { color: #002A2C }
+
+.colorscheme-ryan .color-secondary-1-0 { color: #BFB700 }	/* Main Complement color */
+.colorscheme-ryan .color-secondary-1-1 { color: #FFFA96 }
+.colorscheme-ryan .color-secondary-1-2 { color: #EAE22F }
+.colorscheme-ryan .color-secondary-1-3 { color: #8E8800 }
+.colorscheme-ryan .color-secondary-1-4 { color: #494500 }
+
+.colorscheme-ryan .color-secondary-2-0 { color: #BF3600 }	/* Main Secondary color (1) */
+.colorscheme-ryan .color-secondary-2-1 { color: #FFB496 }
+.colorscheme-ryan .color-secondary-2-2 { color: #EA642F }
+.colorscheme-ryan .color-secondary-2-3 { color: #8E2800 }
+.colorscheme-ryan .color-secondary-2-4 { color: #491500 }
+
 /* Preload critical images */
 #preload-01 { background: url(/resources/assets/masthead1.png) no-repeat -9999px -9999px; }
 #preload-02 { background: url(/resources/assets/masthead2.png) no-repeat -9999px -9999px; }

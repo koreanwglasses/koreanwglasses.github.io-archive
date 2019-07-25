@@ -83,7 +83,10 @@ export class Console extends React.Component<ConsoleProps, ConsoleState> {
         />
         <div
           ref={this.div}
-          className="console-container"
+          className={classList({
+            'console-container': true,
+            'colorscheme-ryan': true
+          })}
           onKeyDown={this.handleKeyDown}
           onClick={this.props.onClick}
           tabIndex={0}
