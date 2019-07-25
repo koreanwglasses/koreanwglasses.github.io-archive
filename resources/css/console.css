@@ -187,3 +187,17 @@
   display: inline-block;
   text-align: center;
 }
+
+.party {
+  animation: party 5s linear infinite;
+}
+
+@keyframes party {
+  from {
+    filter: hue-rotate();
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}

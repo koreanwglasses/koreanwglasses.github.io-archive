@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { sleep } from '../utils/async';
 import { isMobile } from '../utils/environment';
-import { DiscoBall } from './disco-ball';
+import { DiscoBall, DiscoBallAction } from './disco-ball';
+import { classList } from '../utils/react-utils';
 
 const noop = () => {};
 
@@ -13,15 +14,23 @@ interface ConsoleProps {
   partyMode: boolean;
 }
 
+interface ConsoleState {
+  showDiscoBall: boolean;
+}
+
 /**
  * Handles rendering and input
  */
-export class Console extends React.Component<ConsoleProps> {
+export class Console extends React.Component<ConsoleProps, ConsoleState> {
   static defaultProps = {
     onInput: noop,
     onKeyDown: noop,
     onClick: noop,
     partyMode: false
+  };
+
+  state = {
+    showDiscoBall: false
   };
 
   private input = React.createRef<HTMLInputElement>();
@@ -34,6 +43,12 @@ export class Console extends React.Component<ConsoleProps> {
   focus = () => {
     this.input.current.focus();
   };
+
+  static getDerivedStateFromProps(props: ConsoleProps, state: ConsoleState) {
+    return {
+      showDiscoBall: props.partyMode || state.showDiscoBall
+    };
+  }
 
   componentDidUpdate() {
     this.div.current.scrollTop = this.div.current.scrollHeight;
@@ -48,6 +63,12 @@ export class Console extends React.Component<ConsoleProps> {
       this.focus();
     }
     this.props.onKeyDown(e);
+  };
+
+  private handleDiscoBallStopped = () => {
+    if (!this.props.partyMode) {
+      this.setState({ showDiscoBall: false });
+    }
   };
 
   render() {
@@ -68,12 +89,25 @@ export class Console extends React.Component<ConsoleProps> {
           tabIndex={0}
         >
           <div
-            className={'console ' + (isMobile() ? 'extra-padding-bottom' : '')}
+            className={classList({
+              console: true,
+              'extra-padding-bottom': isMobile(),
+              party: this.state.showDiscoBall
+            })}
           >
             {this.props.contents}
           </div>
         </div>
-        {this.props.partyMode && <DiscoBall />}
+        {this.state.showDiscoBall && (
+          <DiscoBall
+            action={
+              this.props.partyMode
+                ? DiscoBallAction.Descend
+                : DiscoBallAction.Ascend
+            }
+            onStopped={this.handleDiscoBallStopped}
+          />
+        )}
       </>
     );
   }

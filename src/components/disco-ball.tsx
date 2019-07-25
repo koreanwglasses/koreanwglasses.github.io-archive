@@ -52,7 +52,7 @@ class Line extends React.Component<
   };
 
   componentDidMount() {
-    this.interval = setInterval(this.tick, 10000 / this.props.width);
+    this.interval = setInterval(this.tick, 5000 / this.props.width);
   }
 
   componentWillUnmount() {
@@ -70,13 +70,88 @@ class Line extends React.Component<
   }
 }
 
-export class DiscoBall extends React.Component<{}, {}> {
+export enum DiscoBallAction {
+  Descend,
+  Ascend
+}
+
+type DiscoBallProps = { action: DiscoBallAction; onStopped: () => void };
+type DiscoBallState = { moving: boolean; line: number };
+
+export class DiscoBall extends React.Component<DiscoBallProps, DiscoBallState> {
+  static defaultProps = {
+    descend: false,
+    onStopped: () => {}
+  };
+
+  private interval: NodeJS.Timeout;
+
+  state = {
+    moving: true,
+    line: this.props.action === DiscoBallAction.Descend ? 1 : 14
+  };
+
+  private stoppedMoving = () => {
+    clearInterval(this.interval);
+    this.interval = null;
+    this.props.onStopped();
+  };
+
+  private tick = () => {
+    if (this.state.moving) {
+      const descending = this.props.action === DiscoBallAction.Descend;
+      this.setState(prevState => {
+        return {
+          moving: descending ? prevState.line + 1 < 13 : prevState.line - 1 > 0,
+          line: descending ? prevState.line + 1 : prevState.line - 1
+        };
+      });
+    } else {
+      this.stoppedMoving();
+    }
+  };
+
+  static getDerivedStateFromProps(
+    props: DiscoBallProps,
+    state: DiscoBallState
+  ) {
+    const descending = props.action === DiscoBallAction.Descend;
+    return {
+      moving: descending ? state.line + 1 < 13 : state.line - 1 > 0
+    };
+  }
+
+  componentDidUpdate() {
+    if (!this.interval) {
+      this.interval = setInterval(this.tick, 100);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+  }
+
   render() {
     return (
       <div className="disco-ball-container">
         <div className="disco-ball">
-          <Line width={10} />
-          <Line width={16} />
+          {[
+            <div key={1}>|</div>,
+            <div key={2}>|</div>,
+            <div key={3}>|</div>,
+            <Line width={9} key={4} />,
+            <Line width={13} key={5} />,
+            <Line width={15} key={6} />,
+            <Line width={15} key={7} />,
+            <Line width={15} key={8} />,
+            <Line width={15} key={9} />,
+            <Line width={15} key={10} />,
+            <Line width={13} key={11} />,
+            <Line width={9} key={12} />
+          ].slice(-this.state.line)}
         </div>
       </div>
     );

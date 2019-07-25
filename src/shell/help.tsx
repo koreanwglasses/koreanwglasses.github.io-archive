@@ -13,6 +13,7 @@ export class Help extends ShellScript {
     buffer.push(
       'ls             - list the contents of the current working directory\n'
     );
+    buffer.push('party          - party time!')
     buffer.push('welcome        - show the intro\n');
     this.shell.terminal.render();
   }
