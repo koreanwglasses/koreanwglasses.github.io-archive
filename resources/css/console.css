@@ -174,3 +174,30 @@
 /* Preload critical images */
 #preload-01 { background: url(/resources/assets/masthead1.png) no-repeat -9999px -9999px; }
 #preload-02 { background: url(/resources/assets/masthead2.png) no-repeat -9999px -9999px; }
+
+/* Easter eggs! */
+.disco-ball-container {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  text-align: center;
+}
+
+.disco-ball {
+  display: inline-block;
+  text-align: center;
+}
+
+.party {
+  animation: party 5s linear infinite;
+}
+
+@keyframes party {
+  from {
+    filter: hue-rotate();
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
