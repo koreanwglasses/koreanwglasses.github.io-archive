@@ -1,8 +1,3 @@
-@font-face {
-    font-family: 'Code New Roman'; /*a name to be used later*/
-    src: url('/resources/assets/Code New Roman.otf'); /*URL to font*/
-}
-
 .console-container {
   height: 100%;
   overflow-y: scroll;
@@ -18,7 +13,7 @@
 	padding: 0.5ex;
 	box-sizing: border-box;
 
-	font-family: 'Code New Roman', Consolas, monospace;
+	font-family: 'Inconsolata', monospace;
   color:#FFFFFF;
 
   word-break: break-word;
