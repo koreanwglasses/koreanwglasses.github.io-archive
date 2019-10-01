@@ -35,4 +35,4 @@ arpeggiated 7 and 9 chords that create a colorful dissonance, which translates t
 the voices sound like the constant and powerful sound of an organ. The piece also has the unique characteristic in that it it composed of mostly triads
 in the tonic and the dominant keys, thus the image is dominated by two colors, green and blue, with bits of other colors mixed in as well.
 
-Footnote: If you would like a preview, please send me an email at koreanwglasses@gmail.com
+Try it out here -> [Alpha_v0.0.2.8.jar](/resources/assets/musaic/Alpha_v0.0.2.8.jar)
