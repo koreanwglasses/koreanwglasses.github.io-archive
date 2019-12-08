@@ -1,5 +1,6 @@
 ---
 replicate: true
+description: 'Art from sound'
 ---
 
 _Before 2016_

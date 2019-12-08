@@ -93,7 +93,7 @@ const buildRecursive = (template, contentDir, serveDir) => {
 				fs.writeFileSync(serveNodePath, template(frontMatter));
 
 				// skip tracking for this file
-				return {};
+				continue;
 			}
 		}
 		console.log(`Skipping [${contentNodePath}]`);

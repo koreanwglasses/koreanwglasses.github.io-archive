@@ -1,5 +1,6 @@
 ---
 replicate: true
+description: 'Playing with planets'
 ---
 
 _Before 2016_

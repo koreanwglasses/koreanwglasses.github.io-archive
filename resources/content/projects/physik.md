@@ -1,6 +1,7 @@
 ---
 replicate: true
 date: 22 Jul 2019
+description: A physics based IK solver
 ---
 
 # PhysIK

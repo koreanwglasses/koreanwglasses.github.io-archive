@@ -1,6 +1,7 @@
 ---
 replicate: true
 date: '19 Sep 2018'
+description: 'Mandelbrot set on the GPU'
 ---
 
 *19 Sep 2018*

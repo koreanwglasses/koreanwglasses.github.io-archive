@@ -65,6 +65,7 @@ export class Ls extends ShellScript {
 
     const nodes = this.shell.cwd.list();
     nodes.sort(compareNodes);
+    const longestNameLength = Math.max(...nodes.map(n => n.name.length));
     for (const node of nodes) {
       if (node instanceof Directory) {
         buffer.push(
@@ -90,6 +91,8 @@ export class Ls extends ShellScript {
             shell={this.shell}
             permalink={node.path.slice(0, node.path.lastIndexOf('.'))}
           />,
+          ' '.repeat(1 + longestNameLength - node.name.length),
+          <span className="info">{node.frontMatter.description || ''}</span>,
           '\n'
         );
       }
