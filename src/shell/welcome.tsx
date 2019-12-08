@@ -4,8 +4,8 @@ import { sleep } from '../utils/async';
 import { Links, MainInfo } from './navigation';
 import { isMobile } from '../utils/environment';
 
-const welcomeMessage1 = 'Hello visitor.';
-const welcomeMessage2 = ' Welcome to fred-choi.com!';
+const welcomeMessage1 = 'Hello,';
+const welcomeMessage2 = ' welcome to fred-choi.com!';
 
 const masthead1Text =
   '\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u00A0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u2588\u2588\u2557\u00A0\u2588\u2588\u2557\n' +
@@ -75,9 +75,11 @@ export class Welcome extends IOShellScript {
       this.write(<Links shell={this.shell} />);
     }
 
-    this.write(<span className="info">Press any key to skip intro</span>);
-    this.write(<br />);
-    this.write(<br />);
+    if (!this.skip) {
+      this.write(<span className="info">Press any key to skip intro</span>);
+      this.write(<br />);
+      this.write(<br />);
+    }
 
     await this.wait(500);
     for (const letter of welcomeMessage1.split('')) {

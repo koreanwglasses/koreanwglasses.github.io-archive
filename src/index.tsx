@@ -18,7 +18,7 @@ export const start = async (command?: string) => {
 
   await shell.init();
   if (!command) {
-    await shell.run('welcome');
+    await shell.run('welcome --skip-intro');
   } else {
     await shell.run(
       'welcome --skip-intro',
