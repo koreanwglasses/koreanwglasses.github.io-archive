@@ -6,7 +6,8 @@
     "serve": "node node_modules/serve/bin/serve.js",
     "prettier:base": "prettier --parser typescript --single-quote",
     "format": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
-    "deploy": "webpack --config ./webpack.prod.js; node build-static-pages.js"
+    "deploy": "webpack --config ./webpack.prod.js; node build-static-pages.js",
+    "test": "npm run-script format && npm run-script build && npm run-script serve"
   },
   "repository": {
     "type": "git",
