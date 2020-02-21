@@ -6,7 +6,7 @@ description: 'A better way to generate distinct colors'
 
 This experiment uses a perceptually uniform color space and the 
 properites of the golden ratio to generate an infinite sequence 
-of easily distinguishable at any lightness/saturation level.
+of easily distinguishable colors at any lightness/saturation level.
 
 [![A screenshot](/resources/assets/better-colors/screenshot.png)](/demos/better-colors.html)
 
