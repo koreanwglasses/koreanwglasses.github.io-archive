@@ -10,7 +10,9 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
+    "prebuild": "rm -rf docs",
     "build": "gatsby build",
+    "postbuild": "mkdir -p docs && cp -r public/* docs && rm -r public",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },
