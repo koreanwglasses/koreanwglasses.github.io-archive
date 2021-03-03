@@ -2,5 +2,9 @@ module.exports = {
   siteMetadata: {
     title: "Fred Choi",
   },
-  plugins: [],
+  plugins: [
+    {
+      resolve: 'gatsby-plugin-typescript'
+    }
+  ],
 };
