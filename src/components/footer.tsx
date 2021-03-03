@@ -3,9 +3,8 @@ import * as styles from "./footer.module.css";
 import HLine from "./hline";
 import { FiGithub } from "react-icons/fi";
 import HSpace from "./hspace";
+import { repoUrl } from "../constants";
 
-const repoUrl =
-  "https://github.com/koreanwglasses/koreanwglasses.github.io/tree/new-site";
 const Footer = () => (
   <div className={styles.footer}>
     <HLine />

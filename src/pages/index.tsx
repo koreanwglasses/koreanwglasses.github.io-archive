@@ -6,6 +6,7 @@ import HLine from "../components/hline";
 import HSpace from "../components/hspace";
 import { FiLinkedin } from "react-icons/fi";
 import { GrDocumentText } from "react-icons/gr";
+import { linkedInUrl, resumeUrl } from "../constants";
 
 const HomePage = () => {
   return (
@@ -30,9 +31,9 @@ const HomePage = () => {
                 apply it to something real, something human.
               </p>
               <GrDocumentText style={{ position: "relative", top: "4px" }} />{" "}
-              <a href="">Resume/CV</a> <HSpace /> | <HSpace />{" "}
+              <a href={resumeUrl}>Resume/CV</a> <HSpace /> | <HSpace />{" "}
               <FiLinkedin style={{ position: "relative", top: "4px" }} />{" "}
-              <a href="">LinkedIn</a>
+              <a href={linkedInUrl}>LinkedIn</a>
             </div>
           </div>
           <h2>Featured Project</h2>
