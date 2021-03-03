@@ -1,0 +1,24 @@
+.homepageContainer {
+  width: 100%;
+}
+
+.aboutContainer {
+  display: table;
+  width: 700px;
+}
+
+.aboutContainer img {
+  height: 300px;
+  display: table-cell;
+  margin: 20px;
+}
+
+.aboutContainer div {
+  display: table-cell;
+  width: auto;
+  vertical-align: bottom;
+}
+
+.aboutContainer p {
+  text-align: justify;
+}
