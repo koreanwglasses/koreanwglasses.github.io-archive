@@ -2,14 +2,19 @@ import * as React from "react";
 import Layout from "../components/layout";
 import * as styles from "./index.module.css";
 import profile from "../images/profile.jpg";
+import HLine from "../components/hline";
+import HSpace from "../components/hspace";
+import { FiLinkedin } from "react-icons/fi";
+import { GrDocumentText } from "react-icons/gr";
 
 const HomePage = () => {
   return (
     <Layout>
       <div className={styles.homepageContainer}>
+        <div className={styles.mainContentContainer}>
           <div className={styles.aboutContainer}>
             <img src={profile} />
-            <div>
+            <div className={styles.aboutText}>
               <h2>About Me</h2>
               <p>
                 This past summer I was at Carnegie Mellon trying to guess hand
@@ -24,7 +29,16 @@ const HomePage = () => {
                 where I can take my skills beyond just pen and paper theory and
                 apply it to something real, something human.
               </p>
+              <GrDocumentText style={{ position: "relative", top: "4px" }} />{" "}
+              <a href="">Resume/CV</a> <HSpace /> | <HSpace />{" "}
+              <FiLinkedin style={{ position: "relative", top: "4px" }} />{" "}
+              <a href="">LinkedIn</a>
             </div>
+          </div>
+          <h2>Featured Project</h2>
+        </div>
+        <div className={styles.sideContentContainer}>
+          <h3>Ongoing Projects</h3>
         </div>
       </div>
     </Layout>

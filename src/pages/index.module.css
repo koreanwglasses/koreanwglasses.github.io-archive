@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.mainContentContainer {
+  display: table-cell;
+  padding: 20px;
+}
+
 .aboutContainer {
   display: table;
   width: 700px;
@@ -10,15 +15,38 @@
 .aboutContainer img {
   height: 300px;
   display: table-cell;
-  margin: 20px;
+  margin-right: 20px;
 }
 
-.aboutContainer div {
+.aboutText {
   display: table-cell;
   width: auto;
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 
-.aboutContainer p {
+.aboutText p {
   text-align: justify;
+  font-style: italic;
+}
+
+.sideContentContainer {
+  display: table-cell;
+  width: 200px;
+  vertical-align: top;
+  position: relative;
+  padding: 20px;
+}
+
+.sideContentContainer:after {
+  content: "";
+  background: black;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  height: 80%;
+  width: 1px;
+}
+
+.projectsContainer {
+
 }
