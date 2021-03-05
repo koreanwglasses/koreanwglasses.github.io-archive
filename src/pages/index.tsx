@@ -7,8 +7,43 @@ import HSpace from "../components/hspace";
 import { FiLinkedin } from "react-icons/fi";
 import { GrDocumentText } from "react-icons/gr";
 import { linkedInUrl, resumeUrl } from "../constants";
+import { graphql, useStaticQuery } from "gatsby";
 
 const HomePage = () => {
+  const projectFrontmatters = useStaticQuery(graphql`
+    {
+      allJavascriptFrontmatter {
+        nodes {
+          frontmatter {
+            title
+            preview {
+              publicURL
+            }
+          }
+          node {
+            relativePath
+          }
+        }
+      }
+    }
+  `) as {
+    data: {
+      allJavascriptFrontmatter: {
+        nodes: {
+          frontmatter: {
+            title: string;
+            preview: {
+              publicURL: string;
+            };
+          };
+          node: {
+            relativePath: string;
+          };
+        };
+      };
+    };
+  };
+
   return (
     <Layout>
       <div className={styles.homepageContainer}>
