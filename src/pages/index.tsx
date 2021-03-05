@@ -59,11 +59,11 @@ const HomePage = () => {
                 mathematics, so making that jump to human computer interaction
                 wasn’t easy. But I did it because I wanted to solve new
                 problems, pick up new skills, and work with something real. And
-                I did. I became one of the few people that really understand the
-                full potential of capacitive touch screens, and we have a paper
-                submitted to UIST. Now I’m at UIUC studying social computing,
-                where I can take my skills beyond just pen and paper theory and
-                apply it to something real, something human.
+                I did. we have a paper submitted to UIST, and I became one of
+                the few people that really understand the full potential of
+                capacitive touch screens. Now I’m at UIUC studying social
+                computing, where I can take my skills beyond just pen and paper
+                theory and apply it to something real, something human.
               </p>
               <GrDocumentText style={{ position: "relative", top: "4px" }} />{" "}
               <a href={resumeUrl}>Resume/CV</a> <HSpace /> | <HSpace />{" "}
