@@ -20,14 +20,23 @@ type Data = {
           publicURL: string;
         };
       };
-      node: {
-        relativePath: string;
-      };
+      fileAbsolutePath: string;
+    }[];
+  };
+  allSitePage: {
+    nodes: {
+      path: string;
+      componentPath: string;
     }[];
   };
 };
 
 function HomePage({ data }: { data: Data }) {
+  const getPath = (node: typeof data.allJavascriptFrontmatter.nodes[0]) =>
+    data.allSitePage.nodes.find(
+      ({ componentPath }) => componentPath === node.fileAbsolutePath
+    )?.path;
+
   return (
     <Layout>
       <div className={styles.homepageContainer}>
@@ -69,11 +78,15 @@ function HomePage({ data }: { data: Data }) {
           </div>
         </div>
         <div className={styles.sideContentContainer}>
-          <h3>Projects</h3>
+          <h3>More Projects</h3>
           {data.allJavascriptFrontmatter.nodes.map((node, i) => (
             <>
-              <ProjectCard frontmatter={node.frontmatter} key={i} />
-              <HLine key={i} />
+              <ProjectCard
+                frontmatter={node.frontmatter}
+                linkPath={getPath(node)}
+                key={`card-${i}`}
+              />
+              <HLine key={`hline-${i}`} />
             </>
           ))}
         </div>
@@ -87,15 +100,19 @@ export const query = graphql`
     allJavascriptFrontmatter {
       nodes {
         frontmatter {
-          title
           description
+          title
           preview {
             publicURL
           }
         }
-        node {
-          relativePath
-        }
+        fileAbsolutePath
+      }
+    }
+    allSitePage {
+      nodes {
+        path
+        componentPath
       }
     }
   }
