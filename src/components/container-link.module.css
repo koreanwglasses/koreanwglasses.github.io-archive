@@ -1,6 +1,7 @@
 .container {
   background-color: #fff;
   transition: filter 0.3s;
+  width: fit-content;
 }
 
 .container:hover {
