@@ -18,6 +18,7 @@ type Data = {
         preview: {
           publicURL: string;
         };
+        featured: boolean;
       };
       fileAbsolutePath: string;
     }[];
@@ -35,6 +36,10 @@ function HomePage({ data }: { data: Data }) {
     data.allSitePage.nodes.find(
       ({ componentPath }) => componentPath === node.fileAbsolutePath
     )?.path;
+
+  const featured = data.allJavascriptFrontmatter.nodes.filter(
+    (node) => node.frontmatter.featured
+  );
 
   return (
     <ProjectsSidebarLayout>
@@ -68,8 +73,8 @@ function HomePage({ data }: { data: Data }) {
       <div className={styles.featuredProjectContainer}>
         <h2>Featured Project</h2>
         <LargeProjectCard
-          frontmatter={data.allJavascriptFrontmatter.nodes[0].frontmatter}
-          linkPath={getPath(data.allJavascriptFrontmatter.nodes[0])}
+          frontmatter={featured[0].frontmatter}
+          linkPath={getPath(featured[0])}
         />
       </div>
     </ProjectsSidebarLayout>
@@ -86,6 +91,7 @@ export const query = graphql`
           preview {
             publicURL
           }
+          featured
         }
         fileAbsolutePath
       }
