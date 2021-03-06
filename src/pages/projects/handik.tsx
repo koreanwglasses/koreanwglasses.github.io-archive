@@ -1,5 +1,5 @@
+import ProjectsSidebarLayout from "../../components/projects-sidebar-layout";
 import * as React from "react";
-import Layout from "../../components/layout";
 
 export const frontmatter = {
   title: "HandIK",
@@ -9,10 +9,10 @@ export const frontmatter = {
 };
 
 const HandIK = () => (
-  <Layout>
+  <ProjectsSidebarLayout>
     <h1>HandIK</h1>
     <p>A hand-pose estimator from 2D capacitive touchscreen input</p>
-  </Layout>
+  </ProjectsSidebarLayout>
 );
 
 export default HandIK;

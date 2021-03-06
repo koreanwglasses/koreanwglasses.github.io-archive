@@ -1,6 +1,6 @@
-import * as React from "react";
 import * as styles from "./header.module.css";
 import HLine from "./hline";
+import * as React from "react";
 
 const Header = () => {
   return (

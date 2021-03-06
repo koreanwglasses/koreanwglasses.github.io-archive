@@ -17,6 +17,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^1.4.4",
     "gatsby": "^3.0.0",
     "gatsby-source-filesystem": "^3.0.0",
     "gatsby-transformer-javascript-frontmatter": "^3.0.0",

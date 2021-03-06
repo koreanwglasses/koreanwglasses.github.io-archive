@@ -1,8 +1,8 @@
-import * as React from "react";
 import Footer from "./footer";
 import Header from "./header";
 import "./layout.css";
 import * as styles from "./layout.module.css";
+import * as React from "react";
 
 const Layout = ({ children }: React.PropsWithChildren<{}>) => (
   <div className={styles.pageContainer}>

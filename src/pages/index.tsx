@@ -1,13 +1,13 @@
-import * as React from "react";
-import profile from "../images/profile.jpg";
-import HSpace from "../components/hspace";
-import { FiLinkedin, FiFileText } from "react-icons/fi";
-import { linkedInUrl, resumeUrl } from "../constants";
-import { graphql } from "gatsby";
 import HLine from "../components/hline";
+import HSpace from "../components/hspace";
 import LargeProjectCard from "../components/large-project-card";
 import ProjectsSidebarLayout from "../components/projects-sidebar-layout";
+import { linkedInUrl, resumeUrl } from "../constants";
+import profile from "../images/profile.jpg";
 import * as styles from "./index.module.css";
+import { graphql } from "gatsby";
+import * as React from "react";
+import { FiLinkedin, FiFileText } from "react-icons/fi";
 
 type Data = {
   allJavascriptFrontmatter: {

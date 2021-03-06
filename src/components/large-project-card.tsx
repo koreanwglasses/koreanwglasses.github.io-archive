@@ -1,6 +1,6 @@
-import * as React from "react";
 import ContainerLink from "./container-link";
 import * as styles from "./project-card.module.css";
+import * as React from "react";
 
 const LargeProjectCard = ({
   frontmatter,

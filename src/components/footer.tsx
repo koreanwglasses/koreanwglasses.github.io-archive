@@ -1,9 +1,9 @@
-import * as React from "react";
-import HLine from "./hline";
-import { FiGithub } from "react-icons/fi";
-import HSpace from "./hspace";
 import { repoUrl } from "../constants";
 import * as styles from "./footer.module.css";
+import HLine from "./hline";
+import HSpace from "./hspace";
+import * as React from "react";
+import { FiGithub } from "react-icons/fi";
 
 const Footer = () => (
   <div className={styles.footer}>

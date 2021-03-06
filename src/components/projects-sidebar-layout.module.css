@@ -4,6 +4,7 @@
 
 .mainContentContainer {
   display: table-cell;
+  width: 700px;
   padding: 20px;
 }
 

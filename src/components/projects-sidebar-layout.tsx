@@ -1,9 +1,9 @@
-import * as React from "react";
-import Layout from "../components/layout";
-import { graphql, StaticQuery } from "gatsby";
-import ProjectCard from "../components/project-card";
 import HLine from "../components/hline";
+import ProjectCard from "../components/project-card";
+import Layout from "./layout";
 import * as styles from "./projects-sidebar-layout.module.css";
+import { graphql, StaticQuery } from "gatsby";
+import * as React from "react";
 
 type Data = {
   allJavascriptFrontmatter: {
