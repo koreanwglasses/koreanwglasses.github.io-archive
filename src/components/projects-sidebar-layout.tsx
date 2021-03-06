@@ -29,7 +29,7 @@ type Data = {
 const ProjectsSidebarLayout_ = ({
   data,
   children,
-}: React.PropsWithChildren<{ data: Data }>) => {
+}: React.PropsWithChildren<{ data: Data,  }>) => {
   const getPath = (node: typeof data.allJavascriptFrontmatter.nodes[0]) =>
     data.allSitePage.nodes.find(
       ({ componentPath }) => componentPath === node.fileAbsolutePath
@@ -42,6 +42,7 @@ const ProjectsSidebarLayout_ = ({
         <div className={styles.sideContentContainer}>
           <h3>More Projects</h3>
           {data.allJavascriptFrontmatter.nodes.map((node, i) => (
+            !window?.location.href.endsWith(getPath(node) || "") &&
             <>
               <ProjectCard
                 frontmatter={node.frontmatter}
