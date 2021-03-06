@@ -1,0 +1,31 @@
+.container {
+  width: 100%;
+}
+
+.mainContentContainer {
+  display: table-cell;
+  padding: 20px;
+}
+
+.sideContentContainer {
+  display: table-cell;
+  width: auto;
+  vertical-align: top;
+  position: relative;
+  padding: 0 20px;
+}
+
+.sideContentContainer:after {
+  content: "";
+  background: black;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  height: 80%;
+  width: 1px;
+}
+
+.sideContentContainer h3 {
+  margin-top: 14px;
+  margin-bottom: 7px;
+}

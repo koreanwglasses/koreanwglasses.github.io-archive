@@ -1,6 +1,6 @@
 import { Link } from "gatsby";
 import * as React from "react";
-import * as styles from "./container-link.module.css"
+import * as styles from "./container-link.module.css";
 
 const ContainerLink = ({
   to,
