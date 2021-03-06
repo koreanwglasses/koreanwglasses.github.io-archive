@@ -2,48 +2,32 @@ import * as React from "react";
 import Layout from "../components/layout";
 import * as styles from "./index.module.css";
 import profile from "../images/profile.jpg";
-import HLine from "../components/hline";
 import HSpace from "../components/hspace";
-import { FiLinkedin } from "react-icons/fi";
-import { GrDocumentText } from "react-icons/gr";
+import { FiLinkedin, FiFileText } from "react-icons/fi";
 import { linkedInUrl, resumeUrl } from "../constants";
-import { graphql, useStaticQuery } from "gatsby";
+import { graphql } from "gatsby";
+import ProjectCard from "../components/project-card";
+import HLine from "../components/hline";
+import LargeProjectCard from "../components/large-project-card";
 
-const HomePage = () => {
-  const projectFrontmatters = useStaticQuery(graphql`
-    {
-      allJavascriptFrontmatter {
-        nodes {
-          frontmatter {
-            title
-            preview {
-              publicURL
-            }
-          }
-          node {
-            relativePath
-          }
-        }
-      }
-    }
-  `) as {
-    data: {
-      allJavascriptFrontmatter: {
-        nodes: {
-          frontmatter: {
-            title: string;
-            preview: {
-              publicURL: string;
-            };
-          };
-          node: {
-            relativePath: string;
-          };
+type Data = {
+  allJavascriptFrontmatter: {
+    nodes: {
+      frontmatter: {
+        title: string;
+        description?: string;
+        preview: {
+          publicURL: string;
         };
       };
-    };
+      node: {
+        relativePath: string;
+      };
+    }[];
   };
+};
 
+function HomePage({ data }: { data: Data }) {
   return (
     <Layout>
       <div className={styles.homepageContainer}>
@@ -60,25 +44,58 @@ const HomePage = () => {
                 wasn’t easy. But I did it because I wanted to solve new
                 problems, pick up new skills, and work with something real. And
                 I did. we have a paper submitted to UIST, and I became one of
-                the few people that really understand the full potential of
+                few people that really understand the full potential of
                 capacitive touch screens. Now I’m at UIUC studying social
                 computing, where I can take my skills beyond just pen and paper
                 theory and apply it to something real, something human.
               </p>
-              <GrDocumentText style={{ position: "relative", top: "4px" }} />{" "}
-              <a href={resumeUrl}>Resume/CV</a> <HSpace /> | <HSpace />{" "}
-              <FiLinkedin style={{ position: "relative", top: "4px" }} />{" "}
-              <a href={linkedInUrl}>LinkedIn</a>
+              <a href={resumeUrl}>
+                <FiFileText style={{ position: "relative", top: "2px" }} />{" "}
+                Resume/CV
+              </a>
+              <HSpace /> | <HSpace />{" "}
+              <a href={linkedInUrl}>
+                <FiLinkedin style={{ position: "relative", top: "2px" }} />{" "}
+                LinkedIn
+              </a>
             </div>
           </div>
           <h2>Featured Project</h2>
+          <LargeProjectCard
+            frontmatter={data.allJavascriptFrontmatter.nodes[0].frontmatter}
+          />
         </div>
         <div className={styles.sideContentContainer}>
-          <h3>Ongoing Projects</h3>
+          <h3>Projects</h3>
+          {data.allJavascriptFrontmatter.nodes.map((node, i) => (
+            <>
+              <ProjectCard frontmatter={node.frontmatter} key={i} />
+              <HLine key={i} />
+            </>
+          ))}
         </div>
       </div>
     </Layout>
   );
-};
+}
+
+export const query = graphql`
+  {
+    allJavascriptFrontmatter {
+      nodes {
+        frontmatter {
+          title
+          description
+          preview {
+            publicURL
+          }
+        }
+        node {
+          relativePath
+        }
+      }
+    }
+  }
+`;
 
 export default HomePage;

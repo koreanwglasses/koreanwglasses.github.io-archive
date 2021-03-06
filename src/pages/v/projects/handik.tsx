@@ -3,7 +3,9 @@ import Layout from "../../../components/layout";
 
 export const frontmatter = {
   title: "HandIK",
-  preview: "../../../images/profile.jpg",
+  description:
+    "We describe how conventional capacitive touchscreens can be used to estimate 3D hand pose, enabling rich interaction opportunities.",
+  preview: "../../../images/handik-preview.gif",
 };
 
 const HandIK = () => (

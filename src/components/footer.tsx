@@ -9,8 +9,9 @@ const Footer = () => (
   <div className={styles.footer}>
     <HLine />
     &copy; 2021 by Frederick Choi <HSpace /> | <HSpace />{" "}
-    <FiGithub style={{ position: "relative", top: "5px" }} />{" "}
-    <a href={repoUrl}>Source</a>
+    <a href={repoUrl}>
+      <FiGithub style={{ position: "relative", top: "5px" }} /> Source
+    </a>
   </div>
 );
 

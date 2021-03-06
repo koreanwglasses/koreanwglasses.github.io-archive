@@ -1,8 +1,9 @@
 .pageContainer {
-  width: 80%;
+  width: 1140px;
   margin: 0 auto;
 }
 
 .contentContainer {
   min-height: calc(100vh - 200px);
 }
+

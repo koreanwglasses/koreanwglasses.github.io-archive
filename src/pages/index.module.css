@@ -10,10 +10,11 @@
 .aboutContainer {
   display: table;
   width: 700px;
+  margin-bottom: 30px;
 }
 
 .aboutContainer img {
-  height: 400px;
+  height: 300px;
   display: table-cell;
   margin-right: 20px;
 }
@@ -31,22 +32,27 @@
 
 .sideContentContainer {
   display: table-cell;
-  width: 200px;
+  width: auto;
   vertical-align: top;
   position: relative;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .sideContentContainer:after {
   content: "";
   background: black;
   position: absolute;
-  top: 50px;
+  top: 30px;
   left: 0;
   height: 80%;
   width: 1px;
 }
 
-.projectsContainer {
+.sideContentContainer h3 {
+  margin-top: 14px;
+  margin-bottom: 7px;
+}
+
+.projectsContainer  {
 
 }
