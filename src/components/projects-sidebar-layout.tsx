@@ -42,7 +42,7 @@ const ProjectsSidebarLayout_ = ({
       <div className={styles.container}>
         <div className={styles.mainContentContainer}>{children}</div>
         <div className={styles.sideContentContainer}>
-          <h3>More Projects</h3>
+          <h3>More<br/>Projects</h3>
           {data.allJavascriptFrontmatter.nodes.map((node, i) => (
             !href?.endsWith(getPath(node) || "") &&
             <>

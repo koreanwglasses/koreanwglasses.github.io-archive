@@ -5,6 +5,7 @@
 
 .aboutContainer img {
   height: 286px;
+  width: auto;
   display: table-cell;
   margin-right: 20px;
 }
