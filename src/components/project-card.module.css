@@ -1,12 +1,5 @@
 .container {
   padding: 8px;
-  transition: filter 0.3s;
-}
-
-.container:hover {
-  background-color: #fff;
-  filter: brightness(0.9);
-  cursor: pointer;
 }
 
 .container img {

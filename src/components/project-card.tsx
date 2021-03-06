@@ -1,5 +1,5 @@
 import * as React from "react";
-import MaybeLink from "./maybe-link";
+import ContainerLink from "./container-link";
 import * as styles from "./project-card.module.css";
 
 const ProjectCard = ({
@@ -15,7 +15,7 @@ const ProjectCard = ({
   };
   linkPath?: string;
 }) => (
-  <MaybeLink to={linkPath}>
+  <ContainerLink to={linkPath}>
     <div className={styles.container}>
       <img src={frontmatter.preview.publicURL} />
       <p>
@@ -25,7 +25,7 @@ const ProjectCard = ({
         </b>
       </p>
     </div>
-  </MaybeLink>
+  </ContainerLink>
 );
 
 export default ProjectCard;
