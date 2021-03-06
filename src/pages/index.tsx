@@ -60,6 +60,7 @@ function HomePage({ data }: { data: Data }) {
               </a>
             </div>
           </div>
+          <HLine/>
           <h2>Featured Project</h2>
           <LargeProjectCard
             frontmatter={data.allJavascriptFrontmatter.nodes[0].frontmatter}

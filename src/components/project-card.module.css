@@ -15,6 +15,7 @@
 
 .container p {
   margin: 0;
+  margin-top: 2px;
   text-align: justify;
   font-style: italic;
 }
