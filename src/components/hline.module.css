@@ -1,5 +1,6 @@
 .hline {
   width: 80%;
-  height: 0.5px;
-  background-color: black;
+  height: 0;
+  border-top-style: solid;
+  border-top-width: 0.5px;
 }

@@ -18,12 +18,13 @@
 
 .sideContentContainer:after {
   content: "";
-  background: black;
+  border-left-style: solid;
+  border-left-width: 0.5px;
   position: absolute;
   top: 30px;
   left: 0;
   height: 80%;
-  width: 1px;
+  width: 0;
 }
 
 .sideContentContainer h3 {
