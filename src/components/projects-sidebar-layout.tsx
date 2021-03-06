@@ -35,6 +35,8 @@ const ProjectsSidebarLayout_ = ({
       ({ componentPath }) => componentPath === node.fileAbsolutePath
     )?.path;
 
+  const href = typeof window !== 'undefined' ? window.location.href : undefined
+      
   return (
     <Layout>
       <div className={styles.container}>
@@ -42,7 +44,7 @@ const ProjectsSidebarLayout_ = ({
         <div className={styles.sideContentContainer}>
           <h3>More Projects</h3>
           {data.allJavascriptFrontmatter.nodes.map((node, i) => (
-            !window?.location.href.endsWith(getPath(node) || "") &&
+            !href?.endsWith(getPath(node) || "") &&
             <>
               <ProjectCard
                 frontmatter={node.frontmatter}
