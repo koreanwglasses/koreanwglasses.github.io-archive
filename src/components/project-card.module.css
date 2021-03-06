@@ -1,11 +1,11 @@
 .container {
   padding: 8px;
-  transition: opacity 0.3s, background-color 0.3s;
+  transition: filter 0.3s;
 }
 
 .container:hover {
-  opacity: 80%;
-  background-color: #eee;
+  background-color: #fff;
+  filter: brightness(0.9);
   cursor: pointer;
 }
 
@@ -18,4 +18,8 @@
   margin-top: 2px;
   text-align: justify;
   font-style: italic;
+}
+
+.container h3 {
+  margin: 10px 0;
 }
