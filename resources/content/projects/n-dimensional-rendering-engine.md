@@ -1,0 +1,3 @@
+---
+redirect: '/projects/n-dim'
+---

@@ -1,0 +1,39 @@
+{
+  "name": "new-portfolio",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "webpack --config ./webpack.dev.js; node build-static-pages.js --dev",
+    "serve": "node node_modules/serve/bin/serve.js",
+    "prettier:base": "prettier --parser typescript --single-quote",
+    "format": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
+    "deploy": "webpack --config ./webpack.prod.js; node build-static-pages.js",
+    "test": "npm run-script format && npm run-script build && npm run-script serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koreanwglasses/new-portfolio.git"
+  },
+  "author": "Fred Choi",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "minimist": "^1.2.0",
+    "prettier": "1.18.2",
+    "serve": "^11.1.0",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^5.3.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.6",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.7.2",
+    "yaml-front-matter": "^4.0.0"
+  },
+  "dependencies": {
+    "@types/react": "^16.7.6",
+    "@types/react-dom": "^16.0.9",
+    "@types/remarkable": "^1.7.4",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-markdown": "^4.1.0"
+  }
+}

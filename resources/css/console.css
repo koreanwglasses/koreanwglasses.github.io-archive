@@ -1,0 +1,204 @@
+@font-face {
+    font-family: 'Code New Roman'; /*a name to be used later*/
+    src: url('/resources/assets/Code New Roman.otf'); /*URL to font*/
+}
+
+.console-container {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: black;
+}
+
+.console {
+	width: 100%;
+  max-width: 50em;
+  min-width: 20em;
+
+	padding: 0.5ex;
+	box-sizing: border-box;
+
+	font-family: Consolas, monospace;
+  color:#FFFFFF;
+
+  word-break: break-word;
+
+  margin-top: calc(100vh - 1.5ex);
+}
+
+.console-input {
+	position: absolute;
+	opacity: 0;
+}
+
+.cursor-wrapper {
+    color:rgb(235, 235, 235);
+    background-color: black;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(235, 235, 235);
+}
+
+.cursor-wrapper.active {
+    border-style: none;
+}
+
+.cursor-wrapper.blink {
+    animation: cursor-animation 1s step-start 0s infinite;
+    -webkit-animation: cursor-animation 1s step-start 0s infinite;
+}
+
+@keyframes cursor-animation {
+  50% {
+    color: black;
+    background-color: rgb(235, 235, 235);
+  }
+}
+@-webkit-keyframes cursor-animation {
+  50% {
+    color: black;
+    background-color: rgb(235, 235, 235);
+  }
+}
+
+.console .info {
+  color: #606060;
+  font-style: italic;
+}
+
+.console a {
+  font-weight: bold;
+  color: #00C7C7;
+}
+
+.console a.special {
+  color: #7AD2D2;
+}
+
+.console a:hover {
+  cursor: pointer;
+}
+
+.console em {
+  color: #dce3e6
+}
+
+.console img {
+  max-width: 100%;
+  max-height: 400px;
+}
+
+.console h1 {
+  font-size: 16px;
+  text-decoration: underline;
+  font-weight: bold;
+  color: #FF7400;
+}
+
+.console h2 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #FF8E31;
+}
+
+.console h3 {
+  font-size: 16px;
+  font-style: italic;
+  font-weight: normal;
+  color: #FFC595;
+}
+
+::selection {
+  color: black;
+  background: #FFFFFF;
+}
+
+.console img.masthead-image {
+  width: 100%;
+  max-width: 25em;
+  display: block;
+
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.sticky {
+  border-top: 1px solid white;
+  position: fixed;
+  bottom: 0;
+  background: black;
+  padding: .5ex 0;
+  width: 100%;
+}
+
+.extra-padding-bottom {
+  margin-bottom: 4em;
+}
+
+/* Palette URL: http://paletton.com/#uid=20u0u0kM-JwdnMKpQJGPiqiT+gt */
+
+/* Feel free to copy&paste color codes to your application */
+
+
+/* As hex codes */
+
+.color-primary-0 { color: #FF7400 }	/* Main Primary color */
+.color-primary-1 { color: #FFC595 }
+.color-primary-2 { color: #FF8E31 }
+.color-primary-3 { color: #D15F00 }
+.color-primary-4 { color: #833B00 }
+
+.color-complement-0 { color: #00C7C7 }	/* Main Complement color */
+.color-complement-1 { color: #7AD2D2 }
+.color-complement-2 { color: #26C8C8 }
+.color-complement-3 { color: #007E7E }
+.color-complement-4 { color: #004F4F }
+
+.color-secondary-1-0 { color: #FFAA00 }	/* Main Secondary color (1) */
+.color-secondary-1-1 { color: #FFDC95 }
+.color-secondary-1-2 { color: #FFBA31 }
+.color-secondary-1-3 { color: #D18C00 }
+.color-secondary-1-4 { color: #835700 }
+
+.color-secondary-2-0 { color: #FF0000 }	/* Main Secondary color (2) */
+.color-secondary-2-1 { color: #FF9595 }
+.color-secondary-2-2 { color: #FF3131 }
+.color-secondary-2-3 { color: #D10000 }
+.color-secondary-2-4 { color: #830000 }
+
+/* Preload critical images */
+#preload-01 { background: url(/resources/assets/masthead1.png) no-repeat -9999px -9999px; }
+#preload-02 { background: url(/resources/assets/masthead2.png) no-repeat -9999px -9999px; }
+
+/* Easter eggs! */
+.disco-ball-container {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  text-align: center;
+  pointer-events: none;
+}
+
+.disco-ball {
+  display: inline-block;
+  text-align: center;
+}
+
+.party {
+  animation: party 5s linear infinite;
+}
+
+@keyframes party {
+  from {
+    filter: hue-rotate();
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}

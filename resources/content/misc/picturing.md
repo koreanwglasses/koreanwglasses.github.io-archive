@@ -1,0 +1,14 @@
+---
+replicate: true
+date: '22 Apr 2016'
+description: 'Turing with another dimension'
+---
+
+picTuring is a works just like a regular turing machine but with a 2D tape
+and colors. Try it out below.
+
+[Decimal to binary converter](/demos/picturing#AwAlH0QRjaUmj4gEyzQuHU+wZlgMxiNxFIMuQBZZbM17yRamBWZp2mJtGCEADsArgBtRIIA%20AwAgVCCGA20PYGNIBcCm5wChQH0QAsZkMxNMZ4k0MLEV0JpzY7q8BLNAJ3pACMsmTqh7UBw0egFch3XqAm8AtCBmLqK9ehVq51CIWgAzErJG88R9gDt2AZ3wg8TTAAcArslAQPXjE19cVVRkdy5rEAB3fGEQUBk3TwBGDF8UxkTkFLwuELCIvmhIBABrEBSE3NDwjCr82sw6mvE9KVUyK1sHDE77Rwze7oEEaFRIa3dXJ3aRsYmpiFnxyemZJfnV1DsQ6dJMQxM8QOmmA7iCGBN4-cvyi+Muc5kzgCZ7kwqb4xAAZnfHz5nAAs7xAb2etwArP8we0zgA2UF-CHfADsMORXxMAA5QSCUSYAJww-FYx6gM7QgkAmFUsmwhFwy6PP4HR6I6kgEFndGc6FskC8+mIs64znogVi+m4s7EznEgVy+lHZInMgAenVIAAcqgAB7IMi5bbEHJbHbORrm4gQY0hdLtTXBE0Ou1ZfxWl0Yaz6m3tTA+g0YbwgAAmZCAA)
+
+[Color blob](/demos/picturing#AwAlH0QOwVwGziIA%20AwAgVCCu7gUL0ICcQGIBmBmYwAcBOEAQRCQRAEMQAbNLXAdgGMAWEAIRvmhIBM0KDdACMclEL3KdoqXgDYRuYSGWR4KCPwzY8hPrBRUZ9Zm2nriNAUNGgq1Ax1Jp5i5crKx+EWtpwFLB34qFG1GVidPfhIZQRExIy8nLVdhJRUJeFoIYx0AmNhaKi0TCM5JQstQuNtxMlpOX1T05WogA)
+
+[![Thumbnail](/resources/assets/misc/picturing.png)](/demos/picturing)
